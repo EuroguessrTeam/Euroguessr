@@ -1,6 +1,7 @@
 using Eurogessr.Data;
 using Eurogessr.Data.Services;
 using Eurogessr.Data.Services.Interfaces;
+using Euroguessr.Data.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,16 +16,18 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 /*builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();*/
 builder.Services.AddControllersWithViews();
+builder.Services.AddHttpContextAccessor();
 
 //Ajout variables session
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.IdleTimeout = TimeSpan.FromDays(1);
 });
 
 //Services personnalisés
 builder.Services.AddScoped<IJsonManagerService, JsonManagerService>();
+builder.Services.AddScoped<ISessionManagerService, SessionManagerService>();
 
 var app = builder.Build();
 

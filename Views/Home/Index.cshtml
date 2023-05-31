@@ -66,7 +66,11 @@
                 <div class="col div-center">
                     <h1>Step 3 : Send your prompt</h1>
                 </div>
-                <div class="col div-center column-half"><button class="btn btn-primary" type="submit">Send</button></div>
+                @{
+                    bool isDisabled = Model.userData.IsWin;
+                    string disabledAttribute = isDisabled ? "disabled" : "";
+                }
+                <div class="col div-center column-half"><button class="btn btn-primary" type="submit" @disabledAttribute>Send</button></div>
             </div>
         </form>
 
@@ -78,7 +82,7 @@
 
         <div>
             <h2>
-                @Model.CorrectGuess
+                @Model.userData.DisplayMessage
             </h2>
         </div>
 

@@ -1,5 +1,6 @@
 ﻿using Eurogessr.Models.Song;
 using Eurogessr.Models.VideoManager;
+using Euroguessr.Models.Index;
 
 namespace Eurogessr.Models.Index
 {
@@ -7,6 +8,6 @@ namespace Eurogessr.Models.Index
     {
         public YoutubeVideoModel YoutubeVideo { get; set; } = new();
         public List<SongModel> SongsList { get; set; } = new();
-        public string? CorrectGuess { get; set; }
+        public UserData userData { get; set; }
     }
 }

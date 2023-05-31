@@ -1,10 +1,9 @@
 ﻿using Eurogessr.Data.Services.Interfaces;
 using Eurogessr.Models;
 using Eurogessr.Models.Index;
-using Eurogessr.Models.Song;
+using Euroguessr.Data.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-using System.Text.Json;
 
 namespace Eurogessr.Controllers
 {
@@ -12,11 +11,13 @@ namespace Eurogessr.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IJsonManagerService _jsonManager;
+        private readonly ISessionManagerService _sessionManagerService;
 
-        public HomeController(ILogger<HomeController> logger, IJsonManagerService jsonManagerService)
+        public HomeController(ILogger<HomeController> logger, IJsonManagerService jsonManagerService, ISessionManagerService sessionManagerService)
         {
             _logger = logger;
             _jsonManager = jsonManagerService;
+            _sessionManagerService = sessionManagerService;
         }
 
         public IActionResult Index()
@@ -30,7 +31,7 @@ namespace Eurogessr.Controllers
                     VideoId = _jsonManager.GetTodayGuess().VideoId
                 },
                 SongsList = _jsonManager.GetSongsModel(),
-                CorrectGuess = HttpContext.Session.GetString("CorrectGuess")
+                userData = _sessionManagerService.GetData()
             };
 
             return View(model);
