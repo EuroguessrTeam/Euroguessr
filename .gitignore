@@ -363,4 +363,4 @@ MigrationBackup/
 FodyWeavers.xsd
 
 # To protect sensitive information
-*settings.json
+*settings*.json
