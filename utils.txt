@@ -1,0 +1,43 @@
+Data sur les musiques : https://www.kaggle.com/datasets/diamondsnake/eurovision-song-contest-data?resource=download
+(fichier song_data.csv)
+
+Script python :
+
+import csv
+
+def entreGuillemets(string):
+  return "\"" + string + "\""
+
+json = ""
+skip=0
+
+with open("./song_data.csv", 'r') as file:
+  csvreader = csv.reader(file)
+  for row in csvreader:
+    if skip == 0:
+      rowDetails = row
+
+    if skip != 0:
+      annee = row[0]
+      pays = row[3]
+      artiste = row[4]
+      nomMusique = row[5]
+
+      json += "{" + "\n" + "\t"
+      json += entreGuillemets("id") + " : " + entreGuillemets(str(skip)) + "," + "\n" + "\t"
+      json += entreGuillemets(rowDetails[0]) + " : " + entreGuillemets(annee) + "," + "\n" + "\t"
+      json += entreGuillemets(rowDetails[3]) + " : " + entreGuillemets(pays) + "," + "\n" + "\t"
+      json += entreGuillemets(rowDetails[4]) + " : " + entreGuillemets(artiste) + "," + "\n" + "\t"
+      json += entreGuillemets(rowDetails[5]) + " : " + entreGuillemets(nomMusique)
+
+      json += "\n" + "}" + "," + "\n"
+
+    skip += 1
+  
+json = "[" + "\n" + json + "]"
+
+print(json)
+
+Règles du jeu :
+
+Deviner 

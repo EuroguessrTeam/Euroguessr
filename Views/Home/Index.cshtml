@@ -1,0 +1,135 @@
+﻿@model Eurogessr.Models.Index.IndexModel
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+        
+    <div style="visibility: hidden;">
+        <iframe id="soundcloudPlayer" height="0" scrolling="no" frameborder="no" allow="autoplay"
+                src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/857536786&auto_play=false"></iframe>
+    </div>
+        
+    <div class="col" style="margin-left: 5%;margin-right: 5%;">
+
+        <div class="row">
+            <div class="col div-center">
+                <hr>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col div-center column-half">
+                <h1>Step 1 : Listen to the song</h1>
+            </div>
+            <div class="col-md-4 div-center column-half">
+                <button id="playButton" style="all: unset; cursor: pointer;" disabled>
+                <i id="iconPlayOrPause" class="fas fa-sync" style="font-size: 30px;text-align: center;padding-right: 20px;"></i>
+                    <small id="songPlayerText" style="font-size: 20px;">Song is loading...</small>
+                </button>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col div-center">
+                <hr>
+            </div>
+        </div>
+
+        <form method="post" action="/FormManager/OnFormSubmit">
+
+            <div class="row">
+                <div class="col div-center column-half">
+                    <h1>Step 2 : Enter your prompt</h1>
+                </div>
+
+                <div class="col-sm-1 div-center column-half">
+                    
+                        <input type="text" name="selectedSong" list="optionsList" placeholder="Type song name/artist..." style="max-width: 100%;border-style: solid;" />
+                        <datalist id="optionsList">
+                            @foreach (var music in Model.SongsList)
+                            {
+                                <option>@music.DisplayName</option>
+                            }
+                        </datalist>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col div-center">
+                    <hr>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col div-center">
+                    <h1>Step 3 : Send your prompt</h1>
+                </div>
+                <div class="col div-center column-half"><button class="btn btn-primary" type="submit">Send</button></div>
+            </div>
+        </form>
+
+        <div class="row">
+            <div class="col div-center">
+                <hr>
+            </div>
+        </div>
+
+        <div>
+            <h2>
+                @Model.CorrectGuess
+            </h2>
+        </div>
+
+    </div>
+
+
+    <script>
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        const iframeElement = document.getElementById("soundcloudPlayer");
+        const widget = SC.Widget(iframeElement);
+        const playButton = document.getElementById("playButton");
+        const iconPlayOrPause = document.getElementById("iconPlayOrPause");
+        const songPlayerText = document.getElementById("songPlayerText");
+        
+        let isPlaying = false;
+
+        widget.bind(SC.Widget.Events.READY, allowPlay);
+        widget.bind(SC.Widget.Events.FINISH, showButtonSongPlay);
+
+        async function allowPlay() {
+            await sleep(2000);
+            playButton.removeAttribute("disabled");
+            showButtonSongPlay();
+        }
+
+        playButton.addEventListener('click', function () {
+
+            if (isPlaying) {
+                widget.pause();
+                showButtonSongPlay();
+            }
+            else {
+                widget.seekTo(0);
+                widget.play();
+                showButtonSongPause();
+            }
+        });
+
+        function showButtonSongPlay() {
+            isPlaying = false;
+            iconPlayOrPause.setAttribute("class", "fas fa-play");
+            songPlayerText.textContent = "Play the song";
+        }
+
+        function showButtonSongPause() {
+            isPlaying = true;
+            iconPlayOrPause.setAttribute("class", "fas fa-stop");
+            songPlayerText.textContent = "Stop the song";
+        }
+    </script>
+</div>
