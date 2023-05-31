@@ -19,29 +19,10 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Eurogessr</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                    <!--<partial name="_LoginPartial" />-->
-                </div>
-            </div>
-        </nav>
+        
         <nav class="navbar navbar-light navbar-expand-md py-3">
             <div class="container">
-                <a class="navbar-brand d-flex align-items-center" href="#">
+                <a class="navbar-brand d-flex align-items-center" href="@Url.Action("Index", "Home")">
                     <span class="bs-icon-sm bs-icon-rounded bs-icon-primary d-flex justify-content-center align-items-center me-2 bs-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-music-note">
                             <path d="M9 13c0 1.105-1.12 2-2.5 2S4 14.105 4 13s1.12-2 2.5-2 2.5.895 2.5 2z"></path>
@@ -52,10 +33,10 @@
                 </a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-2"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navcol-2">
                     <ul class="navbar-nav ms-auto">
-                        <li class="nav-item"><a class="nav-link active" href="#">First Item</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#">Second Item</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#">Third Item</a></li>
-                    </ul><a class="btn btn-primary ms-md-2" role="button" href="#">Button</a>
+                        <li class="nav-item"><a class="nav-link active" href="@Url.Action("Index", "Home")">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="@Url.Action("Help", "Home")">How to play</a></li>
+                        <li class="nav-item"><a class="nav-link" href="@Url.Action("Privacy", "Home")">Privacy</a></li>
+                    </ul><!--<a class="btn btn-primary ms-md-2" role="button" href="#">Button</a>-->
                 </div>
             </div>
         </nav>
@@ -68,7 +49,7 @@
 
     <footer class="border-bottom footer text-muted">
         <div class="container">
-            &copy; 2023 - Eurogessr - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2023 - Euroguessr - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
 </body>

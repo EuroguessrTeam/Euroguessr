@@ -21,7 +21,7 @@
 
         <div class="row">
             <div class="col div-center column-half">
-                <h1>Step 1 : Listen to the song</h1>
+                <h2>Step 1 : Listen to the song</h2>
             </div>
             <div class="col-md-4 div-center column-half">
                 <button id="playButton" style="all: unset; cursor: pointer;" disabled>
@@ -41,7 +41,7 @@
 
             <div class="row">
                 <div class="col div-center column-half">
-                    <h1>Step 2 : Enter your prompt</h1>
+                    <h2>Step 2 : Enter your prompt</h2>
                 </div>
 
                 <div class="col-sm-1 div-center column-half">
@@ -64,7 +64,7 @@
 
             <div class="row">
                 <div class="col div-center">
-                    <h1>Step 3 : Send your prompt</h1>
+                    <h2>Step 3 : Send your prompt</h2>
                 </div>
                 @{
                     bool isDisabled = Model.userData.IsWin;
@@ -81,59 +81,101 @@
         </div>
 
         <div>
-            <h2>
+            <h3>
                 @Model.userData.DisplayMessage
-            </h2>
+            </h3>
+
+            <!-- Display countdown if user won -->
+            @{
+                string hiddenAttribute = Model.userData.IsWin ? "" : "visibility: hidden;";
+            }
+            <div style="@hiddenAttribute">
+                Next song in :
+                <span id="countdown"></span>
+            </div>
         </div>
 
     </div>
+</div>
 
 
-    <script>
-        function sleep(ms) {
-            return new Promise(resolve => setTimeout(resolve, ms));
-        }
+<!-- Script for SoundCloud player -->
+<script>
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
 
-        const iframeElement = document.getElementById("soundcloudPlayer");
-        const widget = SC.Widget(iframeElement);
-        const playButton = document.getElementById("playButton");
-        const iconPlayOrPause = document.getElementById("iconPlayOrPause");
-        const songPlayerText = document.getElementById("songPlayerText");
+    const iframeElement = document.getElementById("soundcloudPlayer");
+    const widget = SC.Widget(iframeElement);
+    const playButton = document.getElementById("playButton");
+    const iconPlayOrPause = document.getElementById("iconPlayOrPause");
+    const songPlayerText = document.getElementById("songPlayerText");
         
-        let isPlaying = false;
+    let isPlaying = false;
 
-        widget.bind(SC.Widget.Events.READY, allowPlay);
-        widget.bind(SC.Widget.Events.FINISH, showButtonSongPlay);
+    widget.bind(SC.Widget.Events.READY, allowPlay);
+    widget.bind(SC.Widget.Events.FINISH, showButtonSongPlay);
 
-        async function allowPlay() {
-            await sleep(2000);
-            playButton.removeAttribute("disabled");
+    async function allowPlay() {
+        await sleep(2000);
+        playButton.removeAttribute("disabled");
+        showButtonSongPlay();
+    }
+
+    playButton.addEventListener('click', function () {
+
+        if (isPlaying) {
+            widget.pause();
             showButtonSongPlay();
         }
-
-        playButton.addEventListener('click', function () {
-
-            if (isPlaying) {
-                widget.pause();
-                showButtonSongPlay();
-            }
-            else {
-                widget.seekTo(0);
-                widget.play();
-                showButtonSongPause();
-            }
-        });
-
-        function showButtonSongPlay() {
-            isPlaying = false;
-            iconPlayOrPause.setAttribute("class", "fas fa-play");
-            songPlayerText.textContent = "Play the song";
+        else {
+            widget.seekTo(0);
+            widget.play();
+            showButtonSongPause();
         }
+    });
 
-        function showButtonSongPause() {
-            isPlaying = true;
-            iconPlayOrPause.setAttribute("class", "fas fa-stop");
-            songPlayerText.textContent = "Stop the song";
-        }
-    </script>
-</div>
+    function showButtonSongPlay() {
+        isPlaying = false;
+        iconPlayOrPause.setAttribute("class", "fas fa-play");
+        songPlayerText.textContent = "Play the song";
+    }
+
+    function showButtonSongPause() {
+        isPlaying = true;
+        iconPlayOrPause.setAttribute("class", "fas fa-stop");
+        songPlayerText.textContent = "Stop the song";
+    }
+</script>
+
+
+<!-- Script for countdown before 00:00 UTC -->
+<script>
+    function updateCountdown() {
+
+        let now = new Date();
+
+        let nowUTC = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds()); // Heure actuelle UTC
+        let midnightUTC = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + 1, 0, 0, 0); // Prochain minuit UTC
+
+        let timeRemaining = midnightUTC - nowUTC;
+
+        let hours = Math.floor((timeRemaining / (1000 * 60 * 60)) % 24);
+        let minutes = Math.floor((timeRemaining / (1000 * 60)) % 60);
+        let seconds = Math.floor((timeRemaining / 1000) % 60);
+
+        // Formatage de l'affichage du chronomètre
+        let formattedTime = hours.toString().padStart(2, '0') + ":" +
+            minutes.toString().padStart(2, '0') + ":" +
+            seconds.toString().padStart(2, '0');
+
+        // Mise à jour de l'affichage dans l'élément avec l'identifiant 'countdown'
+        document.getElementById("countdown").textContent = formattedTime;
+    }
+
+    // Appel initial pour mettre à jour l'affichage du chronomètre
+    updateCountdown();
+
+    // Appel régulier pour mettre à jour l'affichage toutes les secondes
+    setInterval(updateCountdown, 1000);
+</script>
