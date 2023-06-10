@@ -1,16 +1,19 @@
-using Eurogessr.Data;
-using Eurogessr.Data.Services;
-using Eurogessr.Data.Services.Interfaces;
-using Euroguessr.Data.Services.Interfaces;
-using Microsoft.AspNetCore.Identity;
+using Euroguessr.Data;
+using Euroguessr.Data.Interfaces;
+using Euroguessr.Data.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString));
+
+builder.Services.AddDbContext<EntityContext>(opt =>
+    opt.UseNpgsql(connectionString)
+);
+
+
+
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 /*builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)

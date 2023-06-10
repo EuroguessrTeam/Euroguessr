@@ -2,7 +2,7 @@
 using Eurogessr.Models.TodayGuess;
 using Eurogessr.Models.VideoManager;
 
-namespace Eurogessr.Data.Services.Interfaces
+namespace Euroguessr.Data.Interfaces
 {
     public interface IJsonManagerService
     {

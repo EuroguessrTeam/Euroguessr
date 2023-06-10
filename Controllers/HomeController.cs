@@ -1,7 +1,6 @@
-﻿using Eurogessr.Data.Services.Interfaces;
+﻿using Euroguessr.Data.Interfaces;
 using Eurogessr.Models;
 using Eurogessr.Models.Index;
-using Euroguessr.Data.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 

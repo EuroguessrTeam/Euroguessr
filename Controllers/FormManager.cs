@@ -1,8 +1,6 @@
-﻿using Eurogessr.Data.Services;
-using Eurogessr.Data.Services.Interfaces;
+﻿using Euroguessr.Data.Interfaces;
 using Eurogessr.Models.Song;
 using Eurogessr.Models.TodayGuess;
-using Euroguessr.Data.Services.Interfaces;
 using Euroguessr.Models.Index;
 using Microsoft.AspNetCore.Mvc;
 

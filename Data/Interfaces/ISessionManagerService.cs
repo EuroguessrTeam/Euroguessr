@@ -1,6 +1,6 @@
 ﻿using Euroguessr.Models.Index;
 
-namespace Euroguessr.Data.Services.Interfaces
+namespace Euroguessr.Data.Interfaces
 {
     public interface ISessionManagerService
     {

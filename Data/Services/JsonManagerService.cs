@@ -1,11 +1,9 @@
-﻿using Eurogessr.Data.Services.Interfaces;
+﻿using Euroguessr.Data.Interfaces;
 using Eurogessr.Models.Song;
 using Eurogessr.Models.TodayGuess;
-using Eurogessr.Models.VideoManager;
-using Microsoft.IdentityModel.Tokens;
 using System.Text.Json;
 
-namespace Eurogessr.Data.Services
+namespace Euroguessr.Data.Services
 {
     public class JsonManagerService : IJsonManagerService
     {

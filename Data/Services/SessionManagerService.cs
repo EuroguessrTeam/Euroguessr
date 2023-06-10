@@ -1,8 +1,8 @@
-﻿using Euroguessr.Data.Services.Interfaces;
+﻿using Euroguessr.Data.Interfaces;
 using Euroguessr.Models.Index;
 using System.Text.Json;
 
-namespace Eurogessr.Data.Services
+namespace Euroguessr.Data.Services
 {
     public class SessionManagerService : ISessionManagerService
     {
