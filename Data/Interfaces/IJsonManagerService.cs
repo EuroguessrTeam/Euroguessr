@@ -10,7 +10,7 @@ namespace Euroguessr.Data.Interfaces
 
         public List<SongModel> GetSongsModel();
 
-        public TodayGuessModel GetTodayGuess();
+        public SongModel GetTodayGuess();
 
     }
 }

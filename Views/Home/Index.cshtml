@@ -24,10 +24,18 @@
                 <h2>Step 1 : Listen to the song</h2>
             </div>
             <div class="col-md-4 div-center column-half">
+
+                <div id="textLoadingSong">Song is loading... This usually takes less than a few seconds.<br />If the song takes too long to load, try reloading the page.</div>
+
+                <div data-video="@Model.YoutubeVideo.VideoId" data-autoplay="0" data-loop="0" id="youtube-audio"></div>
+
+                <!-- OLD : Soundcloud Player
                 <button id="playButton" style="all: unset; cursor: pointer;" disabled>
                 <i id="iconPlayOrPause" class="fas fa-sync" style="font-size: 30px;text-align: center;padding-right: 20px;"></i>
                     <small id="songPlayerText" style="font-size: 20px;">Song is loading...</small>
                 </button>
+                -->
+
             </div>
         </div>
 
@@ -81,25 +89,113 @@
         </div>
 
         <div>
+
+            <!-- Display countdown and youtube video if user won -->
+            @{
+                string hiddenAttribute = Model.userData.IsWin ? "" : "visibility: hidden;";
+                string width = Model.userData.IsWin ? "560" : "0";
+                string height = Model.userData.IsWin ? "315" : "0";
+            }
+
+            <iframe style="@hiddenAttribute" width="@width" height="@height" src="https://www.youtube.com/embed/@Model.YoutubeVideo.VideoId" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
             <h3>
                 @Model.userData.DisplayMessage
             </h3>
 
-            <!-- Display countdown if user won -->
-            @{
-                string hiddenAttribute = Model.userData.IsWin ? "" : "visibility: hidden;";
-            }
             <div style="@hiddenAttribute">
                 Next song in :
                 <span id="countdown"></span>
             </div>
         </div>
 
+        <!--
+        <script src="https://cdn.rawgit.com/labnol/files/master/yt.js"></script>
+        <script>
+            /*
+             YouTube Audio Embed
+             --------------------
+
+             Author: Amit Agarwal
+             Web: http://www.labnol.org/?p=26740
+            */
+         -->
+            
+        <script src="https://www.youtube.com/iframe_api"></script>
+        <script>
+
+            function sleep(ms) {
+                return new Promise(resolve => setTimeout(resolve, ms));
+            }
+            
+            function onYouTubeIframeAPIReady() {
+
+                console.log("!! READY !!");
+
+                //await sleep(500);
+
+                document.getElementById("textLoadingSong").innerHTML = "";
+
+                var ctrlq = document.getElementById("youtube-audio");
+
+                var icon = document.createElement("i");
+                icon.setAttribute("class", "fas fa-play");
+                icon.setAttribute("id", "youtube-icon");
+                icon.style.cssText = "cursor:pointer;cursor:hand;font-size:30px";
+                ctrlq.appendChild(icon);
+
+                var div = document.createElement("div");
+                div.setAttribute("id", "youtube-player");
+                ctrlq.appendChild(div);
+
+                var toggleButton = function (play) {
+                    var img = play ? "fas fa-stop" : "fas fa-play";
+                    icon.setAttribute("class", img);
+                }
+
+                ctrlq.onclick = function () {
+                    if (player.getPlayerState() === YT.PlayerState.PLAYING
+                        || player.getPlayerState() === YT.PlayerState.BUFFERING ) {
+                        player.pauseVideo();
+                        toggleButton(false);
+                    } else {
+                        player.seekTo(@Model.YoutubeVideo.SeekTo);
+                        player.playVideo();
+                        toggleButton(true);
+                    }
+                };
+
+                var player = new YT.Player('youtube-player', {
+                    height: "0",
+                    width: "0",
+                    videoId: ctrlq.dataset.video,
+                    playerVars: {
+                        autoplay: ctrlq.dataset.autoplay,
+                        loop: ctrlq.dataset.loop,
+                    },
+                    events: {
+                        onReady: function (e) {
+                            player.setPlaybackQuality("small");
+                            toggleButton(player.getPlayerState() !== YT.PlayerState.CUED);
+                        },
+                        onStateChange: function (e) {
+                            if (e.data === YT.PlayerState.ENDED) {
+                                toggleButton(false);
+                            }
+                        }
+                    }
+                });
+
+            }
+            
+
+        </script>
+
     </div>
 </div>
 
 
-<!-- Script for SoundCloud player -->
+<!-- Script for SoundCloud player (OLD)
 <script>
     function sleep(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
@@ -147,6 +243,7 @@
         songPlayerText.textContent = "Stop the song";
     }
 </script>
+ -->
 
 
 <!-- Script for countdown before 00:00 UTC -->

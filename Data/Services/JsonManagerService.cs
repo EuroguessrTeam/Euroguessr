@@ -2,6 +2,7 @@
 using Eurogessr.Models.Song;
 using Eurogessr.Models.TodayGuess;
 using System.Text.Json;
+using Euroguessr.Data.Tables;
 
 namespace Euroguessr.Data.Services
 {
@@ -10,8 +11,11 @@ namespace Euroguessr.Data.Services
 
         private static readonly string jsonSongsDataPath = "./Data/SongsData.json";
         private static readonly string jsonTodayGuessPath = "./Data/TodayGuess.json";
-        public JsonManagerService() {
-            
+        private readonly EntityContext _context;
+
+        public JsonManagerService(EntityContext context)
+        {
+            _context = context;
         }
 
         public SongModel GetSong(string id)
@@ -46,8 +50,33 @@ namespace Euroguessr.Data.Services
             return JsonSerializer.Deserialize<List<SongModel>>(fileContent, options);
         }
 
-        public TodayGuessModel GetTodayGuess()
+        public SongModel GetTodayGuess()
         {
+
+            var todayDate = DateOnly.FromDateTime(DateTime.Now);
+            string? id = _context.TodayGuessNumber.Where(c => c.guess_date.CompareTo(todayDate) == 0).FirstOrDefault()?.today_guess_id.ToString();
+
+            if (id == null)
+            {
+                int min = _context.TodayGuessNumberRange.Select(c => c.min_value).FirstOrDefault();
+                int max = _context.TodayGuessNumberRange.Select(c => c.max_value).FirstOrDefault();
+                id = new Random().Next(min, max).ToString();
+
+                TodayGuessNumber newGuess = new()
+                {
+                    guess_date = todayDate,
+                    today_guess_id = int.Parse(id)
+                };
+
+                _context.TodayGuessNumber.Add(newGuess);
+                _context.SaveChangesAsync();
+            }
+
+            var test = GetSong(id);
+
+            return GetSong(id);
+
+            /*
             string fileContent = System.IO.File.ReadAllText(jsonTodayGuessPath);
 
             // Désérialisation du JSON en une liste d'objets TodayGuess
@@ -56,6 +85,7 @@ namespace Euroguessr.Data.Services
                 PropertyNameCaseInsensitive = true
             };
             return JsonSerializer.Deserialize<TodayGuessModel>(fileContent, options);
+            */
         }
     }
 }

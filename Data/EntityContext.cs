@@ -1,5 +1,6 @@
-﻿using Euroguessr.Data.Migrations;
+﻿using Euroguessr.Data.Tables;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace Euroguessr.Data
 {
@@ -18,12 +19,39 @@ namespace Euroguessr.Data
             options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"));
         }
 
-        public DbSet<TestUser> Users { get; set; }
+        public DbSet<User> User { get; set; }
+        public DbSet<Score> Score { get; set; }
+        public DbSet<TodayGuessNumber> TodayGuessNumber { get; set; }
+        public DbSet<TodayGuessNumberRange> TodayGuessNumberRange { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<TestUser>()
-                .HasKey(e => new { e.ID, e.Name });
+
+            //TABLES WITH 2+ PRIMARY KEYS
+
+            modelBuilder.Entity<Score>()
+                .HasKey(e => new { e.Userunique_token, e.date });
+
+            modelBuilder.Entity<TodayGuessNumberRange>()
+                .HasKey(e => new { e.min_value, e.max_value });
+
+
+            //DEFAULT VALUES FOR TESTING
+
+            modelBuilder.Entity<User>()
+                .HasData(
+                new User { unique_token = "56489489185616" }
+            );
+
+            modelBuilder.Entity<TodayGuessNumberRange>()
+                .HasData(
+                new TodayGuessNumberRange { min_value = 503, max_value = 528 }
+            );
+
+            modelBuilder.Entity<Score>()
+                .HasData(
+                new Score { Userunique_token = "56489489185616", date = DateOnly.FromDateTime(DateTime.Now), attempts = 3, win = true }
+            );
         }
     }
 }

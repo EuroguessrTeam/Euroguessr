@@ -27,22 +27,22 @@ namespace Eurogessr.Controllers
 
             if (!userData.IsWin)
             {
-                TodayGuessModel todayGuess = _jsonManager.GetTodayGuess();
-                SongModel todaySong = _jsonManager.GetSong(todayGuess.TodaySongId);
+                SongModel todayGuess = _jsonManager.GetTodayGuess();
+                SongModel todaySong = _jsonManager.GetSong(todayGuess.Id);
 
                 bool isWin = todaySong.DisplayName == selectedSong;
 
                 if (isWin)
                 {
                     userData.NbTentatives++;
-                    userData.DisplayMessage = String.Format("Bravo ! Tu as trouvé le son en {0} tentatives !", userData.NbTentatives);
+                    userData.DisplayMessage = String.Format("Great job ! You guess today's song in {0} attempts !", userData.NbTentatives);
                     userData.IsWin = true;
                     _sessionManagerService.SetData(userData);
                 }
                 else
                 {
                     userData.NbTentatives++;
-                    userData.DisplayMessage = "Dommage.. réessaye";
+                    userData.DisplayMessage = "Your guess was not right.. Try again !";
                     _sessionManagerService.SetData(userData);
                 }
             }

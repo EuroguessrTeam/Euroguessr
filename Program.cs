@@ -12,10 +12,6 @@ builder.Services.AddDbContext<EntityContext>(opt =>
     opt.UseNpgsql(connectionString)
 );
 
-
-
-builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-
 /*builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();*/
 builder.Services.AddControllersWithViews();
@@ -39,7 +35,7 @@ app.UseSession();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseMigrationsEndPoint();
+    //app.UseMigrationsEndPoint();
 }
 else
 {
