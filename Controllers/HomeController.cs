@@ -7,6 +7,8 @@ using Euroguessr.Models.Song;
 using Euroguessr.Data.Tables;
 using Euroguessr.Models.Pages.Index;
 using Euroguessr.Models.Pages.Account;
+using Microsoft.Extensions.Options;
+using System.Net;
 
 namespace Euroguessr.Controllers
 {
@@ -16,21 +18,23 @@ namespace Euroguessr.Controllers
         private readonly IAccountManagerService _accountManagerService;
         private readonly IJsonManagerService _jsonManager;
         private readonly EntityContext _context;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public HomeController(ILogger<HomeController> logger, IJsonManagerService jsonManagerService, IAccountManagerService accountManagerService, EntityContext context)
+        public HomeController(ILogger<HomeController> logger, IJsonManagerService jsonManagerService, IAccountManagerService accountManagerService, EntityContext context, IHttpContextAccessor httpContextAccessor)
         {
             _logger = logger;
             _accountManagerService = accountManagerService;
             _jsonManager = jsonManagerService;
             _context = context;
+            _httpContextAccessor = httpContextAccessor;
         }
 
+        [ProducesResponseType((int)HttpStatusCode.OK)]
         public IActionResult Index()
         {
             _logger.LogInformation("Entrée dans Index V2");
 
-            _accountManagerService.SetAccount();
-            string currentUserId = _accountManagerService.GetAccount();
+            string currentUserId = _accountManagerService.GetOrCreateNewAccount();
 
             SongModel todaySong = _jsonManager.GetTodayGuess();
 
@@ -50,7 +54,7 @@ namespace Euroguessr.Controllers
 
         public IActionResult Account()
         {
-            string currentUserId = _accountManagerService.GetAccount();
+            string currentUserId = _accountManagerService.GetOrCreateNewAccount();
             List<Score> scores = _accountManagerService.GetScores(currentUserId);
 
             ManageAccountModel model = new()

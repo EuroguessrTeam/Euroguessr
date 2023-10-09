@@ -5,19 +5,36 @@
 }
 <h1>@ViewData["Title"]</h1>
 
-<h3 style="margin-top:50px;">Your unique account ID : </h3>
+<div style="display:flex;gap:200px">
 
-<div id="HideShowContent" style="display:none">
-    <b>@Model.UserUniqueId</b>
-    <br />(Keep it preciously and store it if you want to save your data)
+    <div>
+        <h3 style="margin-top:50px;">Your unique account ID : </h3>
+
+        <div id="HideShowContent" style="display:none">
+            <b>@Model.UserUniqueId</b>
+            <br />(Keep it secret and store it if you want to save your data)
+        </div>
+        <button style="margin-top:10px;" class="btn btn-primary" onclick="HideShowFunction()" id="ButtonHideShowContent">Show</button>
+    </div>
+
+    <div>
+        <h3 style="margin-top:50px;">Restore your account :</h3>
+
+        <form method="post" action="/FormManager/OnRestoreAccountSubmit">
+            <input style="margin-top:10px;width:100%" type="text" name="accountId" placeholder="Enter your old account ID" style="max-width: 100%;border-style: solid;" />
+            <div><button style="margin-top:10px;" class="btn btn-primary" type="submit">Restore</button></div>
+        </form>
+
+        <p style="color:blue">@TempData["DisplayMessageRestoreAccount"]</p>
+    </div>
+
 </div>
-<button onclick="HideShowFunction()" id="ButtonHideShowContent">Show</button>
 
 <h3 style="margin-top:50px;">Previous scores :</h3>
 
 @foreach (var score in Model.Scores)
 {
-    <b>- @score.DisplayName</b>
+    <b>- @score.DisplayName</b><br />
 }
 
 <script>

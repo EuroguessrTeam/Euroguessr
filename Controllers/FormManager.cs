@@ -25,7 +25,7 @@ namespace Euroguessr.Controllers
         public IActionResult OnFormSubmit(string selectedSong)
         {
 
-            string currentUserId = _accountManagerService.GetAccount();
+            string currentUserId = _accountManagerService.GetOrCreateNewAccount();
             Score todayScorePlayer = _accountManagerService.GetOrSetTodayScore(currentUserId);
 
             if (!todayScorePlayer.win)
@@ -59,6 +59,29 @@ namespace Euroguessr.Controllers
             _context.Score.Update(todayScorePlayer);
             _context.SaveChanges();
             return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPost]
+        public IActionResult OnRestoreAccountSubmit(string accountId)
+        {
+
+            if (string.IsNullOrWhiteSpace(accountId))
+            {
+                TempData["DisplayMessageRestoreAccount"] = "Please enter a value";
+            }
+
+            bool response = _accountManagerService.SetAccount(accountId);
+
+            if (response)
+            {
+                TempData["DisplayMessageRestoreAccount"] = "Your account has been successfully restored !";
+            }
+            else
+            {
+                TempData["DisplayMessageRestoreAccount"] = "The indicated account id does not exist :(";
+            }
+
+            return RedirectToAction("Account", "Home");
         }
     }
 }

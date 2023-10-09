@@ -4,8 +4,8 @@ namespace Euroguessr.Data.Interfaces
 {
     public interface IAccountManagerService
     {
-        public void SetAccount();
-        public string GetAccount();
+        public string GetOrCreateNewAccount();
+        public bool SetAccount(string accountId);
         public List<Score> GetScores(string userId);
         public Score GetOrSetTodayScore(string userId);
     }
