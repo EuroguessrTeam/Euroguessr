@@ -1,1 +1,1 @@
-# Eurogessr
+# Euroguessr

@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "Eurogessr": {
+    "Euroguessr": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
