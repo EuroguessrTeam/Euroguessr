@@ -1,6 +1,6 @@
 ﻿using Euroguessr.Data.Interfaces;
-using Eurogessr.Models.Song;
-using Eurogessr.Models.TodayGuess;
+using Euroguessr.Models.Song;
+using Euroguessr.Models.TodayGuess;
 using System.Text.Json;
 using Euroguessr.Data.Tables;
 
@@ -10,7 +10,6 @@ namespace Euroguessr.Data.Services
     {
 
         private static readonly string jsonSongsDataPath = "./Data/SongsData.json";
-        private static readonly string jsonTodayGuessPath = "./Data/TodayGuess.json";
         private readonly EntityContext _context;
 
         public JsonManagerService(EntityContext context)
@@ -53,7 +52,7 @@ namespace Euroguessr.Data.Services
         public SongModel GetTodayGuess()
         {
 
-            var todayDate = DateOnly.FromDateTime(DateTime.Now);
+            var todayDate = DateOnly.FromDateTime(DateTime.Now.ToUniversalTime());
             string? id = _context.TodayGuessNumber.Where(c => c.guess_date.CompareTo(todayDate) == 0).FirstOrDefault()?.today_guess_id.ToString();
 
             if (id == null)
@@ -69,10 +68,8 @@ namespace Euroguessr.Data.Services
                 };
 
                 _context.TodayGuessNumber.Add(newGuess);
-                _context.SaveChangesAsync();
+                _context.SaveChanges();
             }
-
-            var test = GetSong(id);
 
             return GetSong(id);
 

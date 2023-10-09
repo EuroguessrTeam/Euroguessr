@@ -1,6 +1,4 @@
-﻿using Eurogessr.Models.Song;
-using Eurogessr.Models.TodayGuess;
-using Eurogessr.Models.VideoManager;
+﻿using Euroguessr.Models.Song;
 
 namespace Euroguessr.Data.Interfaces
 {

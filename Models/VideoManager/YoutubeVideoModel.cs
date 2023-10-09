@@ -1,4 +1,4 @@
-﻿namespace Eurogessr.Models.VideoManager
+﻿namespace Euroguessr.Models.VideoManager
 {
     public class YoutubeVideoModel
     {

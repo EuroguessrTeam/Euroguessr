@@ -1,25 +1,27 @@
 ﻿using Euroguessr.Data.Interfaces;
-using Eurogessr.Models;
-using Eurogessr.Models.Index;
+using Euroguessr.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using Euroguessr.Data;
-using Eurogessr.Models.Song;
+using Euroguessr.Models.Song;
+using Euroguessr.Data.Tables;
+using Euroguessr.Models.Pages.Index;
+using Euroguessr.Models.Pages.Account;
 
-namespace Eurogessr.Controllers
+namespace Euroguessr.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IAccountManagerService _accountManagerService;
         private readonly IJsonManagerService _jsonManager;
-        private readonly ISessionManagerService _sessionManagerService;
         private readonly EntityContext _context;
 
-        public HomeController(ILogger<HomeController> logger, IJsonManagerService jsonManagerService, ISessionManagerService sessionManagerService, EntityContext context)
+        public HomeController(ILogger<HomeController> logger, IJsonManagerService jsonManagerService, IAccountManagerService accountManagerService, EntityContext context)
         {
             _logger = logger;
+            _accountManagerService = accountManagerService;
             _jsonManager = jsonManagerService;
-            _sessionManagerService = sessionManagerService;
             _context = context;
         }
 
@@ -27,7 +29,8 @@ namespace Eurogessr.Controllers
         {
             _logger.LogInformation("Entrée dans Index V2");
 
-            var test = _context.User;
+            _accountManagerService.SetAccount();
+            string currentUserId = _accountManagerService.GetAccount();
 
             SongModel todaySong = _jsonManager.GetTodayGuess();
 
@@ -39,10 +42,29 @@ namespace Eurogessr.Controllers
                     SeekTo = todaySong.Seek_To
                 },
                 SongsList = _jsonManager.GetSongsModel(),
-                userData = _sessionManagerService.GetData()
+                CurrentUserScore = _accountManagerService.GetOrSetTodayScore(currentUserId)
             };
 
             return View(model);
+        }
+
+        public IActionResult Account()
+        {
+            string currentUserId = _accountManagerService.GetAccount();
+            List<Score> scores = _accountManagerService.GetScores(currentUserId);
+
+            ManageAccountModel model = new()
+            {
+                UserUniqueId = currentUserId,
+                Scores = scores
+            };
+
+            return View(model);
+        }
+
+        public IActionResult Help()
+        {
+            return View();
         }
 
         public IActionResult Privacy()

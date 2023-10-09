@@ -25,8 +25,11 @@ builder.Services.AddSession(options =>
 });
 
 //Services personnalisés
+builder.Services.AddScoped<IAccountManagerService, AccountManagerService>();
 builder.Services.AddScoped<IJsonManagerService, JsonManagerService>();
-builder.Services.AddScoped<ISessionManagerService, SessionManagerService>();
+
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
 
 var app = builder.Build();
 

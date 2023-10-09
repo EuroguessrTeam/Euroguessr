@@ -1,32 +1,43 @@
 ﻿using Euroguessr.Data.Interfaces;
-using Eurogessr.Models.Song;
-using Eurogessr.Models.TodayGuess;
-using Euroguessr.Models.Index;
+using Euroguessr.Models.Song;
+using Euroguessr.Models.TodayGuess;
 using Microsoft.AspNetCore.Mvc;
+using Euroguessr.Data;
+using Euroguessr.Data.Tables;
 
-namespace Eurogessr.Controllers
+namespace Euroguessr.Controllers
 {
     public class FormManager : Controller
     {
         private readonly ILogger<FormManager> _logger;
+        private readonly EntityContext _context;
+        private readonly IAccountManagerService _accountManagerService;
         private readonly IJsonManagerService _jsonManager;
-        private readonly ISessionManagerService _sessionManagerService;
 
-        public FormManager(ILogger<FormManager> logger, IJsonManagerService jsonManagerService, ISessionManagerService sessionManagerService)
+        public FormManager(ILogger<FormManager> logger, IJsonManagerService jsonManagerService, IAccountManagerService accountManagerService, EntityContext context)
         {
             _logger = logger;
+            _context = context;
+            _accountManagerService = accountManagerService;
             _jsonManager = jsonManagerService;
-            _sessionManagerService = sessionManagerService;
         }
 
         [HttpPost]
         public IActionResult OnFormSubmit(string selectedSong)
         {
 
-            UserData userData = _sessionManagerService.GetData();
+            string currentUserId = _accountManagerService.GetAccount();
+            Score todayScorePlayer = _accountManagerService.GetOrSetTodayScore(currentUserId);
 
-            if (!userData.IsWin)
+            if (!todayScorePlayer.win)
             {
+
+                if (String.IsNullOrEmpty(selectedSong))
+                {
+                    TempData["DisplayMessage"] = "Please enter your guess in the text box above";
+                    goto end;
+                }
+
                 SongModel todayGuess = _jsonManager.GetTodayGuess();
                 SongModel todaySong = _jsonManager.GetSong(todayGuess.Id);
 
@@ -34,18 +45,20 @@ namespace Eurogessr.Controllers
 
                 if (isWin)
                 {
-                    userData.NbTentatives++;
-                    userData.DisplayMessage = String.Format("Great job ! You guess today's song in {0} attempts !", userData.NbTentatives);
-                    userData.IsWin = true;
-                    _sessionManagerService.SetData(userData);
+                    todayScorePlayer.attempts++;
+                    todayScorePlayer.win = true;
+                    TempData["DisplayMessage"] = "";
                 }
                 else
                 {
-                    userData.NbTentatives++;
-                    userData.DisplayMessage = "Your guess was not right.. Try again !";
-                    _sessionManagerService.SetData(userData);
+                    todayScorePlayer.attempts++;
+                    TempData["DisplayMessage"] = "Your guess was not right.. Try again !";
                 }
             }
+
+        end:
+            _context.Score.Update(todayScorePlayer);
+            _context.SaveChanges();
             return RedirectToAction("Index", "Home");
         }
     }

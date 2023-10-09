@@ -1,4 +1,4 @@
-namespace Eurogessr.Models
+namespace Euroguessr.Models
 {
     public class ErrorViewModel
     {

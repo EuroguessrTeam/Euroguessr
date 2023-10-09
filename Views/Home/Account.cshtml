@@ -1,0 +1,35 @@
+﻿@model Euroguessr.Models.Pages.Account.ManageAccountModel
+
+@{
+    ViewData["Title"] = "My account";
+}
+<h1>@ViewData["Title"]</h1>
+
+<h3 style="margin-top:50px;">Your unique account ID : </h3>
+
+<div id="HideShowContent" style="display:none">
+    <b>@Model.UserUniqueId</b>
+    <br />(Keep it preciously and store it if you want to save your data)
+</div>
+<button onclick="HideShowFunction()" id="ButtonHideShowContent">Show</button>
+
+<h3 style="margin-top:50px;">Previous scores :</h3>
+
+@foreach (var score in Model.Scores)
+{
+    <b>- @score.DisplayName</b>
+}
+
+<script>
+    function HideShowFunction() {
+        var x = document.getElementById("HideShowContent");
+        var y = document.getElementById("ButtonHideShowContent");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+            y.innerHTML = "Hide";
+        } else {
+            x.style.display = "none";
+            y.innerHTML = "Show";
+        }
+    }
+</script>

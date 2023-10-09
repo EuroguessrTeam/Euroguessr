@@ -50,7 +50,7 @@ namespace Euroguessr.Data
 
             modelBuilder.Entity<Score>()
                 .HasData(
-                new Score { Userunique_token = "56489489185616", date = DateOnly.FromDateTime(DateTime.Now), attempts = 3, win = true }
+                new Score { Userunique_token = "56489489185616", date = DateOnly.FromDateTime(DateTime.Now.ToUniversalTime()), attempts = 3, win = true }
             );
         }
     }

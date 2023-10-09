@@ -1,4 +1,4 @@
-﻿namespace Eurogessr.Models.Song
+﻿namespace Euroguessr.Models.Song
 {
     public class SongModel
     {

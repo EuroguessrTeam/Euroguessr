@@ -1,4 +1,4 @@
-﻿namespace Eurogessr.Models.TodayGuess
+﻿namespace Euroguessr.Models.TodayGuess
 {
     public class TodayGuessModel
     {
