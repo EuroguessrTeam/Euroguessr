@@ -173,6 +173,9 @@
                         onReady: function (e) {
                             player.setPlaybackQuality("small");
                             toggleButton(player.getPlayerState() !== YT.PlayerState.CUED);
+                            player.playVideo();
+                            player.pauseVideo();
+                            player.seekTo(@Model.YoutubeVideo.SeekTo);
                         },
                         onStateChange: function (e) {
                             if (e.data === YT.PlayerState.ENDED) {
