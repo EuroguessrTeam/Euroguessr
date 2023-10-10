@@ -67,8 +67,17 @@ namespace Euroguessr.Data.Services
                     today_guess_id = int.Parse(id)
                 };
 
-                _context.TodayGuessNumber.Add(newGuess);
-                _context.SaveChanges();
+                //Try to add the new song to guess in Database
+                try
+                {
+                    _context.TodayGuessNumber.Add(newGuess);
+                    _context.SaveChanges();
+                }
+                //If the song failed to save, it has already been write (the date is the primary key in the table).
+                catch (Exception)
+                {
+                    id = _context.TodayGuessNumber.Where(c => c.guess_date.CompareTo(todayDate) == 0).FirstOrDefault()?.today_guess_id.ToString();
+                }
             }
 
             return GetSong(id);

@@ -40,7 +40,7 @@ namespace Euroguessr.Data
 
             modelBuilder.Entity<User>()
                 .HasData(
-                new User { unique_token = "56489489185616" }
+                new User { unique_token = "a2a72798-690c-4301-9a01-1cf88e2080cc" }
             );
 
             modelBuilder.Entity<TodayGuessNumberRange>()
@@ -50,7 +50,7 @@ namespace Euroguessr.Data
 
             modelBuilder.Entity<Score>()
                 .HasData(
-                new Score { Userunique_token = "56489489185616", date = DateOnly.FromDateTime(DateTime.Now.ToUniversalTime()), attempts = 3, win = true }
+                new Score { Userunique_token = "a2a72798-690c-4301-9a01-1cf88e2080cc", date = DateOnly.FromDateTime(DateTime.Now.ToUniversalTime()), attempts = 3, win = true }
             );
         }
     }
