@@ -364,3 +364,6 @@ FodyWeavers.xsd
 
 # To protect appsettings files
 appsettings*.json
+
+# To avoid pushing Migrations files
+Migrations/
