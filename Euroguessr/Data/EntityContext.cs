@@ -16,7 +16,7 @@ namespace Euroguessr.Data
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
             // connect to postgres with connection string from app settings
-            options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"));
+            options.UseNpgsql(Configuration.GetConnectionString("DatabaseConnection"));
         }
 
         public DbSet<User> User { get; set; }
