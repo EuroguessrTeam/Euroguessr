@@ -1,6 +1,5 @@
 <div style="display: flex; align-items: center;">
-  <img src="https://images.emojiterra.com/twitter/v13.1/512px/1f1ea-1f1fa.png" alt="Drapeau de l'Europe" width="50" style="margin-top: 30px;margin-right:10px">
-  <h1>Euroguessr</h1>
+  <img src="https://images.emojiterra.com/twitter/v13.1/512px/1f1ea-1f1fa.png" alt="Drapeau de l'Europe" width="50" style="margin-top: 30px;margin-right:10px"> <h1>Euroguessr</h1>
 </div>
 
 
@@ -30,22 +29,23 @@ If 1 second is too short for you don't worry, everytime you miss, you got extra 
 
 Euroguessr official website is currently running at www.mrobert.fr
 
+Go give it a try and guess today's song !
 
 
 ### 🌱 How to contribute
 
-This project is 100% open source, if anyone wants to contribute and add new features or fix bugs, simply create a new issue and a new branch linked to the issue.  
-When you're done developing in your branch, create a new pull request to the develop branch, and the Euroguessr team will review your code and merge it if everything is looks good.
+This project is 100% open source, if anyone wants to contribute and add new features or fix bugs, simply fork the project.
+When you're done developing in your forked project, create a new pull request to the "Develop" branch, and the Euroguessr team will review your code and merge it if everything is looking good.
 
 The Euroguessr team can't wait to see your hard work for the community :)
 
 ### 📚 Documentation
 
-|                                    Documentation                                    | Notes |
-|:-----------------------------------------------------------------------------------:|:-----:|
-|                                  [Sources](./src)                                   | |
-|            [Technical documentation](./docs/technical_documentation.md)             | |
-| [Project follow-up (GitHub)](https://app.clickup.com/9012048428/v/l/7-9012048428-1) | |
+|                                    Documentation                                    |      Notes       |
+|:-----------------------------------------------------------------------------------:|:----------------:|
+|                                  [Sources](https://github.com/EuroguessrTeam/Euroguessr/tree/master/Euroguessr)                                   |                  |
+|            [Technical documentation](./docs/technical_documentation.md)             | To be created... |
+| [Project follow-up (GitHub)](https://github.com/EuroguessrTeam/Euroguessr/issues) |                  |
 
 ### 👥 Credits
 
