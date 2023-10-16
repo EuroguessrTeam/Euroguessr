@@ -5,22 +5,62 @@ services:
     container_name: postgres
     image: postgres
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: postgres
+      POSTGRES_USER: $POSTGRES_USER
+      POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+      POSTGRES_DB: $POSTGRES_DB
     ports:
-      - "5432:5432"
+      - "$POSTGRES_PORT:$POSTGRES_PORT"
     volumes:
       - postgres-data:/var/lib/postgresql/data
 
   euroguessr:
     container_name: euroguessr
     image: euroguessr
-    build: ./Euroguessr 
-    ports:
-      - "80:80"
+    build: ./Euroguessr
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.euroguessr.rule=Host(`euroguessr.$DOMAIN_NAME`)" 
+      - "traefik.hhtp.routers.euroguessr.entrypoints=web"
+      - "traefik.http.services.euroguessr.loadbalancer.server.port=$EUROGUESSR_PORT"
+    expose:
+      - $EUROGUESSR_PORT
     # environment:
       # ASPNETCORE_ENVIRONMENT: Development
 
+  portainer:
+    container_name: portainer
+    image: portainer/portainer-ce:latest
+    expose:
+      - PORTAINER_PORT1
+      - PORTAINER_PORT2
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.portainer.rule=Host(`portainer.$DOMAIN_NAME`)" 
+      - "traefik.hhtp.routers.portainer.entrypoints=web"
+      - "traefik.http.services.portainer.loadbalancer.server.port=$PORTAINER_PORT2"
+
+  traefik:
+    container_name: reverse_proxy
+    image: traefik:latest
+    command: 
+      - "--api=true"
+      - "--api.dashboard=true"
+      - "--providers.docker=true"
+      - " --entrypoints.web.address=:80"
+    labels:
+      - "traefik.http.routers.api.rule=Host (`traefik.$DOMAIN_NAME`)"
+      - "traefik.http.routers.api.service=api@internal"
+      - "traefik.http.routers.api.entrypoints=http"
+      - "traefik.http.routers.api.middlewares=auth"
+      - "traefik.http.middlewares.auth.basicauth.users=$TRAEFIK_AUTH_USER"
+    ports:
+      - "$TRAEFIK_PORT1:$TRAEFIK_PORT1"
+      - "$TRAEFIK_PORT2:$TRAEFIK_PORT2"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
 volumes:
   postgres-data:
+  portainer_data:

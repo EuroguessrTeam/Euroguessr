@@ -370,3 +370,5 @@ Migrations/
 
 # IntelliJ useless files
 .idea
+
+.env
