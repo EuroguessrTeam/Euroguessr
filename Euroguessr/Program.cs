@@ -24,7 +24,7 @@ builder.Services.AddSession(options =>
     options.IdleTimeout = TimeSpan.FromDays(1);
 });
 
-//Services personnalisés
+//Services personnalisï¿½s
 builder.Services.AddScoped<IAccountManagerService, AccountManagerService>();
 builder.Services.AddScoped<IJsonManagerService, JsonManagerService>();
 
@@ -59,5 +59,16 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 //app.MapRazorPages();
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+
+    var context = services.GetRequiredService<EntityContext>();
+    if (context.Database.GetPendingMigrations().Any())
+    {
+        context.Database.Migrate();
+    }
+}
 
 app.Run();

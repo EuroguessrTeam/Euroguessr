@@ -363,10 +363,12 @@ MigrationBackup/
 FodyWeavers.xsd
 
 # To protect appsettings files
-appsettings*.json
+appsettings.json
 
 # To avoid pushing Migrations files
 Migrations/
 
 # IntelliJ useless files
 .idea
+
+.env
