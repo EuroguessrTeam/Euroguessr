@@ -27,7 +27,7 @@ If 1 second is too short for you don't worry, everytime you miss, you got extra 
 
 ### 🔗 Url
 
-Euroguessr official website is currently running at www.euroguessr.com
+Euroguessr official website is currently running at https://www.euroguessr.com
 
 Go give it a try and guess today's song !
 
