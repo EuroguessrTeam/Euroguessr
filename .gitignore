@@ -372,3 +372,5 @@ Migrations/
 .idea
 
 .env
+
+letsencrypt/
