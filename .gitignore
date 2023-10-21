@@ -369,3 +369,5 @@ appsettings.json
 .idea
 
 .env
+
+letsencrypt/
