@@ -1,34 +1,29 @@
 using Euroguessr.Data;
-using Euroguessr.Data.Interfaces;
-using Euroguessr.Data.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-var connectionString = builder.Configuration.GetConnectionString("DatabaseConnection");
+var connectionstring = builder.Configuration.GetConnectionString("DatabaseConnection");
 
-builder.Services.AddDbContext<EntityContext>(opt =>
-    opt.UseNpgsql(connectionString)
-);
+builder.Services.AddDbContext<EntityContext>(opt => opt.UseNpgsql(connectionstring, npgsqlopt => npgsqlopt.MigrationsAssembly("Euroguessr.Data")));
 
 /*builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();*/
 builder.Services.AddControllersWithViews();
 builder.Services.AddHttpContextAccessor();
 
-//Ajout variables session
+// #                      #
+// # Variables de session #
+// #                      #
 builder.Services.AddDistributedMemoryCache();
-builder.Services.AddSession(options =>
-{
-    options.IdleTimeout = TimeSpan.FromDays(1);
-});
+builder.Services.AddSession(options => options.IdleTimeout = TimeSpan.FromDays(1));
 
-//Services personnalis�s
+// #                        #
+// # Services personnalisés #
+// #                        #
 builder.Services.AddScoped<IAccountManagerService, AccountManagerService>();
 builder.Services.AddScoped<IJsonManagerService, JsonManagerService>();
-
-builder.Services.AddHttpContextAccessor();
 
 
 var app = builder.Build();
@@ -65,10 +60,9 @@ using (var scope = app.Services.CreateScope())
     var services = scope.ServiceProvider;
 
     var context = services.GetRequiredService<EntityContext>();
+
     if (context.Database.GetPendingMigrations().Any())
-    {
         context.Database.Migrate();
-    }
 }
 
 app.Run();

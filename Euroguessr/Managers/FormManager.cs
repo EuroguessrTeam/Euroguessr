@@ -1,10 +1,7 @@
-﻿using Euroguessr.Data.Interfaces;
-using Euroguessr.Models.Song;
+﻿using Euroguessr.Data;
 using Microsoft.AspNetCore.Mvc;
-using Euroguessr.Data;
-using Euroguessr.Data.Tables;
 
-namespace Euroguessr.Controllers
+namespace Euroguessr.Managers
 {
     public class FormManager : Controller
     {
@@ -31,7 +28,7 @@ namespace Euroguessr.Controllers
             if (!todayScorePlayer.win)
             {
 
-                if (String.IsNullOrEmpty(selectedSong))
+                if (string.IsNullOrEmpty(selectedSong))
                 {
                     TempData["DisplayMessage"] = "Please enter your guess in the text box above";
                     goto end;

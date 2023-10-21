@@ -1,4 +1,4 @@
-﻿namespace Euroguessr.Models.Song
+﻿namespace Euroguessr.Data
 {
     public class SongModel
     {
@@ -9,6 +9,6 @@
         public string Song_Name { get; set; }
         public string Video_Id { get; set; }
         public string Seek_To { get; set; }
-        public string DisplayName => String.Format("{0} - {1} / {2} {3}", Artist_Name, Song_Name, Country, Year);
+        public string DisplayName => string.Format("{0} - {1} / {2} {3}", Artist_Name, Song_Name, Country, Year);
     }
 }

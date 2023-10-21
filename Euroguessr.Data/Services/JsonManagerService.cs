@@ -1,15 +1,11 @@
-﻿using Euroguessr.Data.Interfaces;
-using Euroguessr.Models.Song;
-using Euroguessr.Models.TodayGuess;
-using System.Text.Json;
-using Euroguessr.Data.Tables;
+﻿using System.Text.Json;
 
-namespace Euroguessr.Data.Services
+namespace Euroguessr.Data
 {
     public class JsonManagerService : IJsonManagerService
     {
 
-        private static readonly string jsonSongsDataPath = "./Data/SongsData.json";
+        private static readonly string jsonSongsDataPath = "../Euroguessr.Data/SongsData.json";
         private readonly EntityContext _context;
 
         public JsonManagerService(EntityContext context)
@@ -30,9 +26,7 @@ namespace Euroguessr.Data.Services
             List<SongModel> songs = JsonSerializer.Deserialize<List<SongModel>>(fileContent, options);
 
             // Recherche de la chanson avec l'ID spécifié
-            SongModel song = songs.FirstOrDefault(s => s.Id == id);
-
-            return song;
+            return songs?.FirstOrDefault(s => s.Id == id);
         }
 
         public List<SongModel> GetSongsModel()

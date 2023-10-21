@@ -1,6 +1,4 @@
-﻿using Euroguessr.Models.Song;
-
-namespace Euroguessr.Data.Interfaces
+﻿namespace Euroguessr.Data
 {
     public interface IJsonManagerService
     {
