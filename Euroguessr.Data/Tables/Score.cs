@@ -1,8 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Diagnostics.Metrics;
 
-namespace Euroguessr.Data.Tables
+namespace Euroguessr.Data
 {
     public class Score
     {
@@ -13,13 +12,13 @@ namespace Euroguessr.Data.Tables
         public string Userunique_token { get; set; }
 
         [Key]
-        public DateOnly date {  get; set; }
+        public DateOnly date { get; set; }
 
         public int attempts { get; set; }
         public bool win { get; set; }
 
-        public string DisplayName => String.Format(
-                                                       "{0} : {1} {2} {3}", 
+        public string DisplayName => string.Format(
+                                                       "{0} : {1} {2} {3}",
                                                        date,
                                                        win == true ? "Guessed in" : "Not guessed. You tried",
                                                        attempts,

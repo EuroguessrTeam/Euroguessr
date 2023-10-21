@@ -1,19 +1,17 @@
-﻿using Euroguessr.Data.Interfaces;
+﻿using Euroguessr.Data;
 using Euroguessr.Models;
+using Euroguessr.Models.Pages.Account;
+using Euroguessr.Models.Pages.Index;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-using Euroguessr.Data;
-using Euroguessr.Models.Song;
-using Euroguessr.Data.Tables;
-using Euroguessr.Models.Pages.Index;
-using Euroguessr.Models.Pages.Account;
-using Microsoft.Extensions.Options;
 using System.Net;
 
 namespace Euroguessr.Controllers
 {
     public class HomeController : Controller
     {
+
+
         private readonly ILogger<HomeController> _logger;
         private readonly IAccountManagerService _accountManagerService;
         private readonly IJsonManagerService _jsonManager;
@@ -79,7 +77,7 @@ namespace Euroguessr.Controllers
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return View(new ErrorviewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }

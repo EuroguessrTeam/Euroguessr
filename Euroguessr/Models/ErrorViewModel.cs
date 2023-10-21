@@ -1,9 +1,9 @@
 namespace Euroguessr.Models
 {
-    public class ErrorViewModel
+    public class ErrorviewModel
     {
         public string? RequestId { get; set; }
 
-        public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
+        public bool HasRequestId => !string.IsNullOrEmpty(RequestId);
     }
 }

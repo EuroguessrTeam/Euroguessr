@@ -1,7 +1,6 @@
-﻿using Euroguessr.Data.Interfaces;
-using Euroguessr.Data.Tables;
+﻿using Microsoft.AspNetCore.Http;
 
-namespace Euroguessr.Data.Services
+namespace Euroguessr.Data
 {
     public class AccountManagerService : IAccountManagerService
     {
@@ -25,7 +24,7 @@ namespace Euroguessr.Data.Services
             string currentUser = _httpContextAccessor.HttpContext.Request.Cookies["Euroguessr_Account_Id"];
 
             //If the current user don't have an account (don't have the cookie "Euroguessr_Account_Id")
-            if (string.IsNullOrWhiteSpace(currentUser) )
+            if (string.IsNullOrWhiteSpace(currentUser))
             {
 
                 //Generate the unique id for the new user
@@ -70,7 +69,8 @@ namespace Euroguessr.Data.Services
                 };
                 _httpContextAccessor.HttpContext.Response.Cookies.Append("Euroguessr_Account_Id", accountId, options);
                 return true;
-            } catch (Exception)
+            }
+            catch (Exception)
             {
                 return false;
             }

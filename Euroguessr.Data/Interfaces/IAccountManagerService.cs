@@ -1,6 +1,4 @@
-﻿using Euroguessr.Data.Tables;
-
-namespace Euroguessr.Data.Interfaces
+﻿namespace Euroguessr.Data
 {
     public interface IAccountManagerService
     {

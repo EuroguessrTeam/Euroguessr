@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Euroguessr.Data.Tables
+namespace Euroguessr.Data
 {
     public class TodayGuessNumberRange
     {
