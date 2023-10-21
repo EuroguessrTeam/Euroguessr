@@ -19,9 +19,10 @@ services:
     build: ./Euroguessr
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.euroguessr.rule=Host(`euroguessr.$DOMAIN_NAME`)" 
-      - "traefik.hhtp.routers.euroguessr.entrypoints=web"
+      - "traefik.http.routers.euroguessr.rule=Host(`www.$DOMAIN_NAME`)" 
+      - "traefik.hhtp.routers.euroguessr.entrypoints=websecure"
       - "traefik.http.services.euroguessr.loadbalancer.server.port=$EUROGUESSR_PORT"
+      - "traefik.http.routers.euroguessr.tls.certresolver=euroguessr"
     expose:
       - $EUROGUESSR_PORT
     # environment:
@@ -39,8 +40,9 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.portainer.rule=Host(`portainer.$DOMAIN_NAME`)" 
-      - "traefik.hhtp.routers.portainer.entrypoints=web"
+      - "traefik.hhtp.routers.portainer.entrypoints=websecure"
       - "traefik.http.services.portainer.loadbalancer.server.port=$PORTAINER_PORT2"
+      - "traefik.http.routers.portainer.tls.certresolver=euroguessr"
 
   traefik:
     container_name: reverse_proxy
@@ -49,17 +51,25 @@ services:
       - "--api=true"
       - "--api.dashboard=true"
       - "--providers.docker=true"
-      - " --entrypoints.web.address=:80"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--certificatesresolvers.euroguessr.acme.httpchallenge=true"
+      - "--certificatesresolvers.euroguessr.acme.httpchallenge.entrypoint=web"
+      - "--certificatesresolvers.euroguessr.acme.email=loangayrard@gmail.com"
+      - "--certificatesresolvers.euroguessr.acme.storage=/letsencrypt/acme.json"
     labels:
       - "traefik.http.routers.api.rule=Host (`traefik.$DOMAIN_NAME`)"
       - "traefik.http.routers.api.service=api@internal"
-      - "traefik.http.routers.api.entrypoints=http"
+      - "traefik.http.routers.api.entrypoints=websecure"
       - "traefik.http.routers.api.middlewares=auth"
       - "traefik.http.middlewares.auth.basicauth.users=$TRAEFIK_AUTH_USER"
+      - "traefik.http.routers.api.tls.certresolver=euroguessr"
     ports:
       - "$TRAEFIK_PORT1:$TRAEFIK_PORT1"
       - "$TRAEFIK_PORT2:$TRAEFIK_PORT2"
+      - "$TRAEFIK_PORT3:$TRAEFIK_PORT3"
     volumes:
+      - "./letsencrypt:/letsencrypt"
       - /var/run/docker.sock:/var/run/docker.sock:ro
 volumes:
   postgres-data:
