@@ -1,0 +1,103 @@
+﻿.transition {
+    height: 0px;
+    width: 0px;
+}
+
+.black-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    z-index: 2;
+    opacity: 1;
+    transition: opacity 0.5s;
+}
+
+.projector {
+    position: absolute;
+    width: 0px;
+    height: 300%;
+    background-color: black;
+    z-index: 3;
+}
+
+.left {
+    left: -140px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.right {
+    right: -140px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.line {
+    width: 100px;
+    height: 120%;
+    background-color: white;
+    position: absolute;
+    border-radius: 0% 0% 0% 0%;
+}
+
+.lineLeft {
+    animation: rotateLeft 2s linear;
+}
+
+.lineRight {
+    animation: rotateRight 2s linear;
+}
+
+.line1, .line2, .line3 {
+    /* Ajustez le décalage vertical pour les lignes supplémentaires */
+    animation-duration: 2s; /* Augmentez la durée pour espacer les animations */
+}
+
+/* Décalage vertical pour les lignes dans le projecteur de gauche */
+.line1.lineLeft {
+    animation-delay: 0s;
+}
+
+.line2.lineLeft {
+    animation-delay: 0.33s;
+}
+
+.line3.lineLeft {
+    animation-delay: 0.66s;
+}
+
+/* Décalage vertical pour les lignes dans le projecteur de droite */
+.line1.lineRight {
+    animation-delay: 0.02s;
+}
+
+.line2.lineRight {
+    animation-delay: 0.34s;
+}
+
+.line3.lineRight {
+    animation-delay: 0.68s;
+}
+
+@keyframes rotateLeft {
+    from {
+        transform: rotate(360deg);
+    }
+
+    to {
+        transform: rotate(0deg);
+    }
+}
+
+@keyframes rotateRight {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
