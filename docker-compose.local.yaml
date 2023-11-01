@@ -20,14 +20,32 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.euroguessr.rule=Host(`www.$DOMAIN_NAME`) || Host(`$DOMAIN_NAME`)"
-      - "traefik.http.routers.euroguessr.entrypoints=websecure"
+      - "traefik.http.routers.euroguessr.entrypoints=web"
       - "traefik.http.services.euroguessr.loadbalancer.server.port=$EUROGUESSR_PORT"
-      - "traefik.http.routers.euroguessr.tls.certresolver=euroguessr"
     expose:
       - $EUROGUESSR_PORT
-    ports:
-      - "$EUROGUESSR_PORT:$EUROGUESSR_PORT"
     # environment:
       # ASPNETCORE_ENVIRONMENT: Development
+  
+  traefik:
+    container_name: reverse_proxy
+    image: traefik:latest
+    command: 
+      - "--api=true"
+      - "--api.insecure=true"
+      - "--api.dashboard=true"
+      - "--entrypoints.web.address=:80"
+      - "--providers.docker=true"
+    labels:
+      - "traefik.http.routers.api.rule=Host (`traefik.$DOMAIN_NAME`)"
+      - "traefik.http.routers.api.service=api@internal"
+      - "traefik.http.routers.api.entrypoints=web"
+      - "traefik.http.routers.api.middlewares=auth"
+      - "traefik.http.middlewares.auth.basicauth.users=$TRAEFIK_AUTH_USER"
+    ports:
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
 volumes:
   postgres-data:
