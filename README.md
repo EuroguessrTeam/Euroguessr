@@ -3,8 +3,7 @@
 </div>
 
 
-![Version 0.1](https://img.shields.io/badge/Version-0.1-green
-)
+![Version 0.1](https://img.shields.io/badge/Version-0.1-green)
 ![Logo .NET](https://img.shields.io/badge/-.NET%206.0-blueviolet)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
@@ -59,9 +58,10 @@ Many thanks to all our contributors :
 
 |                                    Documentation                                    |      Notes       |
 |:-----------------------------------------------------------------------------------:|:----------------:|
-|                                  [Sources](https://github.com/EuroguessrTeam/Euroguessr/tree/master/Euroguessr)                                   |                  |
-|            [Technical documentation](./docs/technical_documentation.md)             | To be created... |
-| [Project follow-up (GitHub)](https://github.com/EuroguessrTeam/Euroguessr/issues) |                  |
+| [Sources](https://github.com/EuroguessrTeam/Euroguessr/tree/master/Euroguessr)      |                  |
+| [Technical documentation](./docs/technical_documentation.md)                        | To be created... |
+| [Project setup](./docs/ProjectSetup.md)                                             |                  |
+| [Project follow-up (GitHub)](https://github.com/EuroguessrTeam/Euroguessr/issues)   |                  |
 
 ### 👥 Credits
 
