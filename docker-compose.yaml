@@ -32,8 +32,8 @@ services:
     container_name: portainer
     image: portainer/portainer-ce:latest
     expose:
-      - PORTAINER_PORT1
-      - PORTAINER_PORT2
+      - "$PORTAINER_PORT1/tcp"
+      - "$PORTAINER_PORT2/tcp"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data
