@@ -3,6 +3,7 @@ using Euroguessr.Models;
 using Euroguessr.Models.Pages.Account;
 using Euroguessr.Models.Pages.Index;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Net;
 
@@ -28,6 +29,7 @@ namespace Euroguessr.Controllers
         }
 
         [ProducesResponseType((int)HttpStatusCode.OK)]
+        [Route("/test")]
         public IActionResult Index()
         {
             _logger.LogInformation("Entrée dans Index V2");
@@ -48,6 +50,12 @@ namespace Euroguessr.Controllers
             };
 
             return View(model);
+        }
+
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        public IActionResult Training()
+        {
+            return View();
         }
 
         public IActionResult Account()

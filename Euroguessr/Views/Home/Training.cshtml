@@ -1,0 +1,53 @@
+﻿<link href="~/css/Training.css" rel="stylesheet" type="text/css" />
+
+<link href='http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900italic,900' rel='stylesheet' type='text/css'>
+
+
+<div class="gallery-container">
+
+    <h1 class="text-center roboto-font guess-the-song-text">
+        Guess the song
+    </h1>
+    <h4 class="text-center roboto-font attempts-counter">
+        Attempt ?
+    </h4>
+
+    <div>
+        <div class="music-player">
+            <div class="progress-bar">
+                <div class="progress" id="progress-bar-element"></div>
+                <div class="white-bar" style="left: 10%"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/js/Training.js" defer></script>
+
+    <div class="time-limit-message">5 seconds ♩</div>
+
+    <div class="div-play-button flex">
+        <button class="button play-button" onclick="startSong()">Play</button>
+    </div>
+
+    <input class="guess-input"/>
+
+    <div class="action-buttons flex">
+
+        <div class="left-buttons flex">
+
+            <button class="button send-button">Send</button>
+
+            <div class="div-skip-button flex">
+                <button class="button skip-button">Skip</button>
+                <p class="skip-button-text">+90 seconds</p>
+            </div>
+
+        </div>
+
+        <div class="right-buttons flex">
+            <button class="button next-button">Next song</button>
+        </div>
+
+    </div>
+
+</div>

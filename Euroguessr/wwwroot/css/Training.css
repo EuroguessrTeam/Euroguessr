@@ -1,0 +1,125 @@
+﻿.main-container {
+    
+    
+}
+
+.gallery-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+.flex {
+    display: flex;
+}
+
+.roboto-font {
+    font-family: 'Roboto', sans-serif;
+}
+
+.guess-the-song-text {
+    margin-bottom: 0;
+}
+
+.attempts-counter {
+    margin-bottom : 10%;
+}
+
+.guess-input {
+    width: 100%;
+    margin-bottom: 2%;
+    margin-top: 10%;
+}
+
+.button {
+    border-radius: 10px;
+    border: 0;
+    color: white;
+    text-align: center;
+    padding: 5px 20px;
+}
+
+.div-play-button {
+    justify-content: center;
+}
+
+.play-button {
+    color:black;
+}
+
+.action-buttons {
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.left-buttons {
+    gap: 3%;
+    align-items: flex-start;
+}
+
+.right-buttons {
+    gap: 3%;
+    align-items: flex-start;
+}
+
+.send-button {
+    background-color: #0D6EDF;
+    border: 1px solid #0D6EDF;
+}
+
+.skip-button {
+    background-color: black;
+    border: 1px solid black;
+}
+
+.skip-button-text {
+    font-size: 70%;
+    text-align: center;
+}
+
+.div-skip-button {
+    flex-direction: column;
+}
+
+.next-button {
+    background-color: white;
+    color: black;
+    border: 1px solid black;
+}
+
+
+
+.music-player {
+    width: 100%;
+    text-align: center;
+}
+
+.progress-bar {
+    background-color: #000;
+    height: 8px;
+    position: relative;
+    border-radius: 4px;
+    margin-top: 10px;
+}
+
+.progress {
+    background-color: #0D6EDF;
+    height: 100%;
+    width: 0;
+    border-radius: 2px;
+}
+
+.white-bar {
+    background-color: white;
+    height: 100%;
+    width: 2px; /* Largeur de la barre blanche */
+    position: absolute;
+    top: 0;
+}
+
+.time-limit-message {
+    bottom: -20px; /* Espacement entre la barre rouge et le message */
+    color: black; /* Couleur du texte du message */
+}
