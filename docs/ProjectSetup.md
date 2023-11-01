@@ -64,7 +64,9 @@ docker-compose -f docker-compose.local.yaml up
 
 # 🌐 Access the project
 
-The project is accessible at the address `http://localhost:80/ or http://127.0.0.1:80/`
+The project can be accessed at the following URLs:
+- http://localhost:80/
+- http://127.0.0.1:80/
 
 If you want to bind other ports to the project, you can change the `docker-compose.local.yaml` file
 and edit in the euroguessr service the ports section like this:
@@ -73,6 +75,10 @@ and edit in the euroguessr service the ports section like this:
 ports:
   - "THE PORT YOU WANT TO BE BIND:$EUROGUESSR_PORT"
 ```
+
+The project can be accessed at the following URLs:
+- http://localhost:PORT/
+- http://127.0.0.1:PORT/
 
 # 🛑 Stop the project
 
