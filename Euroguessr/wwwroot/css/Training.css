@@ -1,4 +1,14 @@
 ﻿
+div.gallery-container h1.mainTitle {
+    font-size: 2em;
+    font-weight: bold;
+}
+
+div.gallery-container h3.attemptText {
+    font-size: 1.17em;
+    font-weight: bold;
+}
+
 .gallery-container {
     display: flex;
     flex-direction: column;
@@ -140,7 +150,6 @@ div.progress-bar-button {
     height: 100px;
     border-radius: 50%;
     background: radial-gradient(closest-side, var(--white) 80%, transparent 80% 100%), conic-gradient(var(--primary) 0%, var(--primary-alpha) 0);
-    transition-duration : 1s;
 }
 
 

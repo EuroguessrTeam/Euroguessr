@@ -7,6 +7,7 @@ const seek_to = 120; // Integer indicating the timecode at which to start the yo
 let stop = 4; // Maximum listening time
 let duration; // Total duration of the youtube video (set when the youtube api is ready)
 let soundVolume = 50; // Volume of the youtube video (0 - 100)
+let currentPercentOfTheListening;
 
 // Html elements to get
 let playOrPauseButton = document.getElementById('playerButton');
@@ -23,7 +24,124 @@ let startingTime = Date.now(); // Starting time when the player start the song (
 let currentTime = Date.now(); // Current time of the song (global variable)
 let isYoutubePlayerReady = false; // True when the youtube player is ready to stream sound
 let isPlaying = false; // True when music is playing, false by default
-let isPausedByUser = false; // True if the user pause the music manually, otherwise false by default
+var player;
+
+////////////////////////////////////////
+//START SECTION AUDIO PLAYER FUNCTIONS//
+////////////////////////////////////////
+function onYouTubeIframeAPIReady() {
+
+    console.log("Youtube Iframe API Ready");
+
+    var ctrlq = document.getElementById("youtube-audio");
+
+    var div = document.createElement("div");
+    div.setAttribute("id", "youtube-player");
+    ctrlq.appendChild(div);
+
+    var player = new YT.Player('youtube-player', {
+        height: "0",
+        width: "0",
+        videoId: ctrlq.dataset.video,
+        playerVars: {
+            autoplay: ctrlq.dataset.autoplay,
+            loop: ctrlq.dataset.loop,
+        },
+        events: {
+            onReady: function (e) {
+                duration = player.getDuration();
+                stop > duration - seek_to ? stop = duration - seek_to : stop = stop; // The song listening time limit cannot be greater than the total duration of the song.
+                changeTimeLeftTimer(stop);
+                changePlayButtonProgressionBar(0);
+                player.setVolume(soundVolume);
+                player.setPlaybackQuality("small");
+                player.playVideo();
+                player.pauseVideo();
+                player.seekTo(seek_to);
+                isYoutubePlayerReady = true;
+            },
+            onStateChange: function (e) {
+                if (e.data === YT.PlayerState.ENDED) {
+                    pauseMusic(false);
+                }
+            },
+
+            onerror: function (e) {
+                console.log(e);
+            },
+
+            onabort: function (e) {
+                console.log(e);
+            }
+        }
+    });
+
+    function playMusic() {
+
+        console.log("Play");
+
+        setPlayButtonPlayingStyle();
+        player.seekTo(seek_to);
+        player.setVolume(soundVolume);
+        player.playVideo();
+
+        isPlaying = true;
+        startingTime = Date.now();
+
+        updateProgress();
+    }
+
+    // Not paused by user = listening time limit over OR youtube video over
+    function pauseMusic() {
+
+        console.log("Pause");
+
+        isPlaying = false;
+
+        player.pauseVideo();
+        player.seekTo(seek_to);
+
+        resetPlayButtonProgressionBar(currentPercentOfTheListening);
+        changeTimeLeftTimer(stop);
+
+        setPlayButtonPausingStyle();
+    }
+
+    playOrPauseButton.addEventListener('click', function () {
+        if (isYoutubePlayerReady) {
+            if (!isPlaying) {
+                playMusic();
+            }
+            else {
+                pauseMusic();
+            }
+        }
+    });
+
+    function updateProgress() {
+
+        if (isPlaying) {
+            setTimeout(updateProgress, updateInterval);
+        }
+
+        currentTime = (Date.now() - startingTime) / 1000;
+        currentPercentOfTheListening = currentTime * 100 / stop;
+
+        if (currentTime < stop && isPlaying) {
+            changePlayButtonProgressionBar(currentPercentOfTheListening);
+            changeTimeLeftTimer(Math.round(stop - currentTime));
+        }
+        else {
+            if (isPlaying) {
+                pauseMusic(false);
+            }
+        }
+    }
+}
+
+//////////////////////////////////////
+//END SECTION AUDIO PLAYER FUNCTIONS//
+//////////////////////////////////////
 
 ////////////////////////////////////
 //START SECTION DESIGN PLAY BUTTON//
@@ -87,127 +205,20 @@ if (canvas.getContext) {
 
 
 ////////////////////////////////////////
-//START SECTION AUDIO PLAYER FUNCTIONS//
-////////////////////////////////////////
-function onYouTubeIframeAPIReady() {
-
-    console.log("Youtube Iframe API Ready");
-
-    var ctrlq = document.getElementById("youtube-audio");
-
-    var div = document.createElement("div");
-    div.setAttribute("id", "youtube-player");
-    ctrlq.appendChild(div);
-
-    var player = new YT.Player('youtube-player', {
-        height: "0",
-        width: "0",
-        videoId: ctrlq.dataset.video,
-        playerVars: {
-            autoplay: ctrlq.dataset.autoplay,
-            loop: ctrlq.dataset.loop,
-        },
-        events: {
-            onReady: function (e) {
-                player.setVolume(soundVolume);
-                player.setPlaybackQuality("small");
-                player.playVideo();
-                player.pauseVideo();
-                player.seekTo(seek_to);
-                duration = player.getDuration();
-                stop > duration - seek_to ? stop = duration - seek_to : stop = stop; // The song listening time limit cannot be greater than the total duration of the song.
-                changeTimeLeftTimer(stop);
-                isYoutubePlayerReady = true;
-            },
-            onStateChange: function (e) {
-                if (e.data === YT.PlayerState.ENDED) {
-                    pauseMusic(false);
-                }
-            }
-        }
-    });
-
-    function playMusic() {
-
-        console.log("Play");
-
-        isPausedByUser = false;
-
-        setPlayButtonPlayingStyle();
-        player.seekTo(seek_to);
-        player.setVolume(soundVolume);
-        player.playVideo();
-
-        isPlaying = true;
-        startingTime = Date.now();
-
-        updateProgress();
-    }
-
-    // Not paused by user = listening time limit over OR youtube video over
-    function pauseMusic(argIsPausedByUser) {
-
-        console.log("Pause");
-
-        player.pauseVideo();
-        player.seekTo(seek_to);
-
-        isPausedByUser = argIsPausedByUser;
-
-        if (isPausedByUser) {
-        }
-        else {
-            changePlayButtonProgressionBar(100);
-            changeTimeLeftTimer(stop);
-        }
-
-        setPlayButtonPausingStyle();
-
-        isPlaying = false;
-    }
-
-    playOrPauseButton.addEventListener('click', function () {
-        if (isYoutubePlayerReady) {
-            if (!isPlaying) {
-                playMusic();
-            }
-            else {
-                pauseMusic(true);
-            }
-        }
-    });
-
-    function updateProgress() {
-
-        if (isPlaying) {
-            setTimeout(updateProgress, updateInterval);
-        }
-
-        currentTime = (Date.now() - startingTime) / 1000;
-
-        if (currentTime < stop && isPlaying) {
-            changePlayButtonProgressionBar(currentTime * 100 / stop);
-            changeTimeLeftTimer(Math.round(stop - currentTime));
-        }
-        else {
-            if (!isPausedByUser && isPlaying) {
-                pauseMusic(false);
-            }
-        }
-    }
-}
-
-//////////////////////////////////////
-//END SECTION AUDIO PLAYER FUNCTIONS//
-//////////////////////////////////////
-
-
-////////////////////////////////////////
 //START SECTION STYLE TIMERS FUNCTIONS//
 ////////////////////////////////////////
 
 function changePlayButtonProgressionBar(percent) {
     playButtonBar.style.background = `radial-gradient(closest-side, var(--white) 80%, transparent 80% 100%), conic-gradient(var(--primary) ${percent}%, var(--primary-alpha) 0)`;
+}
+
+function resetPlayButtonProgressionBar(actualPercent) {
+    if (!isPlaying) {
+        playButtonBar.style.background = `radial-gradient(closest-side, var(--white) 80%, transparent 80% 100%), conic-gradient(var(--primary) ${actualPercent}%, var(--primary-alpha) 0)`;
+        if (actualPercent > 0) {
+            setTimeout(resetPlayButtonProgressionBar, 1, actualPercent - 1);
+        }
+    }
 }
 
 function setPlayButtonPlayingStyle() {
@@ -221,7 +232,12 @@ function setPlayButtonPausingStyle() {
 function changeTimeLeftTimer(seconds) {
     remainingTimeTimer.innerHTML = `${Math.floor(seconds / 60).toString().padStart(2, '0')}:${Math.floor(seconds % 60).toString().padStart(2, '0')}`;
     if (seconds <= 3) {
-        remainingTimeTimer.style.color = 'red';
+        if (seconds == 1 || seconds == 0) {
+            remainingTimeTimer.style.color = 'darkred';
+        }
+        else {
+            remainingTimeTimer.style.color = 'red';
+        }
     }
     else {
         remainingTimeTimer.style.color = 'black';

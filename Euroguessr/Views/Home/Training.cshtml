@@ -5,7 +5,7 @@
 <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900italic,900' rel='stylesheet' type='text/css'>
 
 @{
-    ViewData["Title"] = "Play!";
+    ViewData["Title"] = "Training";
 }
 
 <fieldset>
@@ -13,17 +13,17 @@
 
     <div class="gallery-container">
 
-        <h1 class="text-center roboto-font guess-the-song-text">
+        <h1 class="text-center roboto-font guess-the-song-text flex mainTitle">
             Guess the song
         </h1>
-        <h3 class="text-center roboto-font attempts-counter">
-            Test
+        <h3 class="text-center roboto-font attempts-counter flex attemptText">
+            Attempt 2
         </h3>
 
         <div data-video="Z8Z51no1TD0" data-autoplay="0" data-loop="0" id="youtube-audio"></div>
 
         <div class="flex">
-            <h4 id="remaining-time"></h4>
+            <h3 id="remaining-time">Song is loading...</h3>
         </div>
 
         <div class="div-play-button flex">
@@ -40,26 +40,24 @@
             </div>
         </div>
 
-        <script src="https://www.youtube.com/iframe_api"></script>
-
         <div class="action-buttons flex">
 
             <div class="left-buttons flex">
 
                 <div class="div-skip-button flex">
-                    <button class="button skip-button">Skip</button>
+                    <button class="button skip-button" onclick="location.href='@Url.Action("SkipSong", "TrainingModeManager")'">Skip</button>
                     <p class="skip-button-text">+90 seconds</p>
                 </div>
 
             </div>
 
             <div class="right-buttons flex">
-                <button class="button next-button">Next song</button>
+                <button class="button next-button" onclick="location.href='@Url.Action("NextSong", "TrainingModeManager")'">Next song</button>
             </div>
 
         </div>
 
-        <form>
+        <form method="post" asp-controller="TrainingModeManager" asp-action="SubmitSong">
             <div class="searchBoxContainer">
                 <div class="searchBox">
                     <label for="search">Search your guess</label>
@@ -74,7 +72,7 @@
                 {
                     <div class="song" id="song">
                         <label for="@music.Id">
-                            <input type="radio" id="@music.Id" name="choice">
+                            <input type="radio" id="@music.Id" name="songId" value="@music.Id">
                             <div class="songContainer">
                                 <div class="thumbnail">
                                     <img src="https://i.ytimg.com/vi/@music.Video_Id/hq720.jpg" alt="@music.Song_Name">
@@ -97,8 +95,9 @@
             </div>
         </form>
 
-        <script src="~/js/Training.js"></script>
-
     </div>
 
 </fieldset>
+
+<script src="https://www.youtube.com/iframe_api"></script>
+<script src="~/js/Training.js"></script>
