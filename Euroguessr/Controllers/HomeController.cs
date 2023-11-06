@@ -55,7 +55,24 @@ namespace Euroguessr.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         public IActionResult Training()
         {
-            return View();
+            _logger.LogInformation("Entrée dans Training");
+
+            string currentUserId = _accountManagerService.GetOrCreateNewAccount();
+
+            SongModel todaySong = _jsonManager.GetTodayGuess();
+
+            IndexModel model = new()
+            {
+                YoutubeVideo = new()
+                {
+                    VideoId = todaySong.Video_Id,
+                    SeekTo = todaySong.Seek_To
+                },
+                SongsList = _jsonManager.GetSongsModel(),
+                CurrentUserScore = _accountManagerService.GetOrSetTodayScore(currentUserId)
+            };
+
+            return View(model);
         }
 
         public IActionResult Account()

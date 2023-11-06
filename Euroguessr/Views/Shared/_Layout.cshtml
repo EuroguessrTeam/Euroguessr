@@ -26,17 +26,18 @@
             <div class="links">
                 @{
                     string isHomeActive = "";
+                    string isTrainingActive = Context.Request.Path == "/Home/Training" ? "active" : "";
                     string isAccountActive = Context.Request.Path == "/Home/Account" ? "active" : "";
                     string isHelpActive = Context.Request.Path == "/Home/Help" ? "active" : "";
                     string isPrivacyActive = Context.Request.Path == "/Home/Privacy" ? "active" : "";
 
-                    if (isHelpActive == "" && isPrivacyActive == "" && isAccountActive == "")
+                    if (isHelpActive == "" && isPrivacyActive == "" && isAccountActive == "" && isTrainingActive == "")
                     {
                         isHomeActive = "active";
                     }
                 }
                 <a class="nav-link @isHomeActive" href="@Url.Action("Index", "Home")">Home</a>
-                <a href="">Training</a>
+                <a class="nav-link @isTrainingActive" href="@Url.Action("Training", "Home")">Training</a>
                 <a class="nav-link @isAccountActive" href="@Url.Action("Account", "Home")">Account</a>
                 <a class="nav-link @isHelpActive" href="@Url.Action("Help", "Home")">Help</a>
                 <a class="nav-link @isPrivacyActive" href="@Url.Action("Privacy", "Home")">Privacy</a>

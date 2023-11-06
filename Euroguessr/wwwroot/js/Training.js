@@ -3,20 +3,17 @@
 ////////////////////////////////////////////////////////////////////////////////////////////
 
 const attemptNumber = 10; // Number of guess send by the user
-const seek_to = 180; // Integer indicating the timecode at which to start the youtube video (for example "seek_to = 5" starts the youtube video at 00:05)
+const seek_to = 120; // Integer indicating the timecode at which to start the youtube video (for example "seek_to = 5" starts the youtube video at 00:05)
 let stop = 4; // Maximum listening time
 let duration; // Total duration of the youtube video (set when the youtube api is ready)
 let soundVolume = 50; // Volume of the youtube video (0 - 100)
 
 // Html elements to get
 let playOrPauseButton = document.getElementById('playerButton');
-//const progressBar = document.querySelector('.progress');
 const playButtonBar = document.getElementById("progress-bar-button");
 const remainingTimeTimer = document.getElementById("remaining-time");
 
 // Dynamic variables to be defined first
-//document.getElementById("white-bar").style = `left: ${stop}%`;
-//document.getElementById("time-limit-message").innerHTML = `${stop} seconds ♩`;
 document.querySelector(".attempts-counter").innerHTML = `Attempt ${attemptNumber}`;
 changePlayButtonProgressionBar(100);
 
@@ -136,12 +133,6 @@ function onYouTubeIframeAPIReady() {
 
         isPausedByUser = false;
 
-        /*
-        progressBar.style.transition = "0s";
-        progressBar.style.width = "0%";
-        progressBar.style.borderRadius = "4px";
-        */
-
         setPlayButtonPlayingStyle();
         player.seekTo(seek_to);
         player.setVolume(soundVolume);
@@ -164,10 +155,8 @@ function onYouTubeIframeAPIReady() {
         isPausedByUser = argIsPausedByUser;
 
         if (isPausedByUser) {
-            //progressBar.style.borderRadius = "4px";
         }
         else {
-            //progressBar.style.borderRadius = "0";
             changePlayButtonProgressionBar(100);
             changeTimeLeftTimer(stop);
         }
@@ -196,9 +185,7 @@ function onYouTubeIframeAPIReady() {
 
         currentTime = (Date.now() - startingTime) / 1000;
 
-        //progressBar.style.transition = `${increment}s linear`;
         if (currentTime < stop && isPlaying) {
-            //progressBar.style.width = `${progressPercent}%`;
             changePlayButtonProgressionBar(currentTime * 100 / stop);
             changeTimeLeftTimer(Math.round(stop - currentTime));
         }

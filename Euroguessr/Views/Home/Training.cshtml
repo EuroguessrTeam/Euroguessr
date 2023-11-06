@@ -1,81 +1,104 @@
-﻿<link href="~/css/Training.css" rel="stylesheet" type="text/css" />
+﻿@model Euroguessr.Models.Pages.Index.IndexModel
+
+<link href="~/css/Training.css" rel="stylesheet" type="text/css" />
 
 <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900italic,900' rel='stylesheet' type='text/css'>
 
+@{
+    ViewData["Title"] = "Play!";
+}
 
-<div class="gallery-container">
+<fieldset>
+    <legend>@ViewData["Title"]</legend>
 
-    <h1 class="text-center roboto-font guess-the-song-text">
-        Guess the song
-    </h1>
-    <h3 class="text-center roboto-font attempts-counter">
-        Test
-    </h3>
+    <div class="gallery-container">
 
-    <!--
-    <div class="div-play-button flex">
-        <button class="button play-button" onclick="startSong()">Play</button>
-    </div>
-    -->
+        <h1 class="text-center roboto-font guess-the-song-text">
+            Guess the song
+        </h1>
+        <h3 class="text-center roboto-font attempts-counter">
+            Test
+        </h3>
 
-    <div data-video="Z8Z51no1TD0" data-autoplay="0" data-loop="0" id="youtube-audio"></div>
+        <div data-video="Z8Z51no1TD0" data-autoplay="0" data-loop="0" id="youtube-audio"></div>
 
-    <div class="flex">
-        <h4 id="remaining-time"></h4>
-    </div>
+        <div class="flex">
+            <h4 id="remaining-time"></h4>
+        </div>
 
-    <div class="div-play-button flex">
-        <div class="player" id="player">
-            <div class="progress-bar-button" id="progress-bar-button">
-                <div class="play-button" id="playerButton">
-                    <div class="icon">
-                        <div class="part left"></div>
-                        <div class="part right"></div>
+        <div class="div-play-button flex">
+            <div class="player" id="player">
+                <div class="progress-bar-button" id="progress-bar-button">
+                    <div class="play-button" id="playerButton">
+                        <div class="icon">
+                            <div class="part left"></div>
+                            <div class="part right"></div>
+                        </div>
+                    </div>
+                </div>
+                <canvas id="canvas"></canvas>
+            </div>
+        </div>
+
+        <script src="https://www.youtube.com/iframe_api"></script>
+
+        <div class="action-buttons flex">
+
+            <div class="left-buttons flex">
+
+                <div class="div-skip-button flex">
+                    <button class="button skip-button">Skip</button>
+                    <p class="skip-button-text">+90 seconds</p>
+                </div>
+
+            </div>
+
+            <div class="right-buttons flex">
+                <button class="button next-button">Next song</button>
+            </div>
+
+        </div>
+
+        <form>
+            <div class="searchBoxContainer">
+                <div class="searchBox">
+                    <label for="search">Search your guess</label>
+                    <div class="search">
+                        <input type="text" id="searchBar" placeholder="Type a song ...">
+                        <span>🔍</span>
                     </div>
                 </div>
             </div>
-            <canvas id="canvas"></canvas>
-        </div>
-    </div>
-
-    <script src="https://www.youtube.com/iframe_api"></script>
-
-    <input class="guess-input"/>
-
-    <div class="action-buttons flex">
-
-        <div class="left-buttons flex">
-
-            <button class="button send-button">Send</button>
-
-            <div class="div-skip-button flex">
-                <button class="button skip-button">Skip</button>
-                <p class="skip-button-text">+90 seconds</p>
+            <div class="songs">
+                @foreach (var music in Model.SongsList)
+                {
+                    <div class="song" id="song">
+                        <label for="@music.Id">
+                            <input type="radio" id="@music.Id" name="choice">
+                            <div class="songContainer">
+                                <div class="thumbnail">
+                                    <img src="https://i.ytimg.com/vi/@music.Video_Id/hq720.jpg" alt="@music.Song_Name">
+                                </div>
+                                <div class="songInfo">
+                                    <h3 id="title">@music.Song_Name</h3>
+                                    <p id="artist">@music.Artist_Name</p>
+                                </div>
+                                <div class="songDetails">
+                                    <p id="country">Country: @music.Country</p>
+                                    <p id="year">Year: @music.Year</p>
+                                </div>
+                            </div>
+                            <div class="send">
+                                <button>Send</button>
+                            </div>
+                        </label>
+                    </div>
+                }
             </div>
+        </form>
 
-        </div>
-
-        <div class="right-buttons flex">
-            <button class="button next-button">Next song</button>
-        </div>
+        <script src="~/js/Training.js"></script>
 
     </div>
-    
-    <!--
 
-    <div>
-        <div class="music-player">
-            <div class="progress-bar">
-                <div class="progress" id="progress-bar-element"></div>
-                <div class="white-bar" id="white-bar" style="left: -5%"></div>
-            </div>
-        </div>
-    </div>
-
-    <div class="time-limit-message" id="time-limit-message"></div>
-
-    -->
-
-    <script src="~/js/Training.js"></script>
-
-</div>
+</fieldset>

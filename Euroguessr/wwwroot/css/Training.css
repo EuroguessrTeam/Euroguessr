@@ -1,20 +1,9 @@
-﻿:root {
-    --primary: #0d6efd;
-    --white: #fff;
-    --black: #000;
-    --primary-alpha: #B6D3FF;
-    --font-size: 17px;
-    --header-size: 60px;
-    --footer-size: 60px;
-    --center-padding: 20vw;
-}
-
+﻿
 .gallery-container {
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    margin-left: 10%;
-    margin-right: 10%;
+    width: 100%;
 }
 
 .flex {
@@ -34,27 +23,21 @@
     margin-bottom : 10%;
 }
 
-.guess-input {
-    width: 100%;
-    margin-bottom: 2%;
-    margin-top: 10%;
-}
-
 .button {
-    border-radius: 10px;
+    border-radius: 7px;
     border: 0;
     color: white;
     text-align: center;
     padding: 5px 20px;
+    cursor: pointer;
 }
 
-.div-play-button {
+div.div-play-button {
     justify-content: center;
 }
 
-
-.play-button {
-    color:black;
+div-play-button.player.progress-bar-button.play-button {
+    color: black;
 }
 
 .action-buttons {
@@ -70,11 +53,6 @@
 .right-buttons {
     gap: 3%;
     align-items: flex-start;
-}
-
-.send-button {
-    background-color: #0D6EDF;
-    border: 1px solid #0D6EDF;
 }
 
 .skip-button {
@@ -131,11 +109,6 @@
     bottom: -20px; /* Espacement entre la barre rouge et le message */
     color: black; /* Couleur du texte du message */
 }
-
-
-
-
-
 
 div.player {
     position: relative;
@@ -218,4 +191,257 @@ div.progress-bar-button div.play-button.active div.icon div.right {
 div#youtube-audio {
     width: 0px;
     height: 0px;
+}
+
+form {
+    position: relative;
+    display: flex;
+    flex-flow: column nowrap;
+    height: auto;
+    width: 100%;
+}
+
+form div.searchBoxContainer {
+    position: relative;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+    height: auto;
+    width: 100%;
+    gap: 1vw;
+}
+
+form div.searchBoxContainer div.searchBox {
+    position: relative;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    height: auto;
+    width: 100%;
+    gap: 5px;
+}
+
+form div.searchBoxContainer div.searchBox div.search {
+    position: relative;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    height: auto;
+    width: 100%;
+}
+
+form div.searchBoxContainer div.searchBox label {
+    font-size: 1.5rem;
+}
+
+
+form div.searchBoxContainer div.searchBox div.search input {
+    position: relative;
+    display: block;
+    padding: 7px;
+    border-radius: 7px;
+    border: 2px solid var(--black);
+    width: 100%;
+    border-bottom-right-radius: 0px;
+    border-top-right-radius: 0px;
+    border-right: none;
+    transition-duration: 0.3s;
+    box-sizing: border-box;
+    outline: none;
+}
+
+form div.searchBoxContainer div.searchBox div.search input:focus {
+    border: 2px solid var(--primary);
+    border-right: none;
+}
+
+form div.searchBoxContainer div.searchBox div.search input:focus+span {
+    border: 2px solid var(--primary);
+    border-left: none;
+}
+
+form div.searchBoxContainer div.searchBox div.search span {
+    position: relative;
+    display: block;
+    padding: 7px;
+    border-radius: 7px;
+    border: 2px solid var(--black);
+    border-bottom-left-radius: 0px;
+    border-top-left-radius: 0px;
+    transition-duration: 0.3s;
+    box-sizing: border-box;
+    border-left: none;
+    cursor: pointer;
+}
+
+form div.searchBoxContainer div.searchBox input:focus {
+    outline: none;
+    border: 2px solid var(--primary);
+}
+
+form div.songs {
+    position: relative;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    height: auto;
+    width: 100%;
+    gap: calc(1vh + 5px);
+    margin-top: 3vh;
+}
+
+form div.songs div.song {
+    position: relative;
+    display: block;
+    width: 100%;
+    animation: slideUp 0.3s ease-in-out;
+}
+
+form div.songs div.song input {
+    display: none;
+}
+
+form div.songs div.song label:has(input:checked) {
+    background-color: var(--primary);
+    color: var(--white);
+    border: 2px solid var(--primary);
+}
+
+form div.songs div.song label {
+    position: relative;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    width: 100%;
+    padding: 10px;
+    border-radius: 7px;
+    border: 2px solid var(--black);
+    transition-duration: 0.3s;
+    box-sizing: border-box;
+}
+
+form div.songs div.song label div.songContainer {
+    position: relative;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    height: auto;
+    width: 100%;
+    gap: calc(1vw + 10px);
+}
+
+form div.songs div.song label:hover {
+    background-color: var(--primary-alpha);
+    border: 2px solid var(--primary-alpha);
+}
+
+form div.songs div.song label div.songContainer div.thumbnail {
+    position: relative;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    gap: 5px;
+}
+
+form div.songs div.song label div.songContainer div.thumbnail img {
+    position: relative;
+    display: block;
+    height: 50px;
+    width: 50px;
+    object-fit: cover;
+    border-radius: 7px;
+}
+
+form div.songs div.song label div.send button {
+    position: relative;
+    display: none;
+    padding: 7px;
+    border-radius: 7px;
+    border: 2px solid var(--black);
+    background-color: var(--black);
+    color: var(--white);
+    width: 100%;
+    transition-duration: 0.3s;
+    box-sizing: border-box;
+    min-width: 100px;
+    cursor: pointer;
+}
+
+form div.songs div.song label:has(input:checked) div.send button {
+    display: block;
+    animation: slideRight 0.3s ease-in-out;
+}
+
+form div.songs div.song label div.send button:hover {
+    background-color: var(--white);
+    color: var(--black);
+    border: 2px solid var(--black);
+}
+
+@media screen and (max-width: 1000px) {
+    main fieldset {
+        padding-right: 5vw;
+        padding-left: 5vw;
+    }
+
+    div.player {
+        width: 100%;
+    }
+}
+
+@keyframes slideRight {
+    from {
+        opacity: 0;
+        transform: translateX(7px);
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+main fieldset {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 50px;
+    width: 100%;
+    padding-right: var(--center-padding);
+    padding-left: var(--center-padding);
+    box-sizing: border-box;
+    border: none;
+    border-top: 2px solid var(--black);
+}
+
+main fieldset legend {
+    position: relative;
+    display: block;
+    padding-left: 1vw;
+    padding-right: 1vw;
+    margin-left: -1vw;
+    margin-bottom: 2vh;
+    font-size: calc(var(--font-size) * 3);
 }
