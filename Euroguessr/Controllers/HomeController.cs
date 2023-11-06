@@ -29,7 +29,7 @@ namespace Euroguessr.Controllers
         }
 
         [ProducesResponseType((int)HttpStatusCode.OK)]
-        [Route("/test")]
+        //[Route("/test")]
         public IActionResult Index()
         {
             _logger.LogInformation("Entrée dans Index V2");
