@@ -1,19 +1,32 @@
-﻿@{
+﻿<link rel="stylesheet" href="~/css/help.css">
+<script src="~/js/animation.js" defer></script>
+<script src="~/js/help.js" defer></script>
+
+@{
     ViewData["Title"] = "How to play";
 }
-<h1>@ViewData["Title"]</h1>
 
-<br />
+<fieldset>
+    <legend>@ViewData["Title"]</legend>
 
-<p>Euroguessr is a free website, where you have to find a corresponding Eurovision song with only the audio.</p>
+    <p>Euroguessr is a free website, where you have to find a corresponding Eurovision song with only the audio.</p>
 
-<p>Every day at 00:00 UTC, a new Eurovision music will be randomly selected.<br />
-Simply click on the triangle-shaped button to start the music, and with just 1 second of listening, find the associated music.<br />
-If you find the corresponding music, great job ! But if you don't, you got extra seconds of listening everytime you send a wrong aswer.
-</p>
+    <p>Every day at 00:00 UTC, a new Eurovision music will be randomly selected.<br />
+        Simply click on the triangle-shaped button to start the music, and with just 1 second of listening, find the
+        associated music.<br />
+        If you find the corresponding music, great job ! But if you don't, you got extra seconds of listening everytime
+        you
+        send a wrong aswer.
+    </p>
 
-<p>You can have up to 90 seconds of listening time, with unlimited attempts.</p>
+    <p>You can have up to 90 seconds of listening time, with unlimited attempts.</p>
 
-<p>On the <a href="@Url.Action("Account", "Home")">My account</a> page, you can see your previous scores, and the number of attempts you've made per day.</p>
+    <p>
+        On the <a class="link" href="@Url.Action("Account", "Home")">My account</a> page,
+        you can see your previous scores, and the
+        number of attempts you've made per day.
+    </p>
 
-<p>Good luck, and enjoy Euroguessr !</p>
+    <p>Good luck, and enjoy Euroguessr !</p>
+
+</fieldset>

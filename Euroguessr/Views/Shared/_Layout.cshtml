@@ -1,68 +1,70 @@
 ﻿@using Microsoft.AspNetCore.Http
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewData["Title"] - Euroguessr</title>
-
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="icon" type="image/x-icon" href="~/images/icons/favicon.ico">
+    <link rel="stylesheet" href="~/css/styles.css">
     <link rel="stylesheet" href="~/lib/fonts/fontawesome-all.min.css" />
-
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/styles.min.css" asp-append-version="true" />
-
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+    <link rel="stylesheet" href="~/css/header.css">
+    <link rel="stylesheet" href="~/css/footer.css">
+    <script src="~/js/header.js" defer></script>
 
     @await RenderSectionAsync("Scripts", required: false)
 </head>
-<body>
-    <header>
-        <nav class="navbar navbar-light navbar-expand-md py-3">
-            <div class="container">
-                <a class="navbar-brand d-flex align-items-center" href="@Url.Action("Index", "Home")">
-                    <span class="bs-icon-sm bs-icon-rounded bs-icon-primary d-flex justify-content-center align-items-center me-2 bs-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-music-note">
-                            <path d="M9 13c0 1.105-1.12 2-2.5 2S4 14.105 4 13s1.12-2 2.5-2 2.5.895 2.5 2z"></path>
-                            <path fill-rule="evenodd" d="M9 3v10H8V3h1z"></path>
-                            <path d="M8 2.82a1 1 0 0 1 .804-.98l3-.6A1 1 0 0 1 13 2.22V4L8 5V2.82z"></path>
-                        </svg>
-                    </span><span style="font-size: 20px;">Euroguessr</span>
-                </a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-2"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
-                <div class="collapse navbar-collapse" id="navcol-2">
-                    <ul class="navbar-nav ms-auto">
-                        @{
-                            string isHomeActive = "";
-                            string isAccountActive = Context.Request.Path == "/Home/Account" ? "active" : "";
-                            string isHelpActive = Context.Request.Path == "/Home/Help" ? "active" : "";
-                            string isPrivacyActive = Context.Request.Path == "/Home/Privacy" ? "active" : "";
 
-                            if(isHelpActive == "" && isPrivacyActive == "" && isAccountActive == "")
-                            {
-                                isHomeActive = "active";
-                            }
-                        }
-                        <li class="nav-item"><a class="nav-link @isAccountActive" href="@Url.Action("Account", "Home")">My account</a></li>
-                        <li class="nav-item"><a class="nav-link @isHomeActive" href="@Url.Action("Index", "Home")">Home</a></li>
-                        <li class="nav-item"><a class="nav-link @isHelpActive" href="@Url.Action("Help", "Home")">How to play</a></li>
-                        <li class="nav-item"><a class="nav-link @isPrivacyActive" href="@Url.Action("Privacy", "Home")">Privacy</a></li>
-                    </ul><!--<a class="btn btn-primary ms-md-2" role="button" href="#">Button</a>-->
-                </div>
+<body>
+    <header id="header">
+        <a href="@Url.Action("Index", "Home")" class="title">
+            <img src="/images/icons/favicon.png" alt="Favicon">
+            <h1>Euroguessr</h1>
+        </a>
+        <nav id="nav">
+            <div class="links">
+                @{
+                    string isHomeActive = "";
+                    string isAccountActive = Context.Request.Path == "/Home/Account" ? "active" : "";
+                    string isHelpActive = Context.Request.Path == "/Home/Help" ? "active" : "";
+                    string isPrivacyActive = Context.Request.Path == "/Home/Privacy" ? "active" : "";
+
+                    if (isHelpActive == "" && isPrivacyActive == "" && isAccountActive == "")
+                    {
+                        isHomeActive = "active";
+                    }
+                }
+                <a class="nav-link @isHomeActive" href="@Url.Action("Index", "Home")">Home</a>
+                <a href="">Training</a>
+                <a class="nav-link @isAccountActive" href="@Url.Action("Account", "Home")">Account</a>
+                <a class="nav-link @isHelpActive" href="@Url.Action("Help", "Home")">Help</a>
+                <a class="nav-link @isPrivacyActive" href="@Url.Action("Privacy", "Home")">Privacy</a>
+            </div>
+            <div class="toggle" id="toggle">
+                <span></span>
+                <span></span>
+                <span></span>
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
 
-    <footer class="border-bottom footer text-muted">
-        <div class="container">
-            &copy; 2023 - Euroguessr - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
+    <main role="main">
+        <section class="mainContent">
+            @RenderBody()
+        </section>
+        <footer>
+            <div>
+                &copy; 2023 - Euroguessr - <a class="link" href="@Url.Action("Privacy", "Home")">Privacy</a>
+            </div>
+            <div>
+                <a href="https://github.com/EuroguessrTeam/Euroguessr" target="_blank" rel="noopener noreferrer">
+                    <i class="fab fa-github"></i>
+                </a>
+                <span>Made with ❤️</span>
+            </div>
+        </footer>
+    </main>
 </body>
+
 </html>

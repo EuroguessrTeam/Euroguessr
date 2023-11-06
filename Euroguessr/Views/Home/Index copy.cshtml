@@ -1,0 +1,241 @@
+﻿@model Euroguessr.Models.Pages.Index.IndexModel
+
+@{
+    ViewData["Title"] = "Home Page";
+    string hiddenAttribute = Model.CurrentUserScore.win ? "" : "visibility: hidden;";
+    string hiddenAttributeDiv = Model.CurrentUserScore.win ? "none" : "block";
+}
+
+<link href="~/css/Index.css" rel="stylesheet" type="text/css" />
+<script src="~/js/Index.js"></script>
+
+<div class="transition">
+    <div class="black-screen"></div>
+    <div class="projector left">
+        <div class="line lineLeft line1"></div>
+        <div class="line lineLeft line2"></div>
+        <div class="line lineLeft line3"></div>
+    </div>
+    <div class="projector right">
+        <div class="line lineRight line1"></div>
+        <div class="line lineRight line2"></div>
+        <div class="line lineRight line3"></div>
+    </div>
+</div>
+
+<div class="text-center">
+        
+    <div class="col" style="margin-left: 5%;margin-right: 5%;">
+
+        <div class="row">
+            <div class="col div-center">
+                <hr>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col div-center column-half">
+                <h2>Step 1 : Listen to the song</h2>
+                @{
+                    int currentAttempt = @Model.CurrentUserScore.attempts + 1;
+                }
+                <div style="display:@hiddenAttributeDiv">@Model.SecondsOfListening seconds clip (Attempt @currentAttempt)</div>
+            </div>
+            <div class="col-md-4 div-center column-half">
+
+                <div id="textLoadingSong">Song is loading... This usually takes less than a few seconds.<br />If the song takes too long to load, try reloading the page.</div>
+
+                <div data-video="@Model.YoutubeVideo.VideoId" data-autoplay="0" data-loop="0" id="youtube-audio"></div>
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col div-center">
+                <hr>
+            </div>
+        </div>
+
+        <form method="post" action="/FormManager/OnFormSubmit">
+
+            <div class="row">
+                <div class="col div-center column-half">
+                    <h2>Step 2 : Enter your guess</h2>
+                </div>
+
+                <div class="col-sm-1 div-center column-half">
+                    
+                        <input type="text" name="selectedSong" list="optionsList" placeholder="Type song name/artist..." style="max-width: 100%;border-style: solid;" />
+                        <datalist id="optionsList">
+                            @foreach (var music in Model.SongsList)
+                            {
+                                <option>@music.DisplayName</option>
+                            }
+                        </datalist>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col div-center">
+                    <hr>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col div-center">
+                    <h2>Step 3 : Send your guess</h2>
+                </div>
+                @{
+                    bool isDisabled = Model.CurrentUserScore.win;
+                    string disabledAttribute = isDisabled ? "disabled" : "";
+                }
+                <div class="col div-center column-half"><button class="btn btn-primary" type="submit" @disabledAttribute>Send</button></div>
+            </div>
+        </form>
+
+        <div class="row">
+            <div class="col div-center">
+                <hr>
+            </div>
+        </div>
+
+        <div>
+
+            <!-- Display countdown and youtube video if user won -->
+            @{
+                string width = Model.CurrentUserScore.win ? "560" : "0";
+                string height = Model.CurrentUserScore.win ? "315" : "0";
+            }
+
+            <iframe style="@hiddenAttribute" width="@width" height="@height" src="https://www.youtube.com/embed/@Model.YoutubeVideo.VideoId" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
+            <h3>
+                @TempData["DisplayMessage"]
+            </h3>
+
+            <div style="@hiddenAttribute">
+                <h3>Great job ! You guess today's song in @Model.CurrentUserScore.attempts attempts !</h3>
+                <h5>
+                    Next song in :
+                    <span id="countdown"></span>
+                </h5>
+            </div>
+        </div>
+
+        <!--
+        <script src="https://cdn.rawgit.com/labnol/files/master/yt.js"></script>
+        <script>
+            /*
+             YouTube Audio Embed
+             --------------------
+
+             Author: Amit Agarwal
+             Web: http://www.labnol.org/?p=26740
+            */
+         -->
+
+        <script>
+
+            function onYouTubeIframeAPIReady() {
+
+                console.log("!! READY !!");
+
+                document.getElementById("textLoadingSong").innerHTML = "";
+
+                var ctrlq = document.getElementById("youtube-audio");
+
+                var icon = document.createElement("i");
+                icon.setAttribute("class", "fas fa-play");
+                icon.setAttribute("id", "youtube-icon");
+                icon.style.cssText = "cursor:pointer;cursor:hand;font-size:30px";
+                ctrlq.appendChild(icon);
+
+                var div = document.createElement("div");
+                div.setAttribute("id", "youtube-player");
+                ctrlq.appendChild(div);
+
+                var toggleButton = function (play) {
+                    var img = play ? "fas fa-music" : "fas fa-play";
+                    icon.setAttribute("class", img);
+                }
+
+                ctrlq.onclick = function () {
+                    if (player.getPlayerState() === YT.PlayerState.PLAYING
+                        || player.getPlayerState() === YT.PlayerState.BUFFERING) {
+                        //player.pauseVideo();
+                        //toggleButton(false);
+                    } else {
+                        if (@Model.SecondsOfListening != 0) {
+                            player.seekTo(@Model.YoutubeVideo.SeekTo);
+                            player.playVideo();
+                            toggleButton(true);
+                            setTimeout(function () {
+                                player.pauseVideo();
+                                toggleButton(false);
+                            }, @Model.SecondsOfListening* 1000);
+                        }
+                    }
+                };
+
+                var player = new YT.Player('youtube-player', {
+                    height: "0",
+                    width: "0",
+                    videoId: ctrlq.dataset.video,
+                    playerVars: {
+                        autoplay: ctrlq.dataset.autoplay,
+                        loop: ctrlq.dataset.loop,
+                    },
+                    events: {
+                        onReady: function (e) {
+                            player.setPlaybackQuality("small");
+                            toggleButton(player.getPlayerState() !== YT.PlayerState.CUED);
+                            player.playVideo();
+                            player.pauseVideo();
+                            player.seekTo(@Model.YoutubeVideo.SeekTo);
+                        },
+                        onStateChange: function (e) {
+                            if (e.data === YT.PlayerState.ENDED) {
+                                toggleButton(false);
+                            }
+                        }
+                    }
+                });
+            }
+
+        </script>
+
+        <script src="https://www.youtube.com/iframe_api"></script>
+
+    </div>
+</div>
+
+<!-- Script for countdown before 00:00 UTC -->
+<script>
+    function updateCountdown() {
+
+        let now = new Date();
+
+        let nowUTC = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds()); // Heure actuelle UTC
+        let midnightUTC = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + 1, 0, 0, 0); // Prochain minuit UTC
+
+        let timeRemaining = midnightUTC - nowUTC;
+
+        let hours = Math.floor((timeRemaining / (1000 * 60 * 60)) % 24);
+        let minutes = Math.floor((timeRemaining / (1000 * 60)) % 60);
+        let seconds = Math.floor((timeRemaining / 1000) % 60);
+
+        // Formatage de l'affichage du chronomètre
+        let formattedTime = hours.toString().padStart(2, '0') + ":" +
+            minutes.toString().padStart(2, '0') + ":" +
+            seconds.toString().padStart(2, '0');
+
+        // Mise à jour de l'affichage dans l'élément avec l'identifiant 'countdown'
+        document.getElementById("countdown").textContent = formattedTime;
+    }
+
+    // Appel initial pour mettre à jour l'affichage du chronomètre
+    updateCountdown();
+
+    // Appel régulier pour mettre à jour l'affichage toutes les secondes
+    setInterval(updateCountdown, 1000);
+</script>
