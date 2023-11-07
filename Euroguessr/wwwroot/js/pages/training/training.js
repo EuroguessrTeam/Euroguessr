@@ -2,20 +2,20 @@
 // Note: The youtube video ID is in the html file, in the div with the id "youtube-audio" //
 ////////////////////////////////////////////////////////////////////////////////////////////
 
-const attemptNumber = 10; // Number of guess send by the user
-const seek_to = 120; // Integer indicating the timecode at which to start the youtube video (for example "seek_to = 5" starts the youtube video at 00:05)
-let stop = 4; // Maximum listening time
-let duration; // Total duration of the youtube video (set when the youtube api is ready)
+const songs = document.querySelectorAll('.song');
+let attemptNumber = 1; // Attempt n°? of the user
 let soundVolume = 50; // Volume of the youtube video (0 - 100)
-let currentPercentOfTheListening;
 
 // Html elements to get
 let playOrPauseButton = document.getElementById('playerButton');
 const playButtonBar = document.getElementById("progress-bar-button");
 const remainingTimeTimer = document.getElementById("remaining-time");
+const searchBar = document.getElementById('searchBar');
+searchBar.addEventListener('keyup', search);
 
 // Dynamic variables to be defined first
-document.querySelector(".attempts-counter").innerHTML = `Attempt ${attemptNumber}`;
+setTextAttemptNumber(attemptNumber);
+setSkipButtonText(attemptNumber);
 changePlayButtonProgressionBar(100);
 
 // Variables for the html/css audio player
@@ -24,7 +24,21 @@ let startingTime = Date.now(); // Starting time when the player start the song (
 let currentTime = Date.now(); // Current time of the song (global variable)
 let isYoutubePlayerReady = false; // True when the youtube player is ready to stream sound
 let isPlaying = false; // True when music is playing, false by default
-var player;
+function secondsOfListening(argAttemptNumber) {
+    switch (argAttemptNumber) {
+        case 1: return 1;
+        case 2: return 2;
+        case 3: return 5;
+        case 4: return 10;
+        case 5: return 30;
+        case 6: return 60;
+        case 7: return 90;
+        default: return 180;
+    }
+}
+let stop = secondsOfListening(attemptNumber);
+let duration; // Total duration of the youtube video (set when the youtube api is ready)
+let currentPercentOfTheListening;
 
 ////////////////////////////////////////
 //START SECTION AUDIO PLAYER FUNCTIONS//
@@ -49,15 +63,13 @@ function onYouTubeIframeAPIReady() {
         },
         events: {
             onReady: function (e) {
+                player.seekTo(seek_to);
+                player.pauseVideo();
                 duration = player.getDuration();
                 stop > duration - seek_to ? stop = duration - seek_to : stop = stop; // The song listening time limit cannot be greater than the total duration of the song.
-                changeTimeLeftTimer(stop);
-                changePlayButtonProgressionBar(0);
+                setTimeLeftTimer(stop);
+                resetPlayButtonProgressionBar(100);
                 player.setVolume(soundVolume);
-                player.setPlaybackQuality("small");
-                player.playVideo();
-                player.pauseVideo();
-                player.seekTo(seek_to);
                 isYoutubePlayerReady = true;
             },
             onStateChange: function (e) {
@@ -102,7 +114,7 @@ function onYouTubeIframeAPIReady() {
         player.seekTo(seek_to);
 
         resetPlayButtonProgressionBar(currentPercentOfTheListening);
-        changeTimeLeftTimer(stop);
+        setTimeLeftTimer(stop);
 
         setPlayButtonPausingStyle();
     }
@@ -129,11 +141,11 @@ function onYouTubeIframeAPIReady() {
 
         if (currentTime < stop && isPlaying) {
             changePlayButtonProgressionBar(currentPercentOfTheListening);
-            changeTimeLeftTimer(Math.round(stop - currentTime));
+            setTimeLeftTimer(Math.round(stop - currentTime));
         }
         else {
             if (isPlaying) {
-                pauseMusic(false);
+                pauseMusic();
             }
         }
     }
@@ -216,7 +228,7 @@ function resetPlayButtonProgressionBar(actualPercent) {
     if (!isPlaying) {
         playButtonBar.style.background = `radial-gradient(closest-side, var(--white) 80%, transparent 80% 100%), conic-gradient(var(--primary) ${actualPercent}%, var(--primary-alpha) 0)`;
         if (actualPercent > 0) {
-            setTimeout(resetPlayButtonProgressionBar, 1, actualPercent - 1);
+            setTimeout(resetPlayButtonProgressionBar, 1, actualPercent - 3);
         }
     }
 }
@@ -229,14 +241,14 @@ function setPlayButtonPausingStyle() {
     playOrPauseButton.classList.remove('active');
 }
 
-function changeTimeLeftTimer(seconds) {
+function setTimeLeftTimer(seconds) {
     remainingTimeTimer.innerHTML = `${Math.floor(seconds / 60).toString().padStart(2, '0')}:${Math.floor(seconds % 60).toString().padStart(2, '0')}`;
     if (seconds <= 3) {
         if (seconds == 1 || seconds == 0) {
-            remainingTimeTimer.style.color = 'darkred';
+            remainingTimeTimer.style.color = 'red';
         }
         else {
-            remainingTimeTimer.style.color = 'red';
+            remainingTimeTimer.style.color = 'darkorange';
         }
     }
     else {
@@ -244,6 +256,37 @@ function changeTimeLeftTimer(seconds) {
     }
 }
 
+function setTextAttemptNumber(actualAttempt) {
+    document.querySelector(".attempts-counter").innerHTML = `Attempt ${actualAttempt}`;
+
+}
+
+function setSkipButtonText(actualAttempt) {
+    document.querySelector(".div-skip-button p").innerHTML = `+${secondsOfListening(actualAttempt + 1) - secondsOfListening(actualAttempt) } seconds`;
+}
+
 //////////////////////////////////////
 //END SECTION STYLE TIMERS FUNCTIONS//
 //////////////////////////////////////
+
+
+//////////////////////////////
+//START SECTION SEARCH INPUT//
+//////////////////////////////
+function search(event) {
+    let value = event.target.value.toLowerCase();
+    songs.forEach(song => {
+        let songName = song.querySelector('#title').innerText.toLowerCase();
+        let songArtist = song.querySelector('#artist').innerText.toLowerCase();
+        let songCountry = song.querySelector('#country').innerText.toLowerCase();
+        let songYear = song.querySelector('#year').innerText.toLowerCase();
+        if (songName.includes(value) || songArtist.includes(value) || songCountry.includes(value) || songYear.includes(value)) {
+            song.style.display = 'block';
+        } else {
+            song.style.display = 'none';
+        }
+    });
+}
+////////////////////////////
+//END SECTION SEARCH INPUT//
+////////////////////////////

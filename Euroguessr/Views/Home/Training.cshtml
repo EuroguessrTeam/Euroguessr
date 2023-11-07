@@ -1,6 +1,9 @@
-﻿@model Euroguessr.Models.Pages.Index.IndexModel
+﻿@model Euroguessr.Models.Pages.Training.TrainingModel
+<script>
+    const seek_to = @Model.SongToGuess.Seek_To // Integer indicating the timecode at which to start the youtube video (for example "seek_to = 5" starts the youtube video at 00:05)
+</script>
 
-<link href="~/css/Training.css" rel="stylesheet" type="text/css" />
+<link href="~/css/pages/training/training.css" rel="stylesheet" type="text/css" />
 
 <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900italic,900' rel='stylesheet' type='text/css'>
 
@@ -17,10 +20,10 @@
             Guess the song
         </h1>
         <h3 class="text-center roboto-font attempts-counter flex attemptText">
-            Attempt 2
+            Attempt
         </h3>
 
-        <div data-video="Z8Z51no1TD0" data-autoplay="0" data-loop="0" id="youtube-audio"></div>
+        <div data-video="@Model.SongToGuess.Video_Id" data-autoplay="0" data-loop="0" id="youtube-audio"></div>
 
         <div class="flex">
             <h3 id="remaining-time">Song is loading...</h3>
@@ -45,14 +48,14 @@
             <div class="left-buttons flex">
 
                 <div class="div-skip-button flex">
-                    <button class="button skip-button" onclick="location.href='@Url.Action("SkipSong", "TrainingModeManager")'">Skip</button>
-                    <p class="skip-button-text">+90 seconds</p>
+                    <button class="button skip-button" onclick="skipButtonAction()">Skip</button>
+                    <p class="skip-button-text"></p>
                 </div>
 
             </div>
 
             <div class="right-buttons flex">
-                <button class="button next-button" onclick="location.href='@Url.Action("NextSong", "TrainingModeManager")'">Next song</button>
+                <button class="button next-button" onclick="location.href='@Url.Action("Training", "Home")'">Next song</button>
             </div>
 
         </div>
@@ -62,7 +65,7 @@
                 <div class="searchBox">
                     <label for="search">Search your guess</label>
                     <div class="search">
-                        <input type="text" id="searchBar" placeholder="Type a song ...">
+                        <input type="text" id="searchBar" placeholder="Type a song, artist, country or name ...">
                         <span>🔍</span>
                     </div>
                 </div>
@@ -100,4 +103,5 @@
 </fieldset>
 
 <script src="https://www.youtube.com/iframe_api"></script>
-<script src="~/js/Training.js"></script>
+<script src="~/js/pages/training/training.js"></script>
+<script src="~/js/pages/training/buttonsActions.js"></script>

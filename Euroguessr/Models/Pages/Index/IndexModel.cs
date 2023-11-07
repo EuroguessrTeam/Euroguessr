@@ -14,6 +14,8 @@ namespace Euroguessr.Models.Pages.Index
                                          CurrentUserScore.attempts == 2 ? 5 :
                                          CurrentUserScore.attempts == 3 ? 10 :
                                          CurrentUserScore.attempts == 4 ? 30 :
-                                                                          90;
+                                         CurrentUserScore.attempts == 5 ? 60 :
+                                         CurrentUserScore.attempts == 6 ? 90 :
+                                                                          180;
     }
 }
