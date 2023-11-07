@@ -19,8 +19,8 @@ services:
     build: ./Euroguessr
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.euroguessr.rule=Host(`www.$DOMAIN_NAME`)" 
-      - "traefik.hhtp.routers.euroguessr.entrypoints=websecure"
+      - "traefik.http.routers.euroguessr.rule=Host(`www.$DOMAIN_NAME`) || Host(`$DOMAIN_NAME`)" 
+      - "traefik.http.routers.euroguessr.entrypoints=websecure"
       - "traefik.http.services.euroguessr.loadbalancer.server.port=$EUROGUESSR_PORT"
       - "traefik.http.routers.euroguessr.tls.certresolver=euroguessr"
     expose:
@@ -40,7 +40,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.portainer.rule=Host(`portainer.$DOMAIN_NAME`)" 
-      - "traefik.hhtp.routers.portainer.entrypoints=websecure"
+      - "traefik.http.routers.portainer.entrypoints=websecure"
       - "traefik.http.services.portainer.loadbalancer.server.port=$PORTAINER_PORT2"
       - "traefik.http.routers.portainer.tls.certresolver=euroguessr"
 
@@ -51,10 +51,8 @@ services:
       - "--api=true"
       - "--api.dashboard=true"
       - "--providers.docker=true"
-      - "--entrypoints.web.address=:80"
       - "--entrypoints.websecure.address=:443"
-      - "--certificatesresolvers.euroguessr.acme.httpchallenge=true"
-      - "--certificatesresolvers.euroguessr.acme.httpchallenge.entrypoint=web"
+      - "--certificatesresolvers.euroguessr.acme.tlschallenge=true"
       - "--certificatesresolvers.euroguessr.acme.email=loangayrard@gmail.com"
       - "--certificatesresolvers.euroguessr.acme.storage=/letsencrypt/acme.json"
     labels:
@@ -67,7 +65,6 @@ services:
     ports:
       - "$TRAEFIK_PORT1:$TRAEFIK_PORT1"
       - "$TRAEFIK_PORT2:$TRAEFIK_PORT2"
-      - "$TRAEFIK_PORT3:$TRAEFIK_PORT3"
     volumes:
       - "./letsencrypt:/letsencrypt"
       - /var/run/docker.sock:/var/run/docker.sock:ro
