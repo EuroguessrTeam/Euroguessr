@@ -2,6 +2,7 @@
 using Euroguessr.Models;
 using Euroguessr.Models.Pages.Account;
 using Euroguessr.Models.Pages.Index;
+using Euroguessr.Models.Pages.Training;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
@@ -57,19 +58,13 @@ namespace Euroguessr.Controllers
         {
             _logger.LogInformation("Entrée dans Training");
 
-            string currentUserId = _accountManagerService.GetOrCreateNewAccount();
+            string randomSong = new Random().Next(528, 528).ToString();
+            randomSong = "527";
 
-            SongModel todaySong = _jsonManager.GetTodayGuess();
-
-            IndexModel model = new()
+            TrainingModel model = new()
             {
-                YoutubeVideo = new()
-                {
-                    VideoId = todaySong.Video_Id,
-                    SeekTo = todaySong.Seek_To
-                },
                 SongsList = _jsonManager.GetSongsModel(),
-                CurrentUserScore = _accountManagerService.GetOrSetTodayScore(currentUserId)
+                SongToGuess = _jsonManager.GetSong(randomSong)
             };
 
             return View(model);
