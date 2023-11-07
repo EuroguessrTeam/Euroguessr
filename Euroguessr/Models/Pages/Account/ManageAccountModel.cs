@@ -1,4 +1,4 @@
-﻿using Euroguessr.Data.Tables;
+﻿using Euroguessr.Data;
 
 namespace Euroguessr.Models.Pages.Account
 {

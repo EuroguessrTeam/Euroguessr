@@ -1,0 +1,71 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+
+:root {
+    --primary: #0d6efd;
+    --white: #fff;
+    --black: #000;
+    --primary-alpha: #B6D3FF;
+    --font-size: 17px;
+    --header-size: 60px;
+    --footer-size: 60px;
+    --center-padding: 20vw;
+}
+
+/* selection */
+::-moz-selection {
+    color: var(--white);
+    background: var(--primary);
+}
+
+::selection {
+    color: var(--white);
+    background: var(--primary);
+}
+
+/* scrollbar */
+::-webkit-scrollbar {
+    width: 7px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: var(--white);
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: var(--primary);
+    border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: var(--primary);
+}
+
+* {
+    padding: 0px;
+    margin: 0px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: var(--font-size);
+}
+
+body {
+    background-color: var(--white);
+}
+
+a {
+    text-decoration: none;
+    color: var(--black);
+    cursor: pointer;
+}
+
+.slideIn {
+    opacity: 0;
+    transform: translateY(-20px);
+}
+
+.link {
+    color: var(--primary);
+    text-decoration: underline;
+}

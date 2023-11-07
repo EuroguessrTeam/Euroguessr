@@ -1,6 +1,5 @@
-﻿using Euroguessr.Models.Song;
+﻿using Euroguessr.Data;
 using Euroguessr.Models.VideoManager;
-using Euroguessr.Data.Tables;
 
 namespace Euroguessr.Models.Pages.Index
 {
