@@ -45,7 +45,7 @@
 
                 <div id="textLoadingSong">Song is loading... This usually takes less than a few seconds.<br />If the song takes too long to load, try reloading the page.</div>
 
-                <div data-video="@Model.YoutubeVideo.VideoId" data-autoplay="0" data-loop="0" id="youtube-audio"></div>
+                <div data-video="@Model." data-autoplay="0" data-loop="0" id="youtube-audio"></div>
 
             </div>
         </div>
@@ -107,7 +107,7 @@
                 string height = Model.CurrentUserScore.win ? "315" : "0";
             }
 
-            <iframe style="@hiddenAttribute" width="@width" height="@height" src="https://www.youtube.com/embed/@Model.YoutubeVideo.VideoId" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            <iframe style="@hiddenAttribute" width="@width" height="@height" src="https://www.youtube.com/embed/@Model.TodaySong.video_id" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
             <h3>
                 @TempData["DisplayMessage"]
@@ -166,7 +166,7 @@
                         //toggleButton(false);
                     } else {
                         if (@Model.SecondsOfListening != 0) {
-                            player.seekTo(@Model.YoutubeVideo.SeekTo);
+                            player.seekTo(@Model.TodaySong.seek_to);
                             player.playVideo();
                             toggleButton(true);
                             setTimeout(function () {
@@ -191,7 +191,7 @@
                             toggleButton(player.getPlayerState() !== YT.PlayerState.CUED);
                             player.playVideo();
                             player.pauseVideo();
-                            player.seekTo(@Model.YoutubeVideo.SeekTo);
+                            player.seekTo(@Model.TodaySong.seek_to);
                         },
                         onStateChange: function (e) {
                             if (e.data === YT.PlayerState.ENDED) {

@@ -8,9 +8,9 @@ namespace Euroguessr.Managers
         private readonly ILogger<FormManager> _logger;
         private readonly EntityContext _context;
         private readonly IAccountManagerService _accountManagerService;
-        private readonly IJsonManagerService _jsonManager;
+        private readonly ISongManagerService _jsonManager;
 
-        public TrainingModeManager(ILogger<FormManager> logger, IJsonManagerService jsonManagerService, IAccountManagerService accountManagerService, EntityContext context)
+        public TrainingModeManager(ILogger<FormManager> logger, ISongManagerService jsonManagerService, IAccountManagerService accountManagerService, EntityContext context)
         {
             _logger = logger;
             _context = context;

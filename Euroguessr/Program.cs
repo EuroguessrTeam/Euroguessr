@@ -23,7 +23,7 @@ builder.Services.AddSession(options => options.IdleTimeout = TimeSpan.FromDays(1
 // # Services personnalisés #
 // #                        #
 builder.Services.AddScoped<IAccountManagerService, AccountManagerService>();
-builder.Services.AddScoped<IJsonManagerService, JsonManagerService>();
+builder.Services.AddScoped<ISongManagerService, SongManagerService>();
 
 
 var app = builder.Build();

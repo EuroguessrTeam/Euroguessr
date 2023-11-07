@@ -1,4 +1,5 @@
 ﻿using Euroguessr.Data;
+using Euroguessr.Data.Tables;
 using Euroguessr.Models;
 using Euroguessr.Models.Pages.Account;
 using Euroguessr.Models.Pages.Index;
@@ -16,11 +17,11 @@ namespace Euroguessr.Controllers
 
         private readonly ILogger<HomeController> _logger;
         private readonly IAccountManagerService _accountManagerService;
-        private readonly IJsonManagerService _jsonManager;
+        private readonly ISongManagerService _jsonManager;
         private readonly EntityContext _context;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public HomeController(ILogger<HomeController> logger, IJsonManagerService jsonManagerService, IAccountManagerService accountManagerService, EntityContext context, IHttpContextAccessor httpContextAccessor)
+        public HomeController(ILogger<HomeController> logger, ISongManagerService jsonManagerService, IAccountManagerService accountManagerService, EntityContext context, IHttpContextAccessor httpContextAccessor)
         {
             _logger = logger;
             _accountManagerService = accountManagerService;
@@ -37,15 +38,11 @@ namespace Euroguessr.Controllers
 
             string currentUserId = _accountManagerService.GetOrCreateNewAccount();
 
-            SongModel todaySong = _jsonManager.GetTodayGuess();
+            Song todaySong = _jsonManager.GetTodayGuess();
 
             IndexModel model = new()
             {
-                YoutubeVideo = new()
-                {
-                    VideoId = todaySong.Video_Id,
-                    SeekTo = todaySong.Seek_To
-                },
+                TodaySong = todaySong,
                 SongsList = _jsonManager.GetSongsModel(),
                 CurrentUserScore = _accountManagerService.GetOrSetTodayScore(currentUserId)
             };
