@@ -158,7 +158,7 @@ div.progress-bar-button div.play-button {
     align-items: center;
     display: flex;
     justify-content: center;
-    cursor: pointer;
+    cursor: default;
 }
 
 div.progress-bar-button div.play-button div.icon {
@@ -453,4 +453,15 @@ main fieldset legend {
     margin-left: -1vw;
     margin-bottom: 2vh;
     font-size: calc(var(--font-size) * 3);
+}
+
+@media screen and (max-width: 1000px) {
+    main fieldset {
+        padding-right: 5vw;
+        padding-left: 5vw;
+    }
+
+    div.player {
+        width: 100%;
+    }
 }

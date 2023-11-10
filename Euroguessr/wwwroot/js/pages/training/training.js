@@ -33,11 +33,11 @@ function secondsOfListening(argAttemptNumber) {
         case 5: return 30;
         case 6: return 60;
         case 7: return 90;
-        default: return 180;
+        default: return duration;
     }
 }
 let stop = secondsOfListening(attemptNumber);
-let duration; // Total duration of the youtube video (set when the youtube api is ready)
+let duration = 180; // Total duration of the youtube video (set when the youtube api is ready)
 let currentPercentOfTheListening;
 
 ////////////////////////////////////////
@@ -66,6 +66,7 @@ function onYouTubeIframeAPIReady() {
                 player.seekTo(seek_to);
                 player.pauseVideo();
                 duration = player.getDuration();
+                console.log(duration);
                 stop > duration - seek_to ? stop = duration - seek_to : stop = stop; // The song listening time limit cannot be greater than the total duration of the song.
                 setTimeLeftTimer(stop);
                 resetPlayButtonProgressionBar(100);
