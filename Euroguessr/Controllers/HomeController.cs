@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Net;
+using Euroguessr.Interfaces;
 
 namespace Euroguessr.Controllers
 {
@@ -20,14 +21,16 @@ namespace Euroguessr.Controllers
         private readonly ISongManagerService _jsonManager;
         private readonly EntityContext _context;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly ISongToGuessService _songToGuessService;
 
-        public HomeController(ILogger<HomeController> logger, ISongManagerService jsonManagerService, IAccountManagerService accountManagerService, EntityContext context, IHttpContextAccessor httpContextAccessor)
+        public HomeController(ILogger<HomeController> logger, ISongManagerService jsonManagerService, IAccountManagerService accountManagerService, EntityContext context, IHttpContextAccessor httpContextAccessor, ISongToGuessService songToGuessService)
         {
             _logger = logger;
             _accountManagerService = accountManagerService;
             _jsonManager = jsonManagerService;
             _context = context;
             _httpContextAccessor = httpContextAccessor;
+            _songToGuessService = songToGuessService;
         }
 
         [ProducesResponseType((int)HttpStatusCode.OK)]
@@ -55,15 +58,18 @@ namespace Euroguessr.Controllers
         {
             _logger.LogInformation("Entrée dans Training");
 
-            string randomSong = new Random().Next(528, 528).ToString();
-            randomSong = "527";
+            string randomSong = new Random().Next(3, 528).ToString();
+            // randomSong = "527";
 
+            Song song = _jsonManager.GetSong(randomSong);
+            _songToGuessService.SetSongToGuess(song);
+            
             TrainingModel model = new()
             {
                 SongsList = _jsonManager.GetSongsModel(),
-                SongToGuess = _jsonManager.GetSong(randomSong)
+                SongToGuess = song
             };
-
+            
             return View(model);
         }
 

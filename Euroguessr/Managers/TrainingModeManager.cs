@@ -1,4 +1,8 @@
 ﻿using Euroguessr.Data;
+using Euroguessr.Data.Tables;
+using Euroguessr.Interfaces;
+using Euroguessr.Services;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Euroguessr.Managers
@@ -9,20 +13,29 @@ namespace Euroguessr.Managers
         private readonly EntityContext _context;
         private readonly IAccountManagerService _accountManagerService;
         private readonly ISongManagerService _jsonManager;
+        private readonly ISongToGuessService _songToGuessService;
 
-        public TrainingModeManager(ILogger<FormManager> logger, ISongManagerService jsonManagerService, IAccountManagerService accountManagerService, EntityContext context)
+        public TrainingModeManager(ILogger<FormManager> logger, ISongManagerService jsonManagerService, IAccountManagerService accountManagerService, EntityContext context, ISongToGuessService songToGuessService)
         {
             _logger = logger;
             _context = context;
             _accountManagerService = accountManagerService;
             _jsonManager = jsonManagerService;
+            _songToGuessService = songToGuessService;
         }
 
         [HttpPost]
         public IActionResult SubmitSong(string songId)
         {
-            Console.WriteLine($"Song selected : {songId}");
-            return RedirectToAction("Training", "Home");
+            int id = _songToGuessService.GetSongToGuess();
+            Song song = _jsonManager.GetSong(id.ToString());
+
+            if (songId == song.id.ToString())
+            {
+                return RedirectToAction("Training", "Home");
+            }
+
+            return new EmptyResult();
         }
 
         public IActionResult SkipSong()
