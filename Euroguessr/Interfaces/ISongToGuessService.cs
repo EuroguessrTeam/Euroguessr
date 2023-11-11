@@ -4,7 +4,7 @@ namespace Euroguessr.Interfaces;
 
 public interface ISongToGuessService
 {
-    public int GetSongToGuess();
+    public int GetSongToGuessId();
 
     public void SetSongToGuess(Song song);
 }

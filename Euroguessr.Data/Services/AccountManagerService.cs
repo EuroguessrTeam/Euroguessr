@@ -24,7 +24,7 @@ namespace Euroguessr.Data
             string currentUser = _httpContextAccessor.HttpContext.Request.Cookies["Euroguessr_Account_Id"];
 
             //If the current user don't have an account (don't have the cookie "Euroguessr_Account_Id")
-            if (string.IsNullOrWhiteSpace(currentUser))
+            if (string.IsNullOrWhiteSpace(currentUser) || !_context.User.Where(c => c.unique_token == currentUser).Any())
             {
 
                 //Generate the unique id for the new user

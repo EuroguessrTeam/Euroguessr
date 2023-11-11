@@ -1,6 +1,8 @@
 ﻿@model Euroguessr.Models.Pages.Training.TrainingModel
 <script>
-    const seek_to = @Model.SongToGuess.seek_to // Integer indicating the timecode at which to start the youtube video (for example "seek_to = 5" starts the youtube video at 00:05)
+    const seek_to = @Model.SongToGuess.seek_to; // Integer indicating the timecode at which to start the youtube video (for example "seek_to = 5" starts the youtube video at 00:05)
+    const url_submit_song = "@Url.Action("SubmitSong", "ActionButtonsManager")";
+    console.log("Song to find : " + @Model.SongToGuess.id);
 </script>
 
 <link href="~/css/pages/training/training.css" rel="stylesheet" type="text/css" />
@@ -48,7 +50,7 @@
             <div class="left-buttons flex">
 
                 <div class="div-skip-button flex">
-                    <button class="button skip-button" onclick="skipButtonAction()">Skip</button>
+                    <button class="button skip-button" onclick="addOneAttemptAction();">Skip</button>
                     <p class="skip-button-text"></p>
                 </div>
 
@@ -60,7 +62,7 @@
 
         </div>
 
-        <form method="post" asp-controller="TrainingModeManager" asp-action="SubmitSong">
+        <div class="form">
             <div class="searchBoxContainer">
                 <div class="searchBox">
                     <label for="search">Search your guess</label>
@@ -90,13 +92,13 @@
                                 </div>
                             </div>
                             <div class="send">
-                                <button>Send</button>
+                                <button value="@music.id">Send</button>
                             </div>
                         </label>
                     </div>
                 }
             </div>
-        </form>
+        </div>
 
     </div>
 
