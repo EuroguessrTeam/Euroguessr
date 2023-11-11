@@ -1,5 +1,4 @@
 ﻿using Euroguessr.Data.Tables;
-using System.Text.Json;
 
 namespace Euroguessr.Data
 {
@@ -16,6 +15,14 @@ namespace Euroguessr.Data
         public Song? GetSong(string id)
         {
             return _context.Song.Where(s => s.id == Int32.Parse(id)).FirstOrDefault();
+        }
+
+        public Song? GetRandomSong()
+        {
+            var potential_songs = _context.Song.Where(s => !string.IsNullOrWhiteSpace(s.video_id));
+
+            return potential_songs.Any() ? potential_songs.ElementAt(new Random().Next(0, potential_songs.Count())) :
+                                           null;
         }
 
         public List<Song> GetSongsModel()

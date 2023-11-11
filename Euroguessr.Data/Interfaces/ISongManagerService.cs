@@ -6,6 +6,8 @@ namespace Euroguessr.Data
     {
         public Song? GetSong(string id);
 
+        public Song? GetRandomSong();
+
         public List<Song> GetSongsModel();
 
         public Song GetTodayGuess();

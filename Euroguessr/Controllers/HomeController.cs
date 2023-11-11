@@ -1,14 +1,13 @@
 ﻿using Euroguessr.Data;
 using Euroguessr.Data.Tables;
+using Euroguessr.Interfaces;
 using Euroguessr.Models;
 using Euroguessr.Models.Pages.Account;
 using Euroguessr.Models.Pages.Index;
 using Euroguessr.Models.Pages.Training;
 using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Net;
-using Euroguessr.Interfaces;
 
 namespace Euroguessr.Controllers
 {
@@ -58,18 +57,15 @@ namespace Euroguessr.Controllers
         {
             _logger.LogInformation("Entrée dans Training");
 
-            string randomSong = new Random().Next(3, 528).ToString();
-            // randomSong = "527";
-
-            Song song = _jsonManager.GetSong(randomSong);
+            Song song = _jsonManager.GetRandomSong();
             _songToGuessService.SetSongToGuess(song);
-            
+
             TrainingModel model = new()
             {
                 SongsList = _jsonManager.GetSongsModel(),
                 SongToGuess = song
             };
-            
+
             return View(model);
         }
 
