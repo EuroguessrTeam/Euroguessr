@@ -33,11 +33,19 @@ function treatAPIResponseSongSubmited(response) {
     if (response == "Wrong") {
         console.log("Wrong answer, +1 attempt");
         addOneAttemptAction();
+        wrongAnswerAction();
     }
     else {
         console.log("Right answer, GG !");
         endGame();
     }
+}
+
+function wrongAnswerAction() {
+    document.querySelector(".form div.songs div.song label:has(input:checked)").style = "background-color: var(--red); border: 2px solid var(--red);";
+    let selectedButton = document.querySelector(".form div.songs div.song label:has(input:checked) button");
+    selectedButton.innerHTML = "×";
+    selectedButton.disabled = true;
 }
 
 function endGame() {
