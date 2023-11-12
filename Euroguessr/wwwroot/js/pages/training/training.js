@@ -14,7 +14,7 @@ const searchBar = document.getElementById('searchBar');
 searchBar.addEventListener('keyup', search);
 
 // Dynamic variables to be defined first
-setTextAttemptNumber(attemptNumber);
+setTextAttemptNumber(attemptNumber, false);
 setSkipButtonText(attemptNumber);
 changePlayButtonProgressionBar(100);
 
@@ -66,7 +66,7 @@ function onYouTubeIframeAPIReady() {
                 player.seekTo(seek_to);
                 player.pauseVideo();
                 duration = player.getDuration();
-                console.log(duration);
+                console.log("Durée totale du son : " + duration);
                 stop > duration - seek_to ? stop = duration - seek_to : stop = stop; // The song listening time limit cannot be greater than the total duration of the song.
                 setTimeLeftTimer(stop);
                 resetPlayButtonProgressionBar(100);
@@ -257,9 +257,13 @@ function setTimeLeftTimer(seconds) {
     }
 }
 
-function setTextAttemptNumber(actualAttempt) {
-    document.querySelector(".attempts-counter").innerHTML = `Attempt ${actualAttempt}`;
-
+function setTextAttemptNumber(actualAttempt, win) {
+    if (win) {
+        document.querySelector(".attempts-counter").innerHTML = `Great job ! You got it in ${actualAttempt} attempt !`;
+    }
+    else {
+        document.querySelector(".attempts-counter").innerHTML = `Attempt ${actualAttempt}`;
+    }
 }
 
 function setSkipButtonText(actualAttempt) {

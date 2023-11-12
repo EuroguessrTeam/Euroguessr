@@ -4,10 +4,11 @@ using Euroguessr.Interfaces;
 using Euroguessr.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json.Serialization;
 
 namespace Euroguessr.Managers
 {
-    public class TrainingModeManager : Controller
+    public class ActionButtonsManager : Controller
     {
         private readonly ILogger<FormManager> _logger;
         private readonly EntityContext _context;
@@ -15,7 +16,7 @@ namespace Euroguessr.Managers
         private readonly ISongManagerService _jsonManager;
         private readonly ISongToGuessService _songToGuessService;
 
-        public TrainingModeManager(ILogger<FormManager> logger, ISongManagerService jsonManagerService, IAccountManagerService accountManagerService, EntityContext context, ISongToGuessService songToGuessService)
+        public ActionButtonsManager(ILogger<FormManager> logger, ISongManagerService jsonManagerService, IAccountManagerService accountManagerService, EntityContext context, ISongToGuessService songToGuessService)
         {
             _logger = logger;
             _context = context;
@@ -25,23 +26,19 @@ namespace Euroguessr.Managers
         }
 
         [HttpPost]
-        public IActionResult SubmitSong(string songId)
+        public JsonResult SubmitSong([FromBody] string songId)
         {
-            int id = _songToGuessService.GetSongToGuess();
+            int id = _songToGuessService.GetSongToGuessId();
             Song song = _jsonManager.GetSong(id.ToString());
 
             if (songId == song.id.ToString())
             {
-                return RedirectToAction("Training", "Home");
+                return Json("Right");
             }
-
-            return new EmptyResult();
-        }
-
-        public IActionResult SkipSong()
-        {
-            Console.WriteLine($"Song skipped, + {"?"} seconds");
-            return RedirectToAction("Training", "Home");
+            else
+            {
+                return Json("Wrong");
+            }
         }
 
         public IActionResult NextSong()

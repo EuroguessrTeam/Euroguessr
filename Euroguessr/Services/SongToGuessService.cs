@@ -15,7 +15,7 @@ public class SongToGuessService : ISongToGuessService
         _httpContextAccessor = httpContextAccessor;
     }
     
-    public int GetSongToGuess()
+    public int GetSongToGuessId()
     {
         return (int)_httpContextAccessor.HttpContext.Session.GetInt32("songId");
     }
