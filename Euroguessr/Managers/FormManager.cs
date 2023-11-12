@@ -1,4 +1,5 @@
 ﻿using Euroguessr.Data;
+using Euroguessr.Data.Tables;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Euroguessr.Managers
@@ -8,9 +9,9 @@ namespace Euroguessr.Managers
         private readonly ILogger<FormManager> _logger;
         private readonly EntityContext _context;
         private readonly IAccountManagerService _accountManagerService;
-        private readonly IJsonManagerService _jsonManager;
+        private readonly ISongManagerService _jsonManager;
 
-        public FormManager(ILogger<FormManager> logger, IJsonManagerService jsonManagerService, IAccountManagerService accountManagerService, EntityContext context)
+        public FormManager(ILogger<FormManager> logger, ISongManagerService jsonManagerService, IAccountManagerService accountManagerService, EntityContext context)
         {
             _logger = logger;
             _context = context;
@@ -34,8 +35,8 @@ namespace Euroguessr.Managers
                     goto end;
                 }
 
-                SongModel todayGuess = _jsonManager.GetTodayGuess();
-                SongModel todaySong = _jsonManager.GetSong(todayGuess.Id);
+                Song todayGuess = _jsonManager.GetTodayGuess();
+                Song todaySong = _jsonManager.GetSong(todayGuess.id.ToString());
 
                 bool isWin = todaySong.DisplayName == selectedSong;
 

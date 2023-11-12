@@ -1,10 +1,11 @@
 ﻿using Euroguessr.Data;
+using Euroguessr.Data.Tables;
+using Euroguessr.Interfaces;
 using Euroguessr.Models;
 using Euroguessr.Models.Pages.Account;
 using Euroguessr.Models.Pages.Index;
 using Euroguessr.Models.Pages.Training;
 using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Net;
 
@@ -16,17 +17,19 @@ namespace Euroguessr.Controllers
 
         private readonly ILogger<HomeController> _logger;
         private readonly IAccountManagerService _accountManagerService;
-        private readonly IJsonManagerService _jsonManager;
+        private readonly ISongManagerService _songManager;
         private readonly EntityContext _context;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly ISongToGuessService _songToGuessService;
 
-        public HomeController(ILogger<HomeController> logger, IJsonManagerService jsonManagerService, IAccountManagerService accountManagerService, EntityContext context, IHttpContextAccessor httpContextAccessor)
+        public HomeController(ILogger<HomeController> logger, ISongManagerService songManager, IAccountManagerService accountManagerService, EntityContext context, IHttpContextAccessor httpContextAccessor, ISongToGuessService songToGuessService)
         {
             _logger = logger;
             _accountManagerService = accountManagerService;
-            _jsonManager = jsonManagerService;
+            _songManager = songManager;
             _context = context;
             _httpContextAccessor = httpContextAccessor;
+            _songToGuessService = songToGuessService;
         }
 
         [ProducesResponseType((int)HttpStatusCode.OK)]
@@ -37,16 +40,12 @@ namespace Euroguessr.Controllers
 
             string currentUserId = _accountManagerService.GetOrCreateNewAccount();
 
-            SongModel todaySong = _jsonManager.GetTodayGuess();
+            Song todaySong = _songManager.GetTodayGuess();
 
             IndexModel model = new()
             {
-                YoutubeVideo = new()
-                {
-                    VideoId = todaySong.Video_Id,
-                    SeekTo = todaySong.Seek_To
-                },
-                SongsList = _jsonManager.GetSongsModel(),
+                TodaySong = todaySong,
+                SongsList = _songManager.GetSongsModel(),
                 CurrentUserScore = _accountManagerService.GetOrSetTodayScore(currentUserId)
             };
 
@@ -58,13 +57,14 @@ namespace Euroguessr.Controllers
         {
             _logger.LogInformation("Entrée dans Training");
 
-            string randomSong = new Random().Next(528, 528).ToString();
-            randomSong = "527";
+            Song song = _songManager.GetRandomSong();
+
+            _songToGuessService.SetSongToGuess(song);
 
             TrainingModel model = new()
             {
-                SongsList = _jsonManager.GetSongsModel(),
-                SongToGuess = _jsonManager.GetSong(randomSong)
+                SongsList = _songManager.GetSongsModel(),
+                SongToGuess = song
             };
 
             return View(model);

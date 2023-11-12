@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Euroguessr.Data.Tables;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
 namespace Euroguessr.Data
@@ -22,6 +23,7 @@ namespace Euroguessr.Data
         public DbSet<Score> Score { get; set; }
         public DbSet<TodayGuessNumber> TodayGuessNumber { get; set; }
         public DbSet<TodayGuessNumberRange> TodayGuessNumberRange { get; set; }
+        public DbSet<Song> Song { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -34,6 +36,11 @@ namespace Euroguessr.Data
             modelBuilder.Entity<TodayGuessNumberRange>()
                 .HasKey(e => new { e.min_value, e.max_value });
 
+            //AUTO INCREMENT ID
+
+            modelBuilder.Entity<Song>()
+                .Property(s => s.id)
+                .ValueGeneratedOnAdd();
 
             //DEFAULT VALUES FOR TESTING
 
@@ -51,6 +58,15 @@ namespace Euroguessr.Data
                 .HasData(
                 new Score { Userunique_token = "a2a72798-690c-4301-9a01-1cf88e2080cc", date = DateOnly.FromDateTime(DateTime.Now.ToUniversalTime()), attempts = 3, win = true }
             );
+
+            #region Default Song Dataset
+
+            //DEFAULT SONG DATASET
+            Song[] songs = Worker_Song.GetSongs().ToArray();
+
+            modelBuilder.Entity<Song>()
+                .HasData(songs);
+            #endregion
         }
     }
 }

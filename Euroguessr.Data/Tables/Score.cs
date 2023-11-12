@@ -17,6 +17,7 @@ namespace Euroguessr.Data
         public int attempts { get; set; }
         public bool win { get; set; }
 
+        [NotMapped]
         public string DisplayName => string.Format(
                                                        "{0} : {1} {2} {3}",
                                                        date,

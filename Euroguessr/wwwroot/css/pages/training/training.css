@@ -68,6 +68,14 @@ div-play-button.player.progress-bar-button.play-button {
 .skip-button {
     background-color: black;
     border: 1px solid black;
+    cursor: not-allowed;
+}
+
+.skip-button:hover:enabled {
+    background-color: var(--white);
+    color: var(--black);
+    transition-duration: 0.3s;
+    cursor: pointer;
 }
 
 .skip-button-text {
@@ -83,6 +91,12 @@ div-play-button.player.progress-bar-button.play-button {
     background-color: white;
     color: black;
     border: 1px solid black;
+}
+
+.next-button:hover {
+    background-color: black;
+    color: white;
+    transition-duration : 0.3s;
 }
 
 
@@ -158,7 +172,7 @@ div.progress-bar-button div.play-button {
     align-items: center;
     display: flex;
     justify-content: center;
-    cursor: pointer;
+    cursor: default;
 }
 
 div.progress-bar-button div.play-button div.icon {
@@ -202,7 +216,7 @@ div#youtube-audio {
     height: 0px;
 }
 
-form {
+.form {
     position: relative;
     display: flex;
     flex-flow: column nowrap;
@@ -210,7 +224,7 @@ form {
     width: 100%;
 }
 
-form div.searchBoxContainer {
+.form div.searchBoxContainer {
     position: relative;
     display: flex;
     flex-flow: row nowrap;
@@ -221,7 +235,7 @@ form div.searchBoxContainer {
     gap: 1vw;
 }
 
-form div.searchBoxContainer div.searchBox {
+.form div.searchBoxContainer div.searchBox {
     position: relative;
     display: flex;
     flex-flow: column nowrap;
@@ -232,7 +246,7 @@ form div.searchBoxContainer div.searchBox {
     gap: 5px;
 }
 
-form div.searchBoxContainer div.searchBox div.search {
+.form div.searchBoxContainer div.searchBox div.search {
     position: relative;
     display: flex;
     flex-flow: row nowrap;
@@ -242,12 +256,12 @@ form div.searchBoxContainer div.searchBox div.search {
     width: 100%;
 }
 
-form div.searchBoxContainer div.searchBox label {
+.form div.searchBoxContainer div.searchBox label {
     font-size: 1.5rem;
 }
 
 
-form div.searchBoxContainer div.searchBox div.search input {
+.form div.searchBoxContainer div.searchBox div.search input {
     position: relative;
     display: block;
     padding: 7px;
@@ -262,17 +276,17 @@ form div.searchBoxContainer div.searchBox div.search input {
     outline: none;
 }
 
-form div.searchBoxContainer div.searchBox div.search input:focus {
+.form div.searchBoxContainer div.searchBox div.search input:focus {
     border: 2px solid var(--primary);
     border-right: none;
 }
 
-form div.searchBoxContainer div.searchBox div.search input:focus+span {
+.form div.searchBoxContainer div.searchBox div.search input:focus+span {
     border: 2px solid var(--primary);
     border-left: none;
 }
 
-form div.searchBoxContainer div.searchBox div.search span {
+.form div.searchBoxContainer div.searchBox div.search span {
     position: relative;
     display: block;
     padding: 7px;
@@ -286,12 +300,12 @@ form div.searchBoxContainer div.searchBox div.search span {
     cursor: pointer;
 }
 
-form div.searchBoxContainer div.searchBox input:focus {
+.form div.searchBoxContainer div.searchBox input:focus {
     outline: none;
     border: 2px solid var(--primary);
 }
 
-form div.songs {
+.form div.songs {
     position: relative;
     display: flex;
     flex-flow: column nowrap;
@@ -303,24 +317,24 @@ form div.songs {
     margin-top: 3vh;
 }
 
-form div.songs div.song {
+.form div.songs div.song {
     position: relative;
     display: block;
     width: 100%;
     animation: slideUp 0.3s ease-in-out;
 }
 
-form div.songs div.song input {
+.form div.songs div.song input {
     display: none;
 }
 
-form div.songs div.song label:has(input:checked) {
+.form div.songs div.song label:has(input:checked) {
     background-color: var(--primary);
     color: var(--white);
     border: 2px solid var(--primary);
 }
 
-form div.songs div.song label {
+.form div.songs div.song label {
     position: relative;
     display: flex;
     flex-flow: row nowrap;
@@ -335,7 +349,7 @@ form div.songs div.song label {
     box-sizing: border-box;
 }
 
-form div.songs div.song label div.songContainer {
+.form div.songs div.song label div.songContainer {
     position: relative;
     display: flex;
     flex-flow: row nowrap;
@@ -346,12 +360,12 @@ form div.songs div.song label div.songContainer {
     gap: calc(1vw + 10px);
 }
 
-form div.songs div.song label:hover {
+.form div.songs div.song label:hover {
     background-color: var(--primary-alpha);
     border: 2px solid var(--primary-alpha);
 }
 
-form div.songs div.song label div.songContainer div.thumbnail {
+.form div.songs div.song label div.songContainer div.thumbnail {
     position: relative;
     display: flex;
     flex-flow: row nowrap;
@@ -362,7 +376,7 @@ form div.songs div.song label div.songContainer div.thumbnail {
     gap: 5px;
 }
 
-form div.songs div.song label div.songContainer div.thumbnail img {
+.form div.songs div.song label div.songContainer div.thumbnail img {
     position: relative;
     display: block;
     height: 50px;
@@ -371,7 +385,7 @@ form div.songs div.song label div.songContainer div.thumbnail img {
     border-radius: 7px;
 }
 
-form div.songs div.song label div.send button {
+.form div.songs div.song label div.send button {
     position: relative;
     display: none;
     padding: 7px;
@@ -386,14 +400,20 @@ form div.songs div.song label div.send button {
     cursor: pointer;
 }
 
-form div.songs div.song label:has(input:checked) div.send button {
+.form div.songs div.song label:has(input:checked) div.send button {
     display: block;
     animation: slideRight 0.3s ease-in-out;
 }
 
-form div.songs div.song label div.send button:hover {
+.form div.songs div.song label div.send button:hover {
     background-color: var(--white);
     color: var(--black);
+    border: 2px solid var(--black);
+}
+
+.form div.songs div.song label div.send button:disabled {
+    background-color: var(--black);
+    color: var(--white);
     border: 2px solid var(--black);
 }
 
@@ -453,4 +473,15 @@ main fieldset legend {
     margin-left: -1vw;
     margin-bottom: 2vh;
     font-size: calc(var(--font-size) * 3);
+}
+
+@media screen and (max-width: 1000px) {
+    main fieldset {
+        padding-right: 5vw;
+        padding-left: 5vw;
+    }
+
+    div.player {
+        width: 100%;
+    }
 }

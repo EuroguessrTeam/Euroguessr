@@ -12,9 +12,11 @@ const playButtonBar = document.getElementById("progress-bar-button");
 const remainingTimeTimer = document.getElementById("remaining-time");
 const searchBar = document.getElementById('searchBar');
 searchBar.addEventListener('keyup', search);
+const skipButton = document.querySelector(".div-skip-button button");
+const skipButtonHelpText = document.querySelector(".div-skip-button p")
 
 // Dynamic variables to be defined first
-setTextAttemptNumber(attemptNumber);
+setTextAttemptNumber(attemptNumber, false);
 setSkipButtonText(attemptNumber);
 changePlayButtonProgressionBar(100);
 
@@ -33,11 +35,11 @@ function secondsOfListening(argAttemptNumber) {
         case 5: return 30;
         case 6: return 60;
         case 7: return 90;
-        default: return 180;
+        default: return duration;
     }
 }
 let stop = secondsOfListening(attemptNumber);
-let duration; // Total duration of the youtube video (set when the youtube api is ready)
+let duration = 180; // Total duration of the youtube video (set when the youtube api is ready)
 let currentPercentOfTheListening;
 
 ////////////////////////////////////////
@@ -66,10 +68,12 @@ function onYouTubeIframeAPIReady() {
                 player.seekTo(seek_to);
                 player.pauseVideo();
                 duration = player.getDuration();
+                console.log("Durée totale du son : " + duration);
                 stop > duration - seek_to ? stop = duration - seek_to : stop = stop; // The song listening time limit cannot be greater than the total duration of the song.
                 setTimeLeftTimer(stop);
                 resetPlayButtonProgressionBar(100);
                 player.setVolume(soundVolume);
+                enableSkipButton()
                 isYoutubePlayerReady = true;
             },
             onStateChange: function (e) {
@@ -245,24 +249,32 @@ function setTimeLeftTimer(seconds) {
     remainingTimeTimer.innerHTML = `${Math.floor(seconds / 60).toString().padStart(2, '0')}:${Math.floor(seconds % 60).toString().padStart(2, '0')}`;
     if (seconds <= 3) {
         if (seconds == 1 || seconds == 0) {
-            remainingTimeTimer.style.color = 'red';
+            remainingTimeTimer.style.color = 'var(--red)';
         }
         else {
-            remainingTimeTimer.style.color = 'darkorange';
+            remainingTimeTimer.style.color = 'var(--darkorange)';
         }
     }
     else {
-        remainingTimeTimer.style.color = 'black';
+        remainingTimeTimer.style.color = 'var(--black)';
     }
 }
 
-function setTextAttemptNumber(actualAttempt) {
-    document.querySelector(".attempts-counter").innerHTML = `Attempt ${actualAttempt}`;
+function setTextAttemptNumber(actualAttempt, win) {
+    if (win) {
+        document.querySelector(".attempts-counter").innerHTML = `Great job ! You got it in ${actualAttempt} attempt !`;
+    }
+    else {
+        document.querySelector(".attempts-counter").innerHTML = `Attempt ${actualAttempt}`;
+    }
+}
 
+function enableSkipButton() {
+    skipButton.disabled = false;
 }
 
 function setSkipButtonText(actualAttempt) {
-    document.querySelector(".div-skip-button p").innerHTML = `+${secondsOfListening(actualAttempt + 1) - secondsOfListening(actualAttempt) } seconds`;
+    skipButtonHelpText.innerHTML = `+${secondsOfListening(actualAttempt + 1) - secondsOfListening(actualAttempt) } seconds`;
 }
 
 //////////////////////////////////////

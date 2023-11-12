@@ -1,13 +1,13 @@
 ﻿using Euroguessr.Data;
-using Euroguessr.Models.VideoManager;
+using Euroguessr.Data.Tables;
 
 namespace Euroguessr.Models.Pages.Index
 {
     public class IndexModel
     {
-        public YoutubeVideoModel YoutubeVideo { get; set; } = new();
-        public List<SongModel> SongsList { get; set; } = new();
-        public Score CurrentUserScore { get; set; }
+        public Song TodaySong { get; set; } = new();
+        public List<Song> SongsList { get; set; } = new();
+        public Score CurrentUserScore { get; set; } = new();
         public int SecondsOfListening => CurrentUserScore.win ? 0 :
                                          CurrentUserScore.attempts == 0 ? 1 :
                                          CurrentUserScore.attempts == 1 ? 2 :

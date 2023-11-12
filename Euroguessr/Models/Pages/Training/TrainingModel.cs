@@ -1,10 +1,11 @@
 ﻿using Euroguessr.Data;
+using Euroguessr.Data.Tables;
 
 namespace Euroguessr.Models.Pages.Training
 {
     public class TrainingModel
     {
-        public SongModel SongToGuess { get; set; } = new();
-        public List<SongModel> SongsList { get; set; } = new();
+        public Song SongToGuess { get; set; } = new();
+        public List<Song> SongsList { get; set; } = new();
     }
 }

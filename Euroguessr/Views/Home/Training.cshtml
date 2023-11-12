@@ -1,6 +1,8 @@
 ﻿@model Euroguessr.Models.Pages.Training.TrainingModel
 <script>
-    const seek_to = @Model.SongToGuess.Seek_To // Integer indicating the timecode at which to start the youtube video (for example "seek_to = 5" starts the youtube video at 00:05)
+    const seek_to = @Model.SongToGuess.seek_to; // Integer indicating the timecode at which to start the youtube video (for example "seek_to = 5" starts the youtube video at 00:05)
+    const url_submit_song = "@Url.Action("SubmitSong", "ActionButtonsManager")";
+    console.log("Song to find : " + @Model.SongToGuess.id);
 </script>
 
 <link href="~/css/pages/training/training.css" rel="stylesheet" type="text/css" />
@@ -23,7 +25,7 @@
             Attempt
         </h3>
 
-        <div data-video="@Model.SongToGuess.Video_Id" data-autoplay="0" data-loop="0" id="youtube-audio"></div>
+        <div data-video="@Model.SongToGuess.video_id" data-autoplay="0" data-loop="0" id="youtube-audio"></div>
 
         <div class="flex">
             <h3 id="remaining-time">Song is loading...</h3>
@@ -48,7 +50,7 @@
             <div class="left-buttons flex">
 
                 <div class="div-skip-button flex">
-                    <button class="button skip-button" onclick="skipButtonAction()">Skip</button>
+                    <button class="button skip-button" disabled onclick="addOneAttemptAction();">Skip</button>
                     <p class="skip-button-text"></p>
                 </div>
 
@@ -60,7 +62,7 @@
 
         </div>
 
-        <form method="post" asp-controller="TrainingModeManager" asp-action="SubmitSong">
+        <div class="form">
             <div class="searchBoxContainer">
                 <div class="searchBox">
                     <label for="search">Search your guess</label>
@@ -74,29 +76,29 @@
                 @foreach (var music in Model.SongsList)
                 {
                     <div class="song" id="song">
-                        <label for="@music.Id">
-                            <input type="radio" id="@music.Id" name="songId" value="@music.Id">
+                        <label for="@music.id">
+                            <input type="radio" id="@music.id" name="songId" value="@music.id">
                             <div class="songContainer">
                                 <div class="thumbnail">
-                                    <img src="https://i.ytimg.com/vi/@music.Video_Id/hq720.jpg" alt="@music.Song_Name">
+                                    <img src="https://i.ytimg.com/vi/@music.video_id/hq720.jpg" alt="@music.song_name">
                                 </div>
                                 <div class="songInfo">
-                                    <h3 id="title">@music.Song_Name</h3>
-                                    <p id="artist">@music.Artist_Name</p>
+                                    <h3 id="title">@music.song_name</h3>
+                                    <p id="artist">@music.artist_name</p>
                                 </div>
                                 <div class="songDetails">
-                                    <p id="country">Country: @music.Country</p>
-                                    <p id="year">Year: @music.Year</p>
+                                    <p id="country">Country: @music.country</p>
+                                    <p id="year">Year: @music.year</p>
                                 </div>
                             </div>
                             <div class="send">
-                                <button>Send</button>
+                                <button value="@music.id">Send</button>
                             </div>
                         </label>
                     </div>
                 }
             </div>
-        </form>
+        </div>
 
     </div>
 

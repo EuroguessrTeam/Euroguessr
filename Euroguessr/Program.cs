@@ -1,4 +1,6 @@
 using Euroguessr.Data;
+using Euroguessr.Interfaces;
+using Euroguessr.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,12 +21,13 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options => options.IdleTimeout = TimeSpan.FromDays(1));
 
+
 // #                        #
 // # Services personnalisés #
 // #                        #
 builder.Services.AddScoped<IAccountManagerService, AccountManagerService>();
-builder.Services.AddScoped<IJsonManagerService, JsonManagerService>();
-
+builder.Services.AddScoped<ISongManagerService, SongManagerService>();
+builder.Services.AddScoped<ISongToGuessService, SongToGuessService>();
 
 var app = builder.Build();
 
