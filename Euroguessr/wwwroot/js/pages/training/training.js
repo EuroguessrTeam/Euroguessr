@@ -12,6 +12,8 @@ const playButtonBar = document.getElementById("progress-bar-button");
 const remainingTimeTimer = document.getElementById("remaining-time");
 const searchBar = document.getElementById('searchBar');
 searchBar.addEventListener('keyup', search);
+const skipButton = document.querySelector(".div-skip-button button");
+const skipButtonHelpText = document.querySelector(".div-skip-button p")
 
 // Dynamic variables to be defined first
 setTextAttemptNumber(attemptNumber, false);
@@ -71,6 +73,7 @@ function onYouTubeIframeAPIReady() {
                 setTimeLeftTimer(stop);
                 resetPlayButtonProgressionBar(100);
                 player.setVolume(soundVolume);
+                enableSkipButton()
                 isYoutubePlayerReady = true;
             },
             onStateChange: function (e) {
@@ -246,14 +249,14 @@ function setTimeLeftTimer(seconds) {
     remainingTimeTimer.innerHTML = `${Math.floor(seconds / 60).toString().padStart(2, '0')}:${Math.floor(seconds % 60).toString().padStart(2, '0')}`;
     if (seconds <= 3) {
         if (seconds == 1 || seconds == 0) {
-            remainingTimeTimer.style.color = 'red';
+            remainingTimeTimer.style.color = 'var(--red)';
         }
         else {
-            remainingTimeTimer.style.color = 'darkorange';
+            remainingTimeTimer.style.color = 'var(--darkorange)';
         }
     }
     else {
-        remainingTimeTimer.style.color = 'black';
+        remainingTimeTimer.style.color = 'var(--black)';
     }
 }
 
@@ -266,8 +269,12 @@ function setTextAttemptNumber(actualAttempt, win) {
     }
 }
 
+function enableSkipButton() {
+    skipButton.disabled = false;
+}
+
 function setSkipButtonText(actualAttempt) {
-    document.querySelector(".div-skip-button p").innerHTML = `+${secondsOfListening(actualAttempt + 1) - secondsOfListening(actualAttempt) } seconds`;
+    skipButtonHelpText.innerHTML = `+${secondsOfListening(actualAttempt + 1) - secondsOfListening(actualAttempt) } seconds`;
 }
 
 //////////////////////////////////////

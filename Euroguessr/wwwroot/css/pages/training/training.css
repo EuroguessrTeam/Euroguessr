@@ -68,6 +68,14 @@ div-play-button.player.progress-bar-button.play-button {
 .skip-button {
     background-color: black;
     border: 1px solid black;
+    cursor: not-allowed;
+}
+
+.skip-button:hover:enabled {
+    background-color: var(--white);
+    color: var(--black);
+    transition-duration: 0.3s;
+    cursor: pointer;
 }
 
 .skip-button-text {
@@ -83,6 +91,12 @@ div-play-button.player.progress-bar-button.play-button {
     background-color: white;
     color: black;
     border: 1px solid black;
+}
+
+.next-button:hover {
+    background-color: black;
+    color: white;
+    transition-duration : 0.3s;
 }
 
 
