@@ -17,16 +17,16 @@ namespace Euroguessr.Controllers
 
         private readonly ILogger<HomeController> _logger;
         private readonly IAccountManagerService _accountManagerService;
-        private readonly ISongManagerService _jsonManager;
+        private readonly ISongManagerService _songManager;
         private readonly EntityContext _context;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ISongToGuessService _songToGuessService;
 
-        public HomeController(ILogger<HomeController> logger, ISongManagerService jsonManagerService, IAccountManagerService accountManagerService, EntityContext context, IHttpContextAccessor httpContextAccessor, ISongToGuessService songToGuessService)
+        public HomeController(ILogger<HomeController> logger, ISongManagerService songManager, IAccountManagerService accountManagerService, EntityContext context, IHttpContextAccessor httpContextAccessor, ISongToGuessService songToGuessService)
         {
             _logger = logger;
             _accountManagerService = accountManagerService;
-            _jsonManager = jsonManagerService;
+            _songManager = songManager;
             _context = context;
             _httpContextAccessor = httpContextAccessor;
             _songToGuessService = songToGuessService;
@@ -40,12 +40,12 @@ namespace Euroguessr.Controllers
 
             string currentUserId = _accountManagerService.GetOrCreateNewAccount();
 
-            Song todaySong = _jsonManager.GetTodayGuess();
+            Song todaySong = _songManager.GetTodayGuess();
 
             IndexModel model = new()
             {
                 TodaySong = todaySong,
-                SongsList = _jsonManager.GetSongsModel(),
+                SongsList = _songManager.GetSongsModel(),
                 CurrentUserScore = _accountManagerService.GetOrSetTodayScore(currentUserId)
             };
 
@@ -57,13 +57,13 @@ namespace Euroguessr.Controllers
         {
             _logger.LogInformation("Entrée dans Training");
 
-            Song song = _jsonManager.GetRandomSong();
+            Song song = _songManager.GetRandomSong();
 
             _songToGuessService.SetSongToGuess(song);
 
             TrainingModel model = new()
             {
-                SongsList = _jsonManager.GetSongsModel(),
+                SongsList = _songManager.GetSongsModel(),
                 SongToGuess = song
             };
 
