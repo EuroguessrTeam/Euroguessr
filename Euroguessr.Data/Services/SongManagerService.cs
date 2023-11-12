@@ -19,7 +19,7 @@ namespace Euroguessr.Data
 
         public Song? GetRandomSong()
         {
-            var potential_songs = _context.Song.Where(s => !string.IsNullOrWhiteSpace(s.video_id));
+            var potential_songs = _context.Song.Where(s => !string.IsNullOrWhiteSpace(s.video_id)).ToArray();
 
             return potential_songs.Any() ? potential_songs.ElementAt(new Random().Next(0, potential_songs.Count())) :
                                            null;

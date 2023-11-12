@@ -57,14 +57,8 @@ namespace Euroguessr.Controllers
         {
             _logger.LogInformation("Entrée dans Training");
 
-<<<<<<< HEAD
             Song song = _jsonManager.GetRandomSong();
-=======
-            string randomSong = new Random().Next(510, 528).ToString();
-            //randomSong = "528";
 
-            Song song = _jsonManager.GetSong(randomSong);
->>>>>>> 0adea4266e563346dcfe0e2595948cd3487cbf64
             _songToGuessService.SetSongToGuess(song);
 
             TrainingModel model = new()
