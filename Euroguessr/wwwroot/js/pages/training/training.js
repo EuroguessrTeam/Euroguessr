@@ -80,6 +80,11 @@ function onYouTubeIframeAPIReady() {
                 if (e.data === YT.PlayerState.ENDED) {
                     pauseMusic(false);
                 }
+                if (e.data === YT.PlayerState.PLAYING) {
+                    startingTime = Date.now();
+                    console.log(Date.now());
+                    updateProgress();
+                }
             },
 
             onerror: function (e) {
@@ -99,12 +104,8 @@ function onYouTubeIframeAPIReady() {
         setPlayButtonPlayingStyle();
         player.seekTo(seek_to);
         player.setVolume(soundVolume);
-        player.playVideo();
-
         isPlaying = true;
-        startingTime = Date.now();
-
-        updateProgress();
+        player.playVideo();
     }
 
     // Not paused by user = listening time limit over OR youtube video over
