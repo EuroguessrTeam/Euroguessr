@@ -18,6 +18,6 @@ jobs:
         chmod 600 ~/.ssh/id_rsa
         ssh-keyscan -t rsa ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
     - name: connect and deploy
-      run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} 'cd ~/Euroguessr && git pull && cd ../Infra && docker-compose up -d --build'
+      run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} 'cd ~/Euroguessr && git pull && cd ../Infra && docker compose up -d --build'
     - name: cleanup
       run: rm -rf ~/.ssh
