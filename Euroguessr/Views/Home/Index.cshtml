@@ -6,6 +6,7 @@
 
 <link rel="stylesheet" href="~/css/index.css">
 <script src="~/js/index.js" defer></script>
+<script src="~/js/lazyLoadImages.js" defer></script>
 <fieldset>
     <legend>@ViewData["Title"]</legend>
     <div class="player" id="player">
@@ -37,7 +38,7 @@
                         <input type="radio" id="@music.id" name="choice">
                         <div class="songContainer">
                             <div class="thumbnail">
-                                <img src="https://i.ytimg.com/vi/@music.video_id/hq720.jpg" alt="Eat Your Salad">
+                                <img data-src="https://i.ytimg.com/vi/@music.video_id/hq720.jpg" alt="Eat Your Salad">
                             </div>
                             <div class="songInfo">
                                 <h3 id="title">@music.song_name</h3>
