@@ -4,24 +4,8 @@
     ViewData["Title"] = "Play!";
 }
 
-<link href="~/css/projector.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" href="~/css/index.css">
-<script src="~/js/projector.js" defer></script>
 <script src="~/js/index.js" defer></script>
-
-<div class="transition">
-    <div class="black-screen"></div>
-    <div class="projector left">
-        <div class="line lineLeft line1"></div>
-        <div class="line lineLeft line2"></div>
-        <div class="line lineLeft line3"></div>
-    </div>
-    <div class="projector right">
-        <div class="line lineRight line1"></div>
-        <div class="line lineRight line2"></div>
-        <div class="line lineRight line3"></div>
-    </div>
-</div>
 <fieldset>
     <legend>@ViewData["Title"]</legend>
     <div class="player" id="player">
@@ -48,7 +32,7 @@
         <div class="songs">
             @foreach (var music in Model.SongsList)
             {
-                <div class="song" id="song">
+                <div class="song">
                     <label for="@music.id">
                         <input type="radio" id="@music.id" name="choice">
                         <div class="songContainer">
