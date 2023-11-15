@@ -303,3 +303,19 @@ function search(event) {
 ////////////////////////////
 //END SECTION SEARCH INPUT//
 ////////////////////////////
+
+ ///////////////////////////////
+//START SECTION SELECT A SONG//
+//////////////////////////////
+let oldCheckedSong = null;
+document.querySelectorAll('.song').forEach(song => {
+    song.addEventListener('mouseup', (e) => {
+        if (oldCheckedSong === e.currentTarget) return;
+        if (oldCheckedSong) oldCheckedSong.classList.toggle('checked');
+        e.currentTarget.classList.toggle('checked');
+        oldCheckedSong = e.currentTarget;
+    });
+});
+ /////////////////////////////
+//END SECTION SELECT A SONG//
+////////////////////////////
