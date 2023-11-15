@@ -1,0 +1,23 @@
+name: Deploy to dev
+
+# Configures this workflow to run every time a change is pushed to the branch called `release`.
+on:
+  push:
+    branches: ['develop']
+  workflow_dispatch:
+
+# There is a single job in this workflow. It's configured to run on the latest available version of Ubuntu.
+jobs:
+  build-and-push-image:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Install ssh keys
+      run: |
+        mkdir -p ~/.ssh/
+        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan -t rsa {{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+    - name: connect and deploy
+      run: ssh ${{ secrets.SSH_USER }}@{{ secrets.SSH_HOST }} 'cd ~/Euroguessr && git pull && cd ../Infra && docker-compose up -d --build'
+    - name: cleanup
+      run: rm -rf ~/.ssh
