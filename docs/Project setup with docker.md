@@ -86,13 +86,16 @@ On the file `appsettings.json`, delete the 3 first lines
 
 ```bash
 cd {YOURCODEFOLDER}/Euroguessr
-docker-compose -f docker-compose.local.yaml up
+sudo docker-compose -f docker-compose.local.yaml up
 ```
 
 # 🌐 Access the project
 
 The project can be accessed at the following URLs:
 
+- https://localhost:80/
+- https://127.0.0.1:80/
+  OR
 - http://localhost:80/
 - http://127.0.0.1:80/
 
@@ -106,6 +109,9 @@ ports:
 
 The project can be accessed at the following URLs:
 
+- https://localhost:PORT/
+- https://127.0.0.1:PORT/
+  OR
 - http://localhost:PORT/
 - http://127.0.0.1:PORT/
 
@@ -113,5 +119,5 @@ The project can be accessed at the following URLs:
 
 ```bash
 cd {YOURCODEFOLDER}/Euroguessr
-docker-compose -f docker-compose.local.yaml down
+sudo docker-compose -f docker-compose.local.yaml down
 ```

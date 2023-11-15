@@ -123,7 +123,7 @@ Launch the following command to start the database:
 
 ```bash
 cd {YOURCODEFOLDER}/Euroguessr
-docker-compose up -d db
+sudo docker-compose up -d db
 
 cd {YOURCODEFOLDER}/Euroguessr/Euroguessr
 dotnet watch
@@ -133,6 +133,9 @@ dotnet watch
 
 The project can be accessed at the following URLs:
 
+- https://localhost:7079/
+- https://127.0.0.1:7079/
+  OR
 - http://localhost:7079/
 - http://127.0.0.1:7079/
 
@@ -140,7 +143,14 @@ The project can be accessed at the following URLs:
 
 ```bash
 cd {YOURCODEFOLDER}/Euroguessr
-docker-compose down db
+sudo docker-compose down db
+```
+
+OR
+
+```bash
+cd {YOURCODEFOLDER}/Euroguessr
+sudo docker-compose down
 ```
 
 And quit the `dotnet watch` command with `Ctrl + C`
