@@ -42,15 +42,15 @@ function treatAPIResponseSongSubmited(response) {
 }
 
 function wrongAnswerAction() {
-    document.querySelector(".form div.songs div.song label:has(input:checked)").style = "background-color: var(--red); border: 2px solid var(--red);";
-    let selectedButton = document.querySelector(".form div.songs div.song label:has(input:checked) button");
+    document.querySelector(".form div.songs div.song.checked label").style = "background-color: var(--red); border: 2px solid var(--red);";
+    let selectedButton = document.querySelector(".form div.songs div.song.checked label button");
     selectedButton.innerHTML = "×";
     selectedButton.disabled = true;
 }
 
 function endGame() {
-    document.querySelector(".form div.songs div.song label:has(input:checked)").style = "background-color: var(--green); border: 2px solid var(--green);";
-    document.querySelector(".form div.songs div.song label:has(input:checked) button").innerHTML = "✓";
+    document.querySelector(".form div.songs div.song.checked label").style = "background-color: var(--green); border: 2px solid var(--green);";
+    document.querySelector(".form div.songs div.song.checked label button").innerHTML = "✓";
     buttons.forEach(button => {
         button.disabled = true;
     });
