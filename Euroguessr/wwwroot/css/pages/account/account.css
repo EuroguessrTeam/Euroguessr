@@ -1,0 +1,56 @@
+main fieldset {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 50px;
+    width: 100%;
+    padding-right: var(--center-padding);
+    padding-left: var(--center-padding);
+    box-sizing: border-box;
+    border: none;
+    border-top: 2px solid var(--black);
+}
+
+main fieldset legend {
+    position: relative;
+    display: block;
+    padding-left: 1vw;
+    padding-right: 1vw;
+    margin-left: -1vw;
+    margin-bottom: 2vh;
+    font-size: calc(var(--font-size) * 3);
+}
+
+@media screen and (max-width: 1000px) {
+    main fieldset {
+        padding-right: 5vw;
+        padding-left: 5vw;
+    }
+}
+
+div h3 {
+    font-size: 1.17em;
+    font-weight: bold;
+}
+
+.main-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 50px;
+}
+
+.main-container div.get-and-restore-account {
+    flex-grow: 4;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.main-container div.previous-scores {
+    display: flex;
+    flex-grow : 4;
+    flex-direction: column;
+}
