@@ -7,7 +7,9 @@
 
 <link href="~/css/pages/training/training.css" rel="stylesheet" type="text/css" />
 
-<link href='https://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900italic,900' rel='stylesheet' type='text/css'>
+<link
+    href='https://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900italic,900'
+    rel='stylesheet' type='text/css'>
 
 @{
     ViewData["Title"] = "Training";
@@ -57,7 +59,8 @@
             </div>
 
             <div class="right-buttons flex">
-                <button class="button next-button" onclick="location.href='@Url.Action("Training", "Home")'">Next song</button>
+                <button class="button next-button" onclick="location.href='@Url.Action("Training", "Home")'">Next
+                    song</button>
             </div>
 
         </div>
@@ -80,7 +83,7 @@
                             <input type="radio" id="@music.id" name="songId" value="@music.id">
                             <div class="songContainer">
                                 <div class="thumbnail">
-                                    <img src="https://i.ytimg.com/vi/@music.video_id/hq720.jpg" alt="@music.song_name">
+                                    <img data-src="https://i.ytimg.com/vi/@music.video_id/hq720.jpg" alt="@music.song_name">
                                 </div>
                                 <div class="songInfo">
                                     <h3 id="title">@music.song_name</h3>
@@ -107,3 +110,4 @@
 <script src="~/js/pages/training/training.js"></script>
 <script src="https://www.youtube.com/iframe_api"></script>
 <script src="~/js/pages/training/buttonsActions.js"></script>
+<script src="~/js/lazyLoadImages.js"></script>
