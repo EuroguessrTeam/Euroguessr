@@ -328,7 +328,7 @@ div#youtube-audio {
     display: none;
 }
 
-.form div.songs div.song label:has(input:checked) {
+.form div.songs div.song.checked label {
     background-color: var(--primary);
     color: var(--white);
     border: 2px solid var(--primary);
@@ -363,6 +363,11 @@ div#youtube-audio {
 .form div.songs div.song label:hover {
     background-color: var(--primary-alpha);
     border: 2px solid var(--primary-alpha);
+}
+
+.form div.songs div.song.checked label:hover {
+    background-color: var(--primary);
+    border: 2px solid var(--primary);
 }
 
 .form div.songs div.song label div.songContainer div.thumbnail {
@@ -400,7 +405,7 @@ div#youtube-audio {
     cursor: pointer;
 }
 
-.form div.songs div.song label:has(input:checked) div.send button {
+.form div.songs div.song.checked label div.send button {
     display: block;
     animation: slideRight 0.3s ease-in-out;
 }

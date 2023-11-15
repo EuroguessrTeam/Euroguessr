@@ -4,10 +4,20 @@ const songs = document.querySelectorAll('.song');
 const canvas = document.getElementById("canvas");
 const player = document.getElementById('player');
 const speed = 1;
+let oldCheckedSong = null;
 let sound = false;
 let degree = 0;
 let amplitude = 20;
 let period = 50;
+
+document.querySelectorAll('.song').forEach(song => {
+    song.addEventListener('mouseup', (e) => {
+        if (oldCheckedSong === e.currentTarget) return;
+        if (oldCheckedSong) oldCheckedSong.classList.toggle('checked');
+        e.currentTarget.classList.toggle('checked');
+        oldCheckedSong = e.currentTarget;
+    });
+});
 
 button.addEventListener('click', () => {
     button.classList.toggle('active');
