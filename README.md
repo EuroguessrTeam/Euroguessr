@@ -60,8 +60,8 @@ Many thanks to all our contributors :
 |  [Sources](https://github.com/EuroguessrTeam/Euroguessr/tree/master/Euroguessr)   |                   |
 |           [Technical documentation](./docs/technical_documentation.md)            | To be created...  |
 |                     [Project setup](./docs/Project-setup.md)                      |                   |
-|               [Project setup](./docs/Project-setup-with-docker.md)                |                   |
-|                  [Project setup](./docs/File-structure-react.md)                  | Read before start |
+|         [Project setup with docker](./docs/Project-setup-with-docker.md)          |                   |
+|            [File structure for react](./docs/File-structure-react.md)             | Read before start |
 | [Project follow-up (GitHub)](https://github.com/EuroguessrTeam/Euroguessr/issues) |                   |
 
 ### 👥 Credits
