@@ -1,3 +1,11 @@
+<div style="display: flex; align-items: center;">
+  <img src="https://images.emojiterra.com/twitter/v13.1/512px/1f1ea-1f1fa.png" alt="Drapeau de l'Europe" width="50" style="margin-top: 30px;margin-right:10px"> <h1>Euroguessr: Project setup with Docker</h1>
+</div>
+
+![Version 0.1](https://img.shields.io/badge/Version-0.1-green)
+![Logo .NET](https://img.shields.io/badge/-.NET%206.0-blueviolet)
+[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+
 # Structure de fichiers pour un projet React (Best Practice)
 
 ## Dossiers Principaux
@@ -6,49 +14,49 @@
 
 Le dossier `src/` (source) est généralement le répertoire principal où se trouve tout le code source de l'application React.
 
-### public/
+### public/ 📢
 
 Le dossier `public/` contient les ressources statiques de l'application, telles que les fichiers HTML, les images, les icônes, etc. Ces fichiers sont accessibles publiquement et peuvent être référencés dans le code.
 
 ## Dossiers à l'intérieur de src/
 
-### components/
+### components/ 📁
 
 Le dossier `components/` contient les composants réutilisables de l'application. Ces composants peuvent être des éléments d'interface utilisateur comme des boutons, des cartes, des formulaires, etc.
 
-### pages/
+### pages/ 📄
 
 Le dossier `pages/` contient généralement les composants qui représentent des pages individuelles de l'application. Chaque fichier correspond à une route spécifique de l'application.
 
-### utils/
+### utils/ 🛠️
 
 Le dossier `utils/` peut contenir des fonctions utilitaires, des helpers ou d'autres logiques réutilisables qui ne sont pas directement liées à des composants spécifiques.
 
-### styles/
+### styles/ 🎨
 
 Le dossier `styles/` contient les feuilles de style de l'application, telles que les fichiers CSS, SASS ou tout autre préprocesseur CSS utilisé.
 
-### assets/
+### assets/ 📁
 
 Le dossier `assets/` peut être utilisé pour stocker d'autres ressources statiques telles que des images, des polices de caractères, des fichiers JSON, etc.
 
-### context/
+### context/ 📁
 
 Le dossier `context/` peut contenir des contextes React utilisés pour gérer les données et les états partagés entre différents composants.
 
-### hooks/
+### hooks/ 🎣
 
 Le dossier `hooks/` peut contenir des hooks personnalisés réutilisables, créés avec React Hooks pour abstraire la logique complexe et partager des fonctionnalités entre différents composants.
 
-### services/
+### services/ 📡
 
 Le dossier `services/` peut contenir les services ou les fonctions qui effectuent des requêtes réseau, gèrent l'état global ou interagissent avec des APIs externes.
 
-### tests/
+### tests/ 🧪
 
 Le dossier `tests/` peut contenir les fichiers de test pour les composants, les hooks ou d'autres parties de l'application.
 
-### config/
+### config/ ⚙️
 
 Le dossier `config/` peut contenir les fichiers de configuration pour différentes variables d'environnement, la configuration webpack ou tout autre paramétrage spécifique à l'application.
 
