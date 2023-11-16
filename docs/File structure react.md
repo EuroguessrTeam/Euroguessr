@@ -6,8 +6,6 @@
 ![.NET Logo](https://img.shields.io/badge/-.NET%206.0-blueviolet)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-# File Structure for a React Project (Best Practice)
-
 ## Main Directories
 
 ### src/
