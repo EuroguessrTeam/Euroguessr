@@ -5,7 +5,7 @@
 ![Version 0.1](https://img.shields.io/badge/Version-0.1-green)
 ![.NET Logo](https://img.shields.io/badge/-.NET%206.0-blueviolet)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
+![React](https://img.shields.io/badge/react-18.2-blue)
 
 ## Main Directories
 
