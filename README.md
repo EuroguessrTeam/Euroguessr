@@ -55,12 +55,14 @@ Many thanks to all our contributors :
 
 ### 📚 Documentation
 
-|                                   Documentation                                   |      Notes       |
-| :-------------------------------------------------------------------------------: | :--------------: |
-|  [Sources](https://github.com/EuroguessrTeam/Euroguessr/tree/master/Euroguessr)   |                  |
-|           [Technical documentation](./docs/technical_documentation.md)            | To be created... |
-|                      [Project setup](./docs/ProjectSetup.md)                      |                  |
-| [Project follow-up (GitHub)](https://github.com/EuroguessrTeam/Euroguessr/issues) |                  |
+|                                   Documentation                                   |       Notes       |
+| :-------------------------------------------------------------------------------: | :---------------: |
+|  [Sources](https://github.com/EuroguessrTeam/Euroguessr/tree/master/Euroguessr)   |                   |
+|           [Technical documentation](./docs/technical_documentation.md)            | To be created...  |
+|                     [Project setup](./docs/Project-setup.md)                      |                   |
+|               [Project setup](./docs/Project-setup-with-docker.md)                |                   |
+|                  [Project setup](./docs/File-structure-react.md)                  | Read before start |
+| [Project follow-up (GitHub)](https://github.com/EuroguessrTeam/Euroguessr/issues) |                   |
 
 ### 👥 Credits
 
