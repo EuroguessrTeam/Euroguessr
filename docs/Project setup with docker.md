@@ -5,6 +5,7 @@
 ![Version 0.1](https://img.shields.io/badge/Version-0.1-green)
 ![Logo .NET](https://img.shields.io/badge/-.NET%206.0-blueviolet)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
 
 ⚠️ **This guide is only for Unix users**
 
