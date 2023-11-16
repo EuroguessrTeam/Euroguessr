@@ -71,5 +71,6 @@ A special thank you to everyone who helped make this project a reality :
 - [Loan Gayrard](https://github.com/Sonixray) (Original creator of the project and developer)
 - [Matthieu Robert](https://github.com/matthieurobert) (The amazing infrastructure and deployment guy)
 - [Hugo Castell](https://github.com/Hugo-CASTELL) (The handsome volunteer developer)
+- [Hugo Wendjaneh](https://github.com/Furiza31) (The incredible front-end master)
 - All the [contributors](#-cost-of-the-project)
 - All the community developers :
