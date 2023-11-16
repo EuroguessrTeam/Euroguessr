@@ -1,66 +1,66 @@
 <div style="display: flex; align-items: center;">
-  <img src="https://images.emojiterra.com/twitter/v13.1/512px/1f1ea-1f1fa.png" alt="Drapeau de l'Europe" width="50" style="margin-top: 30px;margin-right:10px"> <h1>Euroguessr: Project setup with Docker</h1>
+  <img src="https://images.emojiterra.com/twitter/v13.1/512px/1f1ea-1f1fa.png" alt="European Flag" width="50" style="margin-top: 30px;margin-right:10px"> <h1>Euroguessr: File Structure for a React Project (Best Practice)</h1>
 </div>
 
 ![Version 0.1](https://img.shields.io/badge/Version-0.1-green)
-![Logo .NET](https://img.shields.io/badge/-.NET%206.0-blueviolet)
+![.NET Logo](https://img.shields.io/badge/-.NET%206.0-blueviolet)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-# Structure de fichiers pour un projet React (Best Practice)
+# File Structure for a React Project (Best Practice)
 
-## Dossiers Principaux
+## Main Directories
 
 ### src/
 
-Le dossier `src/` (source) est généralement le répertoire principal où se trouve tout le code source de l'application React.
+The `src/` (source) directory is usually the main directory where all the React application source code resides.
 
 ### public/ 📢
 
-Le dossier `public/` contient les ressources statiques de l'application, telles que les fichiers HTML, les images, les icônes, etc. Ces fichiers sont accessibles publiquement et peuvent être référencés dans le code.
+The `public/` directory contains the static resources of the application, such as HTML files, images, icons, etc. These files are publicly accessible and can be referenced in the code.
 
-## Dossiers à l'intérieur de src/
+## Directories Inside src/
 
 ### components/ 📁
 
-Le dossier `components/` contient les composants réutilisables de l'application. Ces composants peuvent être des éléments d'interface utilisateur comme des boutons, des cartes, des formulaires, etc.
+The `components/` directory contains reusable components of the application. These components can be UI elements like buttons, cards, forms, etc.
 
 ### pages/ 📄
 
-Le dossier `pages/` contient généralement les composants qui représentent des pages individuelles de l'application. Chaque fichier correspond à une route spécifique de l'application.
+The `pages/` directory generally contains components representing individual pages of the application. Each file corresponds to a specific route in the application.
 
 ### utils/ 🛠️
 
-Le dossier `utils/` peut contenir des fonctions utilitaires, des helpers ou d'autres logiques réutilisables qui ne sont pas directement liées à des composants spécifiques.
+The `utils/` directory may contain utility functions, helpers, or other reusable logic that is not directly tied to specific components.
 
 ### styles/ 🎨
 
-Le dossier `styles/` contient les feuilles de style de l'application, telles que les fichiers CSS, SASS ou tout autre préprocesseur CSS utilisé.
+The `styles/` directory contains the application's style sheets, such as CSS files, SASS, or any other CSS preprocessor used.
 
 ### assets/ 📁
 
-Le dossier `assets/` peut être utilisé pour stocker d'autres ressources statiques telles que des images, des polices de caractères, des fichiers JSON, etc.
+The `assets/` directory can be used to store other static resources like images, font files, JSON files, etc.
 
 ### context/ 📁
 
-Le dossier `context/` peut contenir des contextes React utilisés pour gérer les données et les états partagés entre différents composants.
+The `context/` directory may contain React contexts used for managing data and shared states between different components.
 
 ### hooks/ 🎣
 
-Le dossier `hooks/` peut contenir des hooks personnalisés réutilisables, créés avec React Hooks pour abstraire la logique complexe et partager des fonctionnalités entre différents composants.
+The `hooks/` directory may contain reusable custom hooks created with React Hooks to abstract complex logic and share functionality between different components.
 
 ### services/ 📡
 
-Le dossier `services/` peut contenir les services ou les fonctions qui effectuent des requêtes réseau, gèrent l'état global ou interagissent avec des APIs externes.
+The `services/` directory may contain services or functions that make network requests, manage global state, or interact with external APIs.
 
 ### tests/ 🧪
 
-Le dossier `tests/` peut contenir les fichiers de test pour les composants, les hooks ou d'autres parties de l'application.
+The `tests/` directory may contain test files for components, hooks, or other parts of the application.
 
 ### config/ ⚙️
 
-Le dossier `config/` peut contenir les fichiers de configuration pour différentes variables d'environnement, la configuration webpack ou tout autre paramétrage spécifique à l'application.
+The `config/` directory may contain configuration files for different environment variables, webpack configuration, or any other application-specific settings.
 
-## Remarques
+## Notes
 
-- Cette structure est un exemple et peut varier en fonction des besoins spécifiques de chaque projet ou de la préférence de l'équipe de développement.
-- Il est essentiel de maintenir la cohérence et la lisibilité du code en organisant de manière logique les fichiers et les dossiers.
+- This structure is an example and may vary based on the specific needs of each project or the development team's preferences.
+- It's essential to maintain code consistency and readability by logically organizing files and directories.
