@@ -20,6 +20,7 @@ namespace Euroguessr.Managers
         }
 
         [HttpPost]
+        [NonAction]
         public IActionResult OnFormSubmit(string selectedSong)
         {
 
@@ -60,6 +61,7 @@ namespace Euroguessr.Managers
         }
 
         [HttpPost]
+        [NonAction]
         public IActionResult OnRestoreAccountSubmit(string accountId)
         {
 

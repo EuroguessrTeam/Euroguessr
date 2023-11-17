@@ -14,6 +14,8 @@ builder.Services.AddDbContext<EntityContext>(opt => opt.UseNpgsql(connectionstri
     .AddEntityFrameworkStores<ApplicationDbContext>();*/
 builder.Services.AddControllersWithViews();
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 // #                      #
 // # Variables de session #
@@ -37,6 +39,8 @@ app.UseSession();
 if (app.Environment.IsDevelopment())
 {
     //app.UseMigrationsEndPoint();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 else
 {

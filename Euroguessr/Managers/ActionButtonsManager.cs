@@ -1,10 +1,7 @@
 ﻿using Euroguessr.Data;
 using Euroguessr.Data.Tables;
 using Euroguessr.Interfaces;
-using Euroguessr.Services;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
-using System.Text.Json.Serialization;
 
 namespace Euroguessr.Managers
 {
@@ -25,7 +22,8 @@ namespace Euroguessr.Managers
             _songToGuessService = songToGuessService;
         }
 
-        [HttpPost]
+        [HttpPost("/SubmitSong")]
+        [NonAction]
         public JsonResult SubmitSong([FromBody] string songId)
         {
             int id = _songToGuessService.GetSongToGuessId();
@@ -41,6 +39,7 @@ namespace Euroguessr.Managers
             }
         }
 
+        [NonAction]
         public IActionResult NextSong()
         {
             Console.WriteLine("Go to the next song...");
