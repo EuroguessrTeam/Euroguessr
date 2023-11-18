@@ -14,6 +14,7 @@ export const Header = () => {
 
     const toggle = () => {
         setIsToggled(!isToggled);
+        document.body.classList.toggle('overflow-hidden')
     }
 
     useEffect(() => {
@@ -58,7 +59,7 @@ export const Header = () => {
                 (isToggled ? 'top-0 right-0 bg-white h-screen w-[100vw] shadow-lg box-border flex flex-col justify-center items-start gap-5 p-10'
                     : 'flex w-fit flex-row justify-center items-center gap-[5%] grow')
             }>
-                <Link to='/' name='Play' />
+                <Link to='/' name='Daily' />
                 <Link to='/training' name='Training' />
                 <Link to='/account' name='Account' />
                 <Link to='/help' name='Help' />
