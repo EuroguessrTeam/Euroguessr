@@ -9,7 +9,7 @@ import { debounce } from '../../utils/debounce';
 export const Header = () => {
 
     const [isScrolled, setIsScrolled] = useState<boolean>(false);
-
+    const [isMobile, setIsMobile] = useState<boolean>(false);
     const [isToggled, setIsToggled] = useState<boolean>(false);
 
     const toggle = () => {
@@ -30,6 +30,9 @@ export const Header = () => {
             
             if (window.innerWidth > 1000) {
                 setIsToggled(false);
+                setIsMobile(false);
+            } else {
+                setIsMobile(true);
             }
         }, 300);
 
@@ -60,14 +63,18 @@ export const Header = () => {
                 <Link to='/account' name='Account' />
                 <Link to='/help' name='Help' />
                 <Link to='/privacy' name='Privacy' />
+                {isMobile && <NavLink to='/login' className='z-50 block w-fit bg-blue-500 p-2 rounded-lg border border-blue-500 text-white min-w-[85px] text-center shadow hover:bg-white hover:text-black hover:border-black duration-300'>Login</NavLink>}
             </nav>
             <div className='flex w-fit flex-row justify-start items-center gap-5'>
-                <NavLink to='/login' className='z-50 block w-fit bg-blue-500 p-2 rounded-lg border border-blue-500 text-white min-w-[85px] text-center shadow hover:bg-white hover:text-black hover:border-black duration-300'>Login</NavLink>
-                <div className='toggle' onClick={toggle}>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
+                {!isMobile && <NavLink to='/login' className='z-50 block w-fit bg-blue-500 p-2 rounded-lg border border-blue-500 text-white min-w-[85px] text-center shadow hover:bg-white hover:text-black hover:border-black duration-300'>Login</NavLink>}
+                {
+                    isMobile &&
+                    <div className='toggle' onClick={toggle}>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                }
             </div>
         </header>
     );
