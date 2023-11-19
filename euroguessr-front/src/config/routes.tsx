@@ -1,6 +1,7 @@
 import React from 'react';
 import { Daily } from '../pages/Daily';
 import { Privacy } from '../pages/Privacy';
+import { Help } from '../pages/Help';
 import Root from '../layout/Root';
 
 const routes = [
@@ -22,7 +23,7 @@ const routes = [
             },
             {
                 path: '/help',
-                element: <h1>Help</h1>
+                element: <Help />
             },
             {
                 path: '/privacy',
