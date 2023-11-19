@@ -1,5 +1,6 @@
 import React from 'react';
-import Daily from '../pages/Daily';
+import { Daily } from '../pages/Daily';
+import { Privacy } from '../pages/Privacy';
 import Root from '../layout/Root';
 
 const routes = [
@@ -25,7 +26,7 @@ const routes = [
             },
             {
                 path: '/privacy',
-                element: <h1>Privacy</h1>
+                element: <Privacy />
             },
             {
                 path: '/login',
