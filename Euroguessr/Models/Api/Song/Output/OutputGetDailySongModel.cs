@@ -1,6 +1,6 @@
-namespace Euroguessr.Models.Api.Song 
+namespace Euroguessr.Models.Api.Song.Output
 {
-    public class GetDailySongModel 
+    public class OutputGetSongToGuessModel
     {
         public string video_id { get; set; }
         public int seek_to { get; set; }

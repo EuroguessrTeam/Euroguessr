@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Euroguessr.Data
+namespace Euroguessr.Data.Tables
 {
     public class User
     {
