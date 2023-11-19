@@ -13,8 +13,7 @@ namespace Euroguessr.Controllers
 {
     public class HomeController : Controller
     {
-
-
+        
         private readonly ILogger<HomeController> _logger;
         private readonly IAccountManagerService _accountManagerService;
         private readonly ISongManagerService _songManager;
@@ -33,7 +32,8 @@ namespace Euroguessr.Controllers
         }
 
         [ProducesResponseType((int)HttpStatusCode.OK)]
-        //[Route("/test")]
+        [Route("/test")]
+        [NonAction]
         public IActionResult Index()
         {
             _logger.LogInformation("Entrée dans Index V2");
@@ -53,6 +53,7 @@ namespace Euroguessr.Controllers
         }
 
         [ProducesResponseType((int)HttpStatusCode.OK)]
+        [NonAction]
         public IActionResult Training()
         {
             _logger.LogInformation("Entrée dans Training");
@@ -70,6 +71,7 @@ namespace Euroguessr.Controllers
             return View(model);
         }
 
+        [NonAction]
         public IActionResult Account()
         {
             string currentUserId = _accountManagerService.GetOrCreateNewAccount();
@@ -84,16 +86,19 @@ namespace Euroguessr.Controllers
             return View(model);
         }
 
+        [NonAction]
         public IActionResult Help()
         {
             return View();
         }
 
+        [NonAction]
         public IActionResult Privacy()
         {
             return View();
         }
 
+        [NonAction]
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

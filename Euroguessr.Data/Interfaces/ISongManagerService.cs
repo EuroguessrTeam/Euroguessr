@@ -11,6 +11,5 @@ namespace Euroguessr.Data
         public List<Song> GetSongsModel();
 
         public Song GetTodayGuess();
-
     }
 }

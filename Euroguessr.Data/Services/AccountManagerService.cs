@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Euroguessr.Data.Tables;
+using Microsoft.AspNetCore.Http;
 
 namespace Euroguessr.Data
 {

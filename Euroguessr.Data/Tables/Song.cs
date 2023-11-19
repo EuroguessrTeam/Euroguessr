@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Euroguessr.Data.Tables
@@ -29,12 +30,15 @@ namespace Euroguessr.Data.Tables
 
         [Required]
         [MaxLength(11)]
+        [JsonIgnore]
         public string video_id { get; set; }
 
         [Required]
+        [JsonIgnore]
         public Int16 seek_to {  get; set; }
 
         [NotMapped]
+        [JsonIgnore]
         public string DisplayName => string.Format("{0} - {1} / {2} {3}", artist_name, song_name, country, year);
     }
 }

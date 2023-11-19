@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace Euroguessr.Data
 {
@@ -9,6 +10,7 @@ namespace Euroguessr.Data
         [Key]
         [ForeignKey("FK_User")]
         [MaxLength(36)]
+        [JsonIgnore]
         public string Userunique_token { get; set; }
 
         [Key]
@@ -18,6 +20,7 @@ namespace Euroguessr.Data
         public bool win { get; set; }
 
         [NotMapped]
+        [JsonIgnore]
         public string DisplayName => string.Format(
                                                        "{0} : {1} {2} {3}",
                                                        date,
