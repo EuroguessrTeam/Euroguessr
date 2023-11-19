@@ -1,0 +1,60 @@
+@use './variables.scss' as *;
+
+@font-face {
+    font-family: 'open-sans';
+    src: url('/fonts/open-sans/regular.ttf');
+}
+
+* {
+    font-family: 'open-sans', sans-serif;
+    padding: 0px;
+    margin: 0px;
+    font-size: $font-size;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+a {
+    text-decoration: none;
+    color: $black;
+    cursor: pointer;
+}
+
+.link {
+    color: $primary;
+    text-decoration: underline;
+}
+
+/* selection */
+::-moz-selection {
+    color: $black;
+    background: $primary-alpha;
+}
+
+::selection {
+    color: $black;
+    background: $primary-alpha;
+}
+
+/* scrollbar */
+::-webkit-scrollbar {
+    width: 7px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background:$white;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: $primary;
+    border-radius: 2.5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: $primary;
+}

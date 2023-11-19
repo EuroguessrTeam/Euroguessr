@@ -2,7 +2,7 @@ import React from "react";
 
 export const Daily = () => {
     return (
-        <div className="min-h-screen">
+        <div>
             <h1>Daily</h1>
         </div>
     );

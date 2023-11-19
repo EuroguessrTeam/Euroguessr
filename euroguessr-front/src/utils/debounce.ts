@@ -1,7 +1,7 @@
 export const debounce = (func: Function, delay: number): Function => {
   let timerId: ReturnType<typeof setTimeout>;
 
-  return function (...args: any[]) {
+  return function (this: any, ...args: any[]) {
     if (timerId) {
       clearTimeout(timerId);
     }
@@ -10,4 +10,4 @@ export const debounce = (func: Function, delay: number): Function => {
       func.apply(this, args);
     }, delay);
   };
-}
+};
