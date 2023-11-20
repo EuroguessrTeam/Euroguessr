@@ -1,0 +1,193 @@
+@use "../variables.scss" as *;
+
+header {
+    position: sticky;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: $header-size;
+    background-color: $white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px $center-padding;
+    box-sizing: border-box;
+    z-index: 100;
+    transition-duration: 0.3s;
+
+    a.button {
+        padding: 10px 20px;
+        border-radius: 5px;
+        background-color: $primary;
+        box-sizing: border-box;
+        color: $white;
+        transition-duration: 0.3s;
+        border: 2px solid $primary;
+        &:hover {
+            background-color: $white;
+            color: $black;
+        }
+    }
+
+    a.icon {
+        position: relative;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 10px;
+
+        img {
+            width: 40px;
+            height: 40px;
+            object-fit: cover;
+        }
+
+        h1 {
+            font-size: $font-size * 1.5;
+            transition-duration: 0.3s;
+
+            &:hover {
+                color: $primary;
+            }
+        }
+    }
+
+    nav {
+        position: relative;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 3vw;
+
+        a.button {
+            display: none;
+        }
+
+        a {
+            color: $black;
+            transition-duration: 0.3s;
+            &:hover {
+                color: $primary;
+            }
+        }
+
+        a.active {
+            color: $primary;
+        }
+    }
+
+    div.actions {
+        div.toggle {
+            display: none;
+        }
+    }
+}
+
+@media screen and (max-width: $mobile) {
+    header {
+        padding: 0px $mobile-center-padding;
+
+        nav {
+            display: none;
+
+            a.button {
+                display: block;
+            }
+        }
+
+        div.actions {
+            a.button {
+                display: none;
+            }
+
+            div.toggle {
+                height: 40px;
+                width: 40px;
+                position: relative;
+                display: block;
+                cursor: pointer;
+                z-index: 102;
+
+                span {
+                    position: absolute;
+                    display: block;
+                    height: 4px;
+                    width: 100%;
+                    background-color: $black;
+                    border-radius: 5px;
+                    transition-duration: 0.3s;
+
+                    &:nth-child(1) {
+                        top: 0px;
+                    }
+
+                    &:nth-child(2) {
+                        top: 50%;
+                        transform: translateY(-50%);
+                    }
+
+                    &:nth-child(3) {
+                        bottom: 0px;
+                    }
+                }
+            }
+        }
+    }
+
+    header.toggled {
+
+        nav {
+            position: absolute;
+            right: 0px;
+            top: 0px;
+            height: 100vh;
+            width: 100vw;
+            background-color: $white;
+            display: flex;
+            flex-flow: column nowrap;
+            justify-content: center;
+            align-items: center;
+            gap: 5vh;
+            z-index: 101;
+            transition-duration: 0.3s;
+            animation: slide-in-from-left 0.3s ease-in-out forwards;
+
+            @keyframes slide-in-from-left {
+                0% {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+            
+                100% {
+                    transform: translateX(0%);
+                    opacity: 1;
+                }
+            }
+        }
+
+        div.actions {
+            div.toggle {
+                span {
+                    &:nth-child(1) {
+                        transform: translateY(-50%) rotate(45deg);
+                        top: 50%;
+                    }
+
+                    &:nth-child(2) {
+                        opacity: 0;
+                        transform: translateX(-100%);
+                    }
+
+                    &:nth-child(3) {
+                        transform: translateY(50%) rotate(-45deg);
+                        bottom: 50%;
+                    }
+                }
+            }
+        }
+    }
+}
+
+header.scrolled {
+    box-shadow: 0px 0px 5px 0px $black;
+}
