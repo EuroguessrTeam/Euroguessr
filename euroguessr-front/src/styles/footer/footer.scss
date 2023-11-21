@@ -1,6 +1,6 @@
 @use "../variables.scss" as *;
 
-footer {
+footer.footer {
     position: relative;
     display: flex;
     flex-flow: row nowrap;
@@ -28,7 +28,7 @@ footer {
 }
 
 @media screen and (max-width: 1000px) {
-    footer {
+    footer.footer {
         padding: 0px $mobile-center-padding;
 
         div {

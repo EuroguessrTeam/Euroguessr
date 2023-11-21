@@ -1,6 +1,6 @@
 @use "../variables.scss" as *;
 
-fieldset {
+fieldset.privacy {
     position: relative;
     display: block;
     padding: 0px $center-padding;
@@ -35,7 +35,7 @@ fieldset {
 
 
 @media screen and (max-width: $mobile) {
-    fieldset {
+    fieldset.privacy {
         padding: 0px $mobile-center-padding;
 
         legend {

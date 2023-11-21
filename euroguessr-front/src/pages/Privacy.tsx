@@ -4,7 +4,7 @@ import '../styles/privacy/privacy.scss';
 
 export const Privacy = () => {
     return (
-        <fieldset>
+        <fieldset className='privacy'>
             <legend>Privacy</legend>
 
             <FadeUp damping={0.01}>

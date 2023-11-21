@@ -5,7 +5,7 @@ import githubIcon from '../../assets/images/icons/github.svg'
 
 export const Footer = () => {
     return (
-        <footer>
+        <footer className='footer'>
             <div>
                 &copy; 2023 - Euroguessr - <NavLink className="link" to="/privacy">Privacy</NavLink>
             </div>

@@ -1,6 +1,6 @@
 @use "../variables.scss" as *;
 
-fieldset.help {
+fieldset.daily {
     position: relative;
     display: block;
     padding: 0px $center-padding;
@@ -16,24 +16,15 @@ fieldset.help {
         font-weight: bold;
         margin-bottom: 20px;
     }
-
-    p {
-        margin-bottom: 10px;
-        text-align: justify;
-    }
 }
 
 
 @media screen and (max-width: $mobile) {
-    fieldset.help {
+    fieldset.daily {
         padding: 0px $mobile-center-padding;
 
         legend {
             font-size: $font-size * 2;
-        }
-
-        p {
-            margin-bottom: 5px;
         }
     }
 }

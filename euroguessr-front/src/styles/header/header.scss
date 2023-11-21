@@ -1,6 +1,6 @@
 @use "../variables.scss" as *;
 
-header {
+header.header {
     position: sticky;
     top: 0px;
     left: 0px;
@@ -86,7 +86,7 @@ header {
 }
 
 @media screen and (max-width: $mobile) {
-    header {
+    header.header {
         padding: 0px $mobile-center-padding;
 
         nav {

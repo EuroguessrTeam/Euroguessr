@@ -33,7 +33,7 @@ export const Header = () => {
     }, [])
 
     return (
-        <header className={`${isScrolled ? 'scrolled' : ''} ${isToggled ? 'toggled' : ''}`}>
+        <header className={`${isScrolled ? 'scrolled' : ''} ${isToggled ? 'toggled' : ''} header`}>
             <NavLink to='/' className="icon">
                 <img src={favicon} alt='Euroguessr' />
                 <h1>Euroguessr</h1>
