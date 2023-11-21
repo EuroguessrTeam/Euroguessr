@@ -1,5 +1,5 @@
 import React from 'react';
-import { Fade } from 'react-awesome-reveal';
+import { FadeUp } from '../components/animations/FadeUp';
 import '../styles/privacy/privacy.scss';
 
 export const Privacy = () => {
@@ -7,7 +7,7 @@ export const Privacy = () => {
         <fieldset>
             <legend>Privacy</legend>
 
-            <Fade cascade direction='down' damping={0.005} triggerOnce>
+            <FadeUp damping={0.01}>
                 <p>
                     At Euroguessr, accessible from <a target='_blank' className='link' href="https://euroguessr.com">https://euroguessr.com</a>,
                     one of our main priorities is the privacy of our visitors.
@@ -97,7 +97,7 @@ export const Privacy = () => {
                 <p>If you have any questions or suggestions about our website or our Privacy Policy, do not hesitate to contact us
                     at <a className='link' href="mailto:contact@Euroguessr.com">contact@euroguessr.com</a></p>
 
-            </Fade>
+            </FadeUp>
                 
         </fieldset>
     );

@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import favicon from '../../assets/images/icons/favicon.png';
 import { useState, useEffect } from 'react';
 import '../../styles/header/header.scss';
-import { Fade } from 'react-awesome-reveal';
+import { FadeUp } from '../animations/FadeUp'
 import { debounce } from '../../utils/debounce';
 
 export const Header = () => {
@@ -39,14 +39,14 @@ export const Header = () => {
                 <h1>Euroguessr</h1>
             </NavLink>
             <nav>
-                <Fade cascade direction='down' damping={0.075} triggerOnce>
+                <FadeUp damping={0.075}>
                     <NavLink to='/' className={({ isActive }) => `${isActive ? 'active' : ''}`} onClick={() => setIsToggled(false)}>Daily</NavLink>
                     <NavLink to='/training' className={({ isActive }) => `${isActive ? 'active' : ''}`} onClick={() => setIsToggled(false)}>Training</NavLink>
                     <NavLink to='/account' className={({ isActive }) => `${isActive ? 'active' : ''}`} onClick={() => setIsToggled(false)}>Account</NavLink>
                     <NavLink to='/help' className={({ isActive }) => `${isActive ? 'active' : ''}`} onClick={() => setIsToggled(false)}>Help</NavLink>
                     <NavLink to='/privacy' className={({ isActive }) => `${isActive ? 'active' : ''}`} onClick={() => setIsToggled(false)}>Privacy</NavLink>
                     <NavLink to='/login' className="button">Login</NavLink>
-                </Fade>
+                </FadeUp>
             </nav>
             <div className='actions'>
                 <NavLink to='/login' className="button">Login</NavLink>

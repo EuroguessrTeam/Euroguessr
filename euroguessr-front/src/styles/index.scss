@@ -16,6 +16,12 @@ body {
     overflow-x: hidden;
 }
 
+section {
+    position: relative;
+    display: block;
+    min-height: calc(100vh - $header-size - $footer-size);
+}
+
 a {
     text-decoration: none;
     color: $black;

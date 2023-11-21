@@ -1,5 +1,5 @@
 import React from 'react';
-import { Fade } from 'react-awesome-reveal';
+import { FadeUp } from '../components/animations/FadeUp'
 import '../styles/privacy/privacy.scss';
 import { NavLink } from 'react-router-dom';
 
@@ -8,7 +8,7 @@ export const Help = () => {
 <fieldset>
     <legend>Help</legend>
 
-    <Fade cascade direction='down' damping={0.005} triggerOnce>
+    <FadeUp damping={0.075}>
         <p>Euroguessr is a free website, where you have to find a corresponding Eurovision song with only the audio.</p>
 
         <p>Every day at 00:00 UTC, a new Eurovision music will be randomly selected.<br />
@@ -28,7 +28,7 @@ export const Help = () => {
         </p>
 
         <p>Good luck, and enjoy Euroguessr !</p>
-    </Fade>
+    </FadeUp>
 
 </fieldset>
     );

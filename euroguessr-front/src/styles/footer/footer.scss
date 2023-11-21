@@ -1,0 +1,42 @@
+@use "../variables.scss" as *;
+
+footer {
+    position: relative;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: $center-padding;
+    padding-left: $center-padding;
+    width: 100%;
+    height: $footer-size;
+    box-sizing: border-box;
+
+    div {
+        position: relative;
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+
+        img {
+            width: 30px;
+            height: 30px;
+        }
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    footer {
+        padding-right: $mobile-center-padding;
+        padding-left: $mobile-center-padding;
+
+        div {
+            flex-flow: column nowrap;
+            justify-content: center;
+            align-items: center;
+            gap: 0px;
+        }
+    }
+}
