@@ -66,6 +66,8 @@ header {
         a {
             color: $black;
             transition-duration: 0.3s;
+            padding: 5px;
+            box-sizing: border-box;
             &:hover {
                 color: $primary;
             }

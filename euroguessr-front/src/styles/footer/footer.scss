@@ -29,8 +29,7 @@ footer {
 
 @media screen and (max-width: 1000px) {
     footer {
-        padding-right: $mobile-center-padding;
-        padding-left: $mobile-center-padding;
+        padding: 0px $mobile-center-padding;
 
         div {
             flex-flow: column nowrap;
