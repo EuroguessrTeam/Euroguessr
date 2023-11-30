@@ -28,8 +28,6 @@ If 1 second is too short for you don't worry, everytime you miss, you got extra 
 
 Euroguessr official website is currently running at https://euroguessr.com
 
-Some extra beta features are also available at https://dev.euroguessr.com, but this website may be unstable and down sometimes
-
 Go give it a try and guess today's song !
 
 
