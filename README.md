@@ -25,7 +25,9 @@ If 1 second is too short for you don't worry, everytime you miss, you got extra 
 
 ### 🔗 Url
 
-Euroguessr official website is currently running at https://www.euroguessr.com
+Euroguessr official website is currently running at https://euroguessr.com
+
+Some extra beta features are also available at https://dev.euroguessr.com, but this website may be unstable and down sometimes
 
 Go give it a try and guess today's song !
 
@@ -47,7 +49,7 @@ However, the servers and domain name are not free, and cost approximately :
 
 These costs are covered by the Euroguessr team and all the generous contributors who wish to support the project.
 
-**If you can afford it and want to support us, you can do it [here](https:/paypal.me/EuroguessrProject/) :)**
+**If you can afford it and want to support us, you can do it [here](https://paypal.me/EuroguessrProject/) :)**
 
 Many thanks to all our contributors :
 
