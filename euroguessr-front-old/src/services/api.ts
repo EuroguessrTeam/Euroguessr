@@ -1,6 +1,6 @@
 export class API {
     private static instance: API; // The singleton instance
-    private static readonly BASE_URL = import.meta.env.VITE_API_BASE_URL; // The api base url is defined in the .env file
+    private static readonly BASE_URL = "https://localhost:7079/"; //import.meta.env.VITE_API_BASE_URL; // The api base url is defined in the .env file
 
     /**
      * The constructor is private to prevent the creation of multiple instances
@@ -15,6 +15,7 @@ export class API {
         if (!API.instance) {
             API.instance = new API();
         }
+        console.log(API.BASE_URL);
         return API.instance;
     }
 

@@ -5,6 +5,18 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:5173",
+                               "https://euroguessr.com")
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+        });
+});
+
 // Add services to the container.
 var connectionstring = builder.Configuration.GetConnectionString("DatabaseConnection");
 
@@ -55,6 +67,7 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthentication();
+app.UseCors();
 app.UseAuthorization();
 
 app.MapControllerRoute(

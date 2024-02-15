@@ -1,11 +1,11 @@
 @use "../variables.scss" as *;
 
-fieldset.daily {
+fieldset.privacy {
     position: relative;
     display: block;
     padding: 0px $center-padding;
     border: none;
-    border-top: 4px solid $black;
+    border-top: 2px solid $black;
 
     legend {
         position: relative;
@@ -16,15 +16,38 @@ fieldset.daily {
         font-weight: bold;
         margin-bottom: 20px;
     }
+
+    p {
+        margin-bottom: 10px;
+        text-align: justify;
+    }
+
+    h1 {
+        margin-bottom: 15px;
+        font-size: $font-size * 2;
+    }
+
+    ul {
+        margin-left: 20px;
+        margin-bottom: 10px;
+    }
 }
 
 
 @media screen and (max-width: $mobile) {
-    fieldset.daily {
+    fieldset.privacy {
         padding: 0px $mobile-center-padding;
 
         legend {
             font-size: $font-size * 2;
+        }
+
+        h1 {
+            font-size: $font-size * 1.5;
+        }
+
+        p {
+            margin-bottom: 5px;
         }
     }
 }
