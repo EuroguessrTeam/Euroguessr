@@ -7,11 +7,6 @@
   src: url(resources/assets/fonts/Eurotype.ttf) format('truetype');
 }
 
-@font-face {
-  font-family: 'Roboto';
-  src: url(https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap);
-}
-
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -19,7 +14,6 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -36,13 +30,26 @@ a:hover {
   color: #535bf2;
 }
 
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+html {
+  height: 100%;
+  width: 100%;
 }
+
+body {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  background-color: #3F1C6D;
+}
+
+#root {
+  height: 100%;
+  max-width: 800px;
+  flex-grow: 2;
+  background-color: #652CB2;
+}
+
 
 h1 {
   font-size: 3.2em;
