@@ -40,14 +40,12 @@ body {
   width: 100%;
   display: flex;
   justify-content: center;
-  background-color: #3F1C6D;
 }
 
 #root {
   height: 100%;
   max-width: 800px;
   flex-grow: 2;
-  background-color: #652CB2;
 }
 
 
