@@ -1,8 +1,7 @@
-import React from "react";
 import {Routes, Route} from "react-router-dom";
 import Home from "./components/Home/Home";
 import Game from "./components/Game/Game";
-import { Background } from "./components/background/background";
+import { Background } from "./components/Background/Background";
 
 export default function App() {
   return (
