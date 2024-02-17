@@ -1,5 +1,5 @@
 import React from "react";
-import { TriangleLeft, TriangleRight } from "./triangle";
+import { Triangle } from "./Triangle";
 
 interface BackgroundProps {
     className?: string;
@@ -27,12 +27,12 @@ export class Background extends React.Component<BackgroundProps> {
                 {parts && parts.map((part, index) => {
                     return (
                         <div key={index} className={"absolute inset-0 flex h-screen"}>
-                            <TriangleLeft className={` ${part.fill} ${part.scale}`} />
-                            <TriangleRight className={`${part.fill} ${part.scale}`} />
+                            {[true, false].map((isLeft, index) => {
+                                return <Triangle key={index} isLeft={isLeft} className={`${part.fill} ${part.scale}`} />
+                            })}
                         </div>
                     )
-                }) 
-                }
+                })}
             </div>
         )
     }
