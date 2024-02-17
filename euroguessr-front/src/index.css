@@ -38,14 +38,11 @@ html {
 body {
   height: 100%;
   width: 100%;
-  display: flex;
-  justify-content: center;
 }
 
 #root {
   height: 100%;
-  max-width: 800px;
-  flex-grow: 2;
+  width: 100%;
 }
 
 
