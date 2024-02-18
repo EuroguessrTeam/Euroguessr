@@ -22,21 +22,21 @@ export default function Game() {
       <Background className="absolute z-0 h-full w-[--header-width] inset-auto -mt-[7.4vh]"/>
 
       {/* Header */}
-      <div className="flex fixed h-[7.6vh] w-[--header-width] items-center bg-yellow mb-[12.5vh] overflow-hidden">
-        <div className="w-[16.6666%] h-full flex items-center justify-center text-black">
-          <button className="p-0 border-0 text-black focus:outline-none active:outline-none bg-transparent">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 32 32" strokeWidth="2.25" stroke="currentColor" className="w-6 h-6">
+      <div className="fixed h-[7.6vh] w-[--header-width] flex items-center bg-yellow overflow-hidden">
+        <div className="w-[16.6666%] flex items-center justify-center text-black">
+          <button>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" strokeWidth="2.25" stroke="black" className="w-6 h-6">
               <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 5.5h28" />
               <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 18h28" />
               <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 30.5h28" />
             </svg>
           </button>
         </div>
-        <div className="w-[66.6%] h-full flex items-center justify-center text-black font-eurotype">
-          <p className="text-[250%] text-bold text-center">Euroguessr</p>
+        <div className="w-[66.6%] flex items-center justify-center">
+          <p className="text-[250%] text-bold text-center text-black font-eurotype">Euroguessr</p>
         </div>
         <div className="w-[16.6666%] h-full flex items-center justify-center">
-          <img className="h-[60%] rounded-full object-contain" src="src/assets/profile-pic.png"></img>
+          <img className="h-[60%] rounded-full" src="src/assets/profile-pic.png"></img>
         </div>
       </div>
 
@@ -78,7 +78,7 @@ export default function Game() {
           <div className="z-10 flex flex-row items-center h-[5.125vh] w-full bg-white border-2 border-blue rounded-2xl p-1">
             <input className="w-full grow outline-none focus:ring-0 bg-white border-blue rounded-2xl text-black text-[3vh] font-eurotype"></input>
             <button className="p-0 border-0 text-white font-bold rounded-xl">
-              <div className="flex items-center justify-center w-[4vh] h-[4vh] bg-blue rounded-xl">
+              <div className="flex items-center justify-center w-[4vh] h-[4vh] bg-blue rounded-xl hover:scale-110 transition ease-in-out duration-200">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
                   <path fillRule="evenodd" d="M9 3.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11ZM2 9a7 7 0 1 1 12.452 4.391l3.328 3.329a.75.75 0 1 1-1.06 1.06l-3.329-3.328A7 7 0 0 1 2 9Z" clipRule="evenodd" />
                 </svg>
