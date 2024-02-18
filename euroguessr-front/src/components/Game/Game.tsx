@@ -1,8 +1,11 @@
+import { Background } from "../Background/Background";
+
 export default function Game() {
     return (
       <div className="flex justify-center w-full h-full">
+        <Background className="z-0 absolute h-full w-full inset-0 -mt-[10.625vh]"/>
 
-        <div className="flex h-[44.87vh] items-center mt-[20.1vh] mb-[12.5vh] overflow-hidden">
+        <div className="z-10 flex h-[44.87vh] items-center mt-[20.1vh] mb-[12.5vh] overflow-visible">
           <div className="w-[16.6666%] h-full flex flex-row-reverse items-center">
             <p className="text-black font-eurotype text-3xl">Attempt 10</p>
           </div>
