@@ -18,7 +18,10 @@ export default function Game() {
   window.addEventListener('resize', updateHeaderWidth);
   return (
     <>
+      {/* Background */}
       <Background className="absolute z-0 h-full w-[--header-width] inset-auto -mt-[7.4vh]"/>
+
+      {/* Header */}
       <div className="flex fixed h-[7.6vh] w-[--header-width] items-center bg-yellow mb-[12.5vh] overflow-hidden">
         <div className="w-[16.6666%] h-full flex items-center justify-center text-black">
           <button className="p-0 border-0 text-black focus:outline-none active:outline-none bg-transparent">
@@ -37,14 +40,17 @@ export default function Game() {
         </div>
       </div>
 
-      <div className="flex h-[44.87vh] items-center mb-[4vh] mt-[20.1vh] overflow-hidden">
+      {/* Game UI */}
+      <div className="relative flex h-[44.87vh] items-center mb-[4vh] mt-[20.1vh] overflow-hidden">
 
         <div className="z-10 w-[16.6666%] h-full flex flex-row items-center pl-[2%]">
           <p className="text-black font-eurotype text-[2.5vh]">Attempt&nbsp;10</p>
         </div>
 
+        {/* Game */}
         <div className="w-[66.68%] h-full flex flex-col justify-between items-center">
           
+          {/* Gaming mode */}
           <div className="z-10 flex items-center justify-between h-[5.125vh] w-full bg-orange border-2 p-1 border-orange rounded-2xl">
             <button className="p-0 border-0 text-white focus:outline-none active:outline-none bg-transparent">
               <svg xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
@@ -61,12 +67,14 @@ export default function Game() {
             </button>
           </div>
 
+          {/* Play Button */}
           <button className="flex justify-center items-center z-10 h-[15vh] w-[15vh] bg-pink rounded-full border-4 mx-1 hover:scale-110 transition ease-in-out duration-200">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-[65%] h-[65%] ml-[6%]">
               <path d="M6.3 2.84A1.5 1.5 0 0 0 4 4.11v11.78a1.5 1.5 0 0 0 2.3 1.27l9.344-5.891a1.5 1.5 0 0 0 0-2.538L6.3 2.841Z" />
             </svg>
           </button>
 
+          {/* Search bar */}
           <div className="z-10 flex flex-row items-center h-[5.125vh] w-full bg-white border-2 border-blue rounded-2xl p-1">
             <input className="w-full grow outline-none focus:ring-0 bg-white border-blue rounded-2xl text-black text-[3vh] font-eurotype"></input>
             <button className="p-0 border-0 text-white font-bold rounded-xl">
@@ -79,6 +87,7 @@ export default function Game() {
           </div>
         </div>
 
+        {/* Seconds */}
         <div className="w-[16.6666%] h-full flex flex-row-reverse items-center pr-[2%]">
           <div className="z-10 flex flex-column">
             <p className="text-black font-eurotype text-[2.5vh]">Seconds&nbsp;120</p>
@@ -87,7 +96,14 @@ export default function Game() {
 
       </div>
 
-
+    {/* Song list */}
+    <div className="relative rounded-lg bg-yellow z-10">
+                io <br />
+                io <br />
+                io <br />
+                io <br />
+                io <br />
+    </div>
     </>
   )
 }
