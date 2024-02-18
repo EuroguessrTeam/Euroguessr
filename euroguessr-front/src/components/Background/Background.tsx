@@ -17,8 +17,8 @@ export class Background extends React.Component<BackgroundProps> {
 
         const parts: Part[] = [
             {fill: "fill-purple-light"},
-            {fill: "fill-yellow", scale: "scale-y-[0.5]"},
-            {fill: "fill-yellow-light", scale: "scale-y-[0.2]"},
+            {fill: "fill-yellow", scale: "scale-y-[0.4]"},
+            {fill: "fill-yellow-light", scale: "scale-y-[0.15]"},
         ]
 
         // Rendered element
