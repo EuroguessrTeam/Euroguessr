@@ -1,4 +1,4 @@
-import { Background } from "../background/background";
+import { Background } from "../Background/Background";
 
 export default function Game() {
 
