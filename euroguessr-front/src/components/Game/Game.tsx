@@ -41,9 +41,9 @@ export default function Game() {
       </div>
 
       {/* Game UI */}
-      <div className="relative flex h-[44.87vh] items-center mb-[4vh] mt-[20.1vh] overflow-hidden">
+      <div className="z-10 relative h-[44.87vh] flex mb-[4vh] mt-[20.1vh] overflow-hidden">
 
-        <div className="z-10 w-[16.6666%] h-full flex flex-row items-center pl-[2%]">
+        <div className="w-[16.6666%] h-full flex items-center pl-[2%]">
           <p className="text-black font-eurotype text-[2.5vh]">Attempt&nbsp;10</p>
         </div>
 
@@ -51,8 +51,8 @@ export default function Game() {
         <div className="w-[66.68%] h-full flex flex-col justify-between items-center">
           
           {/* Gaming mode */}
-          <div className="z-10 flex items-center justify-between h-[5.125vh] w-full bg-orange border-2 p-1 border-orange rounded-2xl">
-            <button className="p-0 border-0 text-white focus:outline-none active:outline-none bg-transparent">
+          <div className="flex items-center justify-between h-[5.125vh] w-full bg-orange border-2 p-1 border-orange rounded-2xl">
+            <button className="">
               <svg xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M21 16.811c0 .864-.933 1.406-1.683.977l-7.108-4.061a1.125 1.125 0 0 1 0-1.954l7.108-4.061A1.125 1.125 0 0 1 21 8.689v8.122ZM11.25 16.811c0 .864-.933 1.406-1.683.977l-7.108-4.061a1.125 1.125 0 0 1 0-1.954l7.108-4.061a1.125 1.125 0 0 1 1.683.977v8.122Z" />
               </svg>
@@ -60,7 +60,7 @@ export default function Game() {
 
             <p className="font-eurotype text-[3vh]">Training</p>
 
-            <button className="p-0 border-0 text-white focus:outline-none active:outline-none bg-transparent">
+            <button className="">
               <svg xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M3 8.689c0-.864.933-1.406 1.683-.977l7.108 4.061a1.125 1.125 0 0 1 0 1.954l-7.108 4.061A1.125 1.125 0 0 1 3 16.811V8.69ZM12.75 8.689c0-.864.933-1.406 1.683-.977l7.108 4.061a1.125 1.125 0 0 1 0 1.954l-7.108 4.061a1.125 1.125 0 0 1-1.683-.977V8.69Z" />
               </svg>
@@ -68,15 +68,15 @@ export default function Game() {
           </div>
 
           {/* Play Button */}
-          <button className="flex justify-center items-center z-10 h-[15vh] w-[15vh] bg-pink rounded-full border-4 mx-1 hover:scale-110 transition ease-in-out duration-200">
+          <button className="flex justify-center items-center h-[15vh] w-[15vh] bg-pink rounded-full border-4 hover:scale-110 transition ease-in-out duration-200">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-[65%] h-[65%] ml-[6%]">
               <path d="M6.3 2.84A1.5 1.5 0 0 0 4 4.11v11.78a1.5 1.5 0 0 0 2.3 1.27l9.344-5.891a1.5 1.5 0 0 0 0-2.538L6.3 2.841Z" />
             </svg>
           </button>
 
           {/* Search bar */}
-          <div className="z-10 flex flex-row items-center h-[5.125vh] w-full bg-white border-2 border-blue rounded-2xl p-1">
-            <input className="w-full grow outline-none focus:ring-0 bg-white border-blue rounded-2xl text-black text-[3vh] font-eurotype"></input>
+          <div className="flex flex-row items-center h-[5.125vh] w-full bg-white border-2 border-blue rounded-2xl p-1">
+            <input className="w-full outline-none focus:ring-0 bg-white rounded-2xl text-black text-[3vh] font-eurotype"></input>
             <button className="p-0 border-0 text-white font-bold rounded-xl">
               <div className="flex items-center justify-center w-[4vh] h-[4vh] bg-blue rounded-xl hover:scale-110 transition ease-in-out duration-200">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
@@ -89,21 +89,21 @@ export default function Game() {
 
         {/* Seconds */}
         <div className="w-[16.6666%] h-full flex flex-row-reverse items-center pr-[2%]">
-          <div className="z-10 flex flex-column">
+          <div className="flex flex-column">
             <p className="text-black font-eurotype text-[2.5vh]">Seconds&nbsp;120</p>
           </div>
         </div>
 
       </div>
 
-    {/* Song list */}
-    <div className="relative rounded-lg bg-yellow z-10">
-                io <br />
-                io <br />
-                io <br />
-                io <br />
-                io <br />
-    </div>
+      {/* Song list */}
+      <div className="relative rounded-lg bg-yellow z-10">
+        io <br />
+        io <br />
+        io <br />
+        io <br />
+        io <br />
+      </div>
     </>
   )
 }
