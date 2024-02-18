@@ -22,7 +22,7 @@ export default function Header() {
           </button>
         </div>
         <div className="w-[66.6%] flex items-center justify-center">
-          <p className="text-[250%] text-bold text-center text-black font-eurotype">Euroguessr *</p>
+          <p className="text-[250%] text-bold text-center text-black font-eurotype">Euroguessr&nbsp;*</p>
         </div>
         <div className="w-[16.6666%] h-full flex items-center justify-center">
           <img className="h-[60%] rounded-full" src="src/assets/profile-pic.png"></img>
@@ -38,7 +38,7 @@ export default function Header() {
       </div>
 
       {/* Yellow triangle */}
-      <svg className="z-30 headerMenu fixed top-[7.4vh] h-[3vh] w-[--header-width] fill-yellow transition ease-in-out duration-700" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none" stroke-width="3" stroke="black">
+      <svg className="z-30 headerMenu fixed top-[7.4vh] h-[3vh] w-[--header-width] fill-yellow transition ease-in-out duration-700" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none" strokeWidth="3" stroke="black">
         <polygon points="-5,0 50,100 105,0"/>
       </svg>
     </>
