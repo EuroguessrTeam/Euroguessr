@@ -1,4 +1,5 @@
 import { Background } from "../Background/Background";
+import Header from "../Header/Header";
 
 export default function Game() {
 
@@ -22,23 +23,7 @@ export default function Game() {
       <Background className="absolute z-0 h-full w-[--header-width] inset-auto -mt-[7.4vh]"/>
 
       {/* Header */}
-      <div className="fixed h-[7.6vh] w-[--header-width] flex items-center bg-yellow overflow-hidden">
-        <div className="w-[16.6666%] flex items-center justify-center text-black">
-          <button>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" strokeWidth="2.25" stroke="black" className="w-6 h-6">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 5.5h28" />
-              <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 18h28" />
-              <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 30.5h28" />
-            </svg>
-          </button>
-        </div>
-        <div className="w-[66.6%] flex items-center justify-center">
-          <p className="text-[250%] text-bold text-center text-black font-eurotype">Euroguessr</p>
-        </div>
-        <div className="w-[16.6666%] h-full flex items-center justify-center">
-          <img className="h-[60%] rounded-full" src="src/assets/profile-pic.png"></img>
-        </div>
-      </div>
+      <Header/>
 
       {/* Game UI */}
       <div className="z-10 relative h-[44.87vh] flex mb-[4vh] mt-[20.1vh] overflow-hidden">
@@ -51,7 +36,7 @@ export default function Game() {
         <div className="w-[66.68%] h-full flex flex-col justify-between items-center">
           
           {/* Gaming mode */}
-          <div className="flex items-center justify-between h-[5.125vh] w-full bg-orange border-2 p-1 border-orange rounded-2xl">
+          <div className="flex items-center justify-between h-[5.125vh] w-full bg-orange border-2 p-1 border-orange rounded-2xl shadow-2xl">
             <button className="">
               <svg xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M21 16.811c0 .864-.933 1.406-1.683.977l-7.108-4.061a1.125 1.125 0 0 1 0-1.954l7.108-4.061A1.125 1.125 0 0 1 21 8.689v8.122ZM11.25 16.811c0 .864-.933 1.406-1.683.977l-7.108-4.061a1.125 1.125 0 0 1 0-1.954l7.108-4.061a1.125 1.125 0 0 1 1.683.977v8.122Z" />
@@ -68,14 +53,14 @@ export default function Game() {
           </div>
 
           {/* Play Button */}
-          <button className="flex justify-center items-center h-[15vh] w-[15vh] bg-pink rounded-full border-4 hover:scale-110 transition ease-in-out duration-200">
+          <button className="flex justify-center items-center h-[15vh] w-[15vh] bg-pink rounded-full border-4 hover:scale-110 transition ease-in-out duration-200 shadow-2xl">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-[65%] h-[65%] ml-[6%]">
               <path d="M6.3 2.84A1.5 1.5 0 0 0 4 4.11v11.78a1.5 1.5 0 0 0 2.3 1.27l9.344-5.891a1.5 1.5 0 0 0 0-2.538L6.3 2.841Z" />
             </svg>
           </button>
 
           {/* Search bar */}
-          <div className="flex flex-row items-center h-[5.125vh] w-full bg-white border-2 border-blue rounded-2xl p-1">
+          <div className="flex flex-row items-center h-[5.125vh] w-full bg-white border-2 border-blue rounded-2xl p-1 shadow-2xl">
             <input className="w-full outline-none focus:ring-0 bg-white rounded-2xl text-black text-[3vh] font-eurotype"></input>
             <button className="p-0 border-0 text-white font-bold rounded-xl">
               <div className="flex items-center justify-center w-[4vh] h-[4vh] bg-blue rounded-xl hover:scale-110 transition ease-in-out duration-200">
@@ -98,6 +83,13 @@ export default function Game() {
 
       {/* Song list */}
       <div className="relative rounded-lg bg-yellow z-10">
+        io <br />
+        io <br />
+        io <br />
+        io <br />
+        io <br />
+        io <br />
+        io <br />
         io <br />
         io <br />
         io <br />
