@@ -4,14 +4,32 @@ export default function Header() {
     const toggleMenuBar = () => {
       const elements = document.querySelectorAll('.headerMenu');
       for (let i = 0; i < elements.length; i++) {
-          elements[i].classList.toggle("translate-y-[25vh]");
+          elements[i].classList.toggle("translate-y-[24.9vh]");
       }
     }
 
+    const updateHeaderWidth = () => {
+      const rootDiv: HTMLElement | null = document.getElementById('root');
+  
+      if (rootDiv) {
+        // Récupérer la largeur de la div
+        const largeurDiv: number = rootDiv.offsetWidth;
+  
+        // Injecter la largeur dans une propriété CSS personnalisée
+        document.documentElement.style.setProperty('--header-width', `${largeurDiv}px`);
+      }
+    }
+    updateHeaderWidth();
+  
+    window.addEventListener('resize', updateHeaderWidth);
+
     return (
       <>
+      {/* Artificial height of the header */}
+      <div className="h-[10.6vh] w-full"></div>
+
       {/* Header */}
-      <div className="fixed z-50 h-[7.6vh] w-[--header-width] flex items-center bg-yellow overflow-hidden">
+      <div className="fixed top-0 z-50 h-[7.6vh] w-[--header-width] flex items-center bg-yellow overflow-hidden">
         <div className="w-[16.6666%] flex items-center justify-center text-black">
           <button onClick={toggleMenuBar}>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" strokeWidth="2.25" stroke="black" className="w-6 h-6">
@@ -30,7 +48,7 @@ export default function Header() {
       </div>
 
       {/* Hidden/Visible Menu */}
-      <div className="overflow-hidden z-40 headerMenu fixed top-[-17.4vh] h-[25vh] w-[--header-width] bg-yellow transition ease-in-out duration-700 flex flex-col items-center justify-around	border-t-2 border-black">
+      <div className="overflow-hidden z-40 headerMenu fixed top-[-17.4vh] h-[25vh] w-[--header-width] bg-yellow transition ease-in-out duration-700 flex flex-col items-center justify-around">
         <p className="text-blue font-eurotype text-2xl underline">Menu 1</p>
         <p className="text-blue font-eurotype text-2xl underline">Menu 2</p>
         <p className="text-blue font-eurotype text-2xl underline">Menu 3</p>

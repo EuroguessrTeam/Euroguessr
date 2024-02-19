@@ -8,6 +8,8 @@ interface BackgroundProps {
 interface Part{
     fill: string;
     scale?: string;
+    strokeWidth?: string; 
+    stroke?: string;
 }
 
 export class Background extends React.Component<BackgroundProps> {
@@ -17,8 +19,8 @@ export class Background extends React.Component<BackgroundProps> {
 
         const parts: Part[] = [
             {fill: "fill-purple-light"},
-            {fill: "fill-yellow", scale: "scale-y-[0.4]"},
-            {fill: "fill-yellow-light", scale: "scale-y-[0.15]"},
+            {fill: "fill-yellow", scale: "scale-y-[0.325]"},
+            {fill: "fill-yellow-light", scale: "scale-y-[0.13]", strokeWidth:"stroke-2", stroke:"stroke-white"},
         ]
 
         // Rendered element
@@ -28,7 +30,7 @@ export class Background extends React.Component<BackgroundProps> {
                     return (
                         <div key={index} className={"absolute inset-0 flex h-screen"}>
                             {[true, false].map((isLeft, index) => {
-                                return <Triangle key={index} isLeft={isLeft} className={`${part.fill} ${part.scale}`} />
+                                return <Triangle key={index} isLeft={isLeft} className={`${part.fill} ${part.scale} ${part.strokeWidth} ${part.stroke}`} />
                             })}
                         </div>
                     )

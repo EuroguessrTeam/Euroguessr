@@ -20,13 +20,10 @@ export default function Game() {
   return (
     <>
       {/* Background */}
-      <Background className="absolute z-0 h-full w-[--header-width] inset-auto -mt-[7.4vh]"/>
-
-      {/* Header */}
-      <Header/>
+      <Background className="absolute z-0 h-full w-[--header-width] inset-auto -mt-[21vh]"/>
 
       {/* Game UI */}
-      <div className="z-10 relative h-[44.87vh] flex mb-[4vh] mt-[20.1vh] overflow-hidden">
+      <div className="z-10 relative h-[44.87vh] flex mb-[4vh] mt-[6.5vh] overflow-hidden">
 
         <div className="w-[16.6666%] h-full flex items-center pl-[2%]">
           <p className="text-black font-eurotype text-[2.5vh]">Attempt&nbsp;10</p>
