@@ -1,5 +1,6 @@
 import { Background } from "../Background/Background";
 import Header from "../Header/Header";
+import { SongList } from "../SongList/SongList";
 
 export default function Game() {
 
@@ -79,20 +80,27 @@ export default function Game() {
       </div>
 
       {/* Song list */}
-      <div className="relative rounded-lg bg-yellow z-10">
-        io <br />
-        io <br />
-        io <br />
-        io <br />
-        io <br />
-        io <br />
-        io <br />
-        io <br />
-        io <br />
-        io <br />
-        io <br />
-        io <br />
-      </div>
+            <div className="w-full flex justify-center bg-purple">
+                <div className="relative z-10 bg-yellow w-[80%] h-full rounded-lg ">
+                    <div className="flex justify-center items-center">
+                        pagination
+                    </div>
+                    <SongList className="relative font-roboto font-thin text-black p-8" 
+                        songs={
+                            [
+                                { imgUrl: "src/assets/profile-pic.png", title: "Song 1" },
+                                { imgUrl: "src/assets/profile-pic.png", title: "Song 1" },
+                                { imgUrl: "src/assets/profile-pic.png", title: "Song 1" },
+                                { imgUrl: "src/assets/profile-pic.png", title: "Song 1" },
+                                { imgUrl: "src/assets/profile-pic.png", title: "Song 1" },
+                                { imgUrl: "src/assets/profile-pic.png", title: "Song 1" },
+                                { imgUrl: "src/assets/profile-pic.png", title: "Song 1" },
+                                { imgUrl: "src/assets/profile-pic.png", title: "Song 1" },
+                            ]
+                        }
+                    />
+                </div>
+            </div>
     </>
   )
 }
