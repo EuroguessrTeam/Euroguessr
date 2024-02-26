@@ -1,11 +1,17 @@
+import { useEffect, useState } from "react";
 import { Background } from "../Background/Background";
 import { DoublePlayIcon } from "../Icons/DoublePlayIcon";
 import { SearchIcon } from "../Icons/SearchIcon";
 import { SongList } from "../SongList/SongList";
 import PlayButton from "./PlayButton";
+import { SongElement } from "../SongList/Song";
+import { GameMode, GameModeKeys, gameModes } from "./GameModes";
+import { changeGameMode } from "./WorkerGame";
 
 export default function Game() {
-
+  // #     #
+  // # CSS #
+  // #     #
   const updateHeaderWidth = () => {
     const rootDiv: HTMLElement | null = document.getElementById('root');
 
@@ -18,14 +24,50 @@ export default function Game() {
     }
   }
   updateHeaderWidth();
-
   window.addEventListener('resize', updateHeaderWidth);
+
+  // #           #
+  // # Gamemodes #
+  // #           #
+  const [selectedGameMode, setSelectedGameMode] = useState<GameMode | undefined>(gameModes.get(GameModeKeys.DAILY));
+
+  // #           #
+  // # Searching #
+  // #           #
+  const [songs, setSongs] = useState<SongElement[]>([]);
+
+  function reloadSongs(){
+        setSongs(
+            [
+                { imgUrl: "src/assets/profile-pic.png", title: "Song 1" },
+                { imgUrl: "src/assets/profile-pic.png", title: "Song 2" },
+                { imgUrl: "src/assets/profile-pic.png", title: "Song 3" },
+                { imgUrl: "src/assets/profile-pic.png", title: "Song 4" },
+                { imgUrl: "src/assets/profile-pic.png", title: "Song 5" },
+                { imgUrl: "src/assets/profile-pic.png", title: "Song 6" },
+                { imgUrl: "src/assets/profile-pic.png", title: "Song 7" },
+                { imgUrl: "src/assets/profile-pic.png", title: "Song 8" },
+            ]
+        );
+    }
+
+    // Reload songs on first render
+    useEffect(() => {
+        if(!songs || songs.length === 0){
+            reloadSongs();
+        }
+    })
+
+  // #     #
+  // # JSX #
+  // #     #
   return (
     <>
       {/* Background */}
       <Background className="absolute z-0 h-full w-[--header-width] inset-auto -mt-[21vh]"/>
 
       {/* Game UI */}
+      {selectedGameMode && 
       <div className="z-10 relative h-[44.87vh] flex mb-[4vh] mt-[6.5vh] overflow-hidden">
 
         {/* Attempts */}
@@ -40,22 +82,36 @@ export default function Game() {
           <div className="flex items-center justify-between h-[5.125vh] w-full bg-orange border-2 p-1 border-orange rounded-2xl shadow-2xl">
 
             {/* Change to precedent */}
-            <button>
+            <button onClick={() => changeGameMode(true, gameModes, selectedGameMode, setSelectedGameMode)}>
               <DoublePlayIcon isLeft={true} />
             </button>
 
             {/* Gamemode title */}
-            <p className="font-eurotype text-[3vh]">Training</p>
+            <p className="font-eurotype text-[3vh]">{selectedGameMode.name}</p>
 
             {/* Change to next */}
-            <button>
+            <button onClick={() => changeGameMode(false, gameModes, selectedGameMode, setSelectedGameMode)}>
               <DoublePlayIcon isLeft={false} />
             </button>
 
           </div>
 
+          {/* Plus button */}
+          {selectedGameMode.skip_button_active &&
+            <div className="bg-purple-light rounded-full w-[4vh] h-[4vh] flex items-center justify-center">
+                +
+            </div>
+          }
+
           {/* Play Button */}
           <PlayButton className="w-[15vh] h-[15vh] flex justify-center items-center bg-pink rounded-full shadow-2xl border-4 hover:scale-110 transition ease-in-out duration-200" />
+
+          {/* Skip button */}
+          {selectedGameMode.skip_button_active &&
+            <div className="bg-purple-light rounded-full w-[8vh] h-[4vh] flex items-center justify-center">
+               SKIP 
+            </div>
+          }
 
           {/* Search bar */}
           <div className="w-full h-[5.125vh] flex flex-row items-center bg-white border-2 border-blue rounded-2xl p-1 shadow-2xl">
@@ -81,27 +137,20 @@ export default function Game() {
         </div>
 
       </div>
+      }
 
       {/* Song list */}
-      <div className="w-full flex justify-center bg-purple">
-        <div className="relative z-10 bg-yellow w-[80%] h-full rounded-lg ">
+      <div className="w-full h-[34%] flex justify-center bg-purple">
+        <div className="relative z-10 bg-yellow w-[80%] h-full rounded-lg overflow-auto">
           <div className="flex justify-center items-center">
               pagination
           </div>
           <SongList className="relative font-roboto font-thin text-black p-8" 
-                    songs={
-                        [
-                            { imgUrl: "src/assets/profile-pic.png", title: "Song 1" },
-                            { imgUrl: "src/assets/profile-pic.png", title: "Song 2" },
-                            { imgUrl: "src/assets/profile-pic.png", title: "Song 3" },
-                            { imgUrl: "src/assets/profile-pic.png", title: "Song 4" },
-                            { imgUrl: "src/assets/profile-pic.png", title: "Song 5" },
-                            { imgUrl: "src/assets/profile-pic.png", title: "Song 6" },
-                            { imgUrl: "src/assets/profile-pic.png", title: "Song 7" },
-                            { imgUrl: "src/assets/profile-pic.png", title: "Song 8" },
-                        ]
-                    }
+                    songs={songs}
           />
+          <div className="flex justify-center items-center">
+              pagination
+          </div>
         </div>
       </div>
     </>
