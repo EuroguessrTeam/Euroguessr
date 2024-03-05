@@ -23,7 +23,7 @@ export class API {
      * @param path  The path of the API endpoint
      * @returns The response of the API
      */
-    async get(path: string): Promise<JSON> {
+    async get(path: string): Promise<any> {
         const response = await fetch(`${API.BASE_URL}${path}`);
         return await response.json();
     }
@@ -34,7 +34,7 @@ export class API {
      * @param body The body of the request
      * @returns The response of the API
      */
-    async post(path: string, body: JSON): Promise<JSON> {
+    async post(path: string, body: JSON): Promise<any> {
         const response = await fetch(`${API.BASE_URL}${path}`, {
             method: 'POST',
             headers: {
@@ -51,7 +51,7 @@ export class API {
      * @param body The body of the request
      * @returns The response of the API
      */
-    async put(path: string, body: JSON): Promise<JSON> {
+    async put(path: string, body: JSON): Promise<any> {
         const response = await fetch(`${API.BASE_URL}${path}`, {
             method: 'PUT',
             headers: {
@@ -67,7 +67,7 @@ export class API {
      * @param path The path of the API endpoint
      * @returns The response of the API
      */
-    async delete(path: string): Promise<JSON> {
+    async delete(path: string): Promise<any> {
         const response = await fetch(`${API.BASE_URL}${path}`, {
             method: 'DELETE',
         });
