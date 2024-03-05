@@ -85,8 +85,6 @@ namespace Euroguessr.Data
             modelBuilder.Entity<TodayGuessNumberRange>()
                 .HasKey(e => new { e.min_value, e.max_value });
 
-            //AUTO INCREMENT ID
-
             modelBuilder.Entity<Song>()
                 .Property(s => s.id)
                 .ValueGeneratedOnAdd();

@@ -7,6 +7,9 @@ using Euroguessr.Interfaces;
 
 namespace Euroguessr.Controllers
 {
+
+    [Route("api/song")]
+    [ApiController]
     public class SongController : Controller
     {
 
@@ -24,7 +27,7 @@ namespace Euroguessr.Controllers
         }
 
 
-        [HttpGet("/song/daily")]
+        [HttpGet("daily")]
         [Produces("application/json")]
         public ActionResult GetDailySong()
         {
@@ -47,7 +50,7 @@ namespace Euroguessr.Controllers
             }
         }
 
-        [HttpPost("/song/daily/submit")]
+        [HttpPost("daily/submit")]
         [Consumes("application/json")]
         [Produces("application/json")]
         public ActionResult SubmitDailySong(InputSubmitSongModel input)
@@ -65,7 +68,7 @@ namespace Euroguessr.Controllers
             }
         }
 
-        [HttpGet("/song/training")]
+        [HttpGet("training")]
         [Produces("application/json")]
         public ActionResult GetTrainingSong()
         {
@@ -90,7 +93,7 @@ namespace Euroguessr.Controllers
             }
         }
 
-        [HttpPost("/song/training/submit")]
+        [HttpPost("training/submit")]
         [Consumes("application/json")]
         [Produces("application/json")]
         public ActionResult SubmitTrainingSong(InputSubmitSongModel input)
@@ -108,21 +111,36 @@ namespace Euroguessr.Controllers
             }
         }
 
-        [HttpGet("/songs")]
+        [HttpGet("search")]
         [Produces("application/json")]
-        public ActionResult GetSongs()
+        public ActionResult SearchSongs(string searchTerm, int page, int rowsNumber)
         {
             try
             {
-                var response = _context.Song.OrderByDescending(c => c.id).ToArray();
-
-                return new JsonResult(response);
+                List<Song> response = _songManagerService.SearchSongs(searchTerm, page, rowsNumber);
+                return new OkObjectResult(response);
             }
             catch (Exception e)
             {
                 _logger.LogError(e.ToString());
                 return BadRequest("Something went wrong...");
             }
+        }
+
+        [HttpGet("count")]
+        [Produces("application/json")]
+        public ActionResult CountSongs(string searchTerm)
+        {
+            try
+            {
+                int response = _songManagerService.CountSongs(searchTerm);
+                return new OkObjectResult(response);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.ToString());
+                return BadRequest("Something went wrong...");
+            }   
         }
     }
 }

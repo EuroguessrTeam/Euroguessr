@@ -30,6 +30,17 @@ namespace Euroguessr.Data
             return _context.Song.OrderByDescending(s => s.id).ToList();
         }
 
+        public List<Song> SearchSongs(string searchTerm, int page, int rowsNumber)
+        {
+            rowsNumber = 25;
+            return _context.Song.Where(s => s.song_name.ToLower().Contains(searchTerm.ToLower()) || s.artist_name.ToLower().Contains(searchTerm.ToLower()) || s.year.ToString().ToLower().Contains(searchTerm.ToLower()) || s.country.ToLower().Contains(searchTerm.ToLower())).OrderByDescending(s => s.year).Skip((page-1)*rowsNumber).Take(rowsNumber).ToList();
+        }
+
+        public int CountSongs(string searchTerm)
+        {
+            return _context.Song.Where(s => s.song_name.ToLower().Contains(searchTerm.ToLower()) || s.artist_name.ToLower().Contains(searchTerm.ToLower()) || s.year.ToString().ToLower().Contains(searchTerm.ToLower()) || s.country.ToLower().Contains(searchTerm.ToLower())).Count();
+        }
+
         public Song GetTodayGuess()
         {
 
