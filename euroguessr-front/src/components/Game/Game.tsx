@@ -53,11 +53,11 @@ export default function Game() {
 
     // Reload songs on first render
     useEffect(() => {
-        if(!songs || songs.length === 0){
+        if(!songs||songs.length === 0){
             reloadSongs();
         }
     })
-
+  
   // #     #
   // # JSX #
   // #     #

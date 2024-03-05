@@ -1,4 +1,5 @@
 import React, { ReactNode } from 'react';
+import { API } from '../../services/api';
 
 interface PlayButtonProps {
   className?: string;
@@ -11,11 +12,17 @@ interface PlayButtonState {
 export default class PlayButton extends React.Component<PlayButtonProps, PlayButtonState>  {
 
     constructor(props: PlayButtonProps) {
-        super(props);
-        this.state = {
-          isPlaying: false
-        };
-        this.toggleSong = this.toggleSong.bind(this);
+      super(props);
+      this.state = {
+        isPlaying: false
+      };
+      this.toggleSong = this.toggleSong.bind(this);
+      const api = API.getInstance();
+      const response = api.get('song/daily');
+      console.log(response);
+      response.then((data) => {
+        console.log(data);
+      });
     }
 
     toggleSong() {
