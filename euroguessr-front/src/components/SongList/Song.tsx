@@ -1,37 +1,31 @@
-import React from "react";
 import { GuessIcon } from "../Icons/GuessIcon";
 
 export interface SongElement {
-    imgUrl: string;
-    title: string;
+  imgUrl: string;
+  title: string;
 }
 
 interface SongProps {
-    className?: string;
-    imgUrl: string;
-    title: string;
+  className?: string;
+  imgUrl: string;
+  title: string;
 }
 
-export class Song extends React.Component<SongProps> {
-  render(){
-        // Props
-        const { className, imgUrl, title } = this.props;
+export function Song ({ className, imgUrl, title }:SongProps) {
+  // Rendered element
+  return (
+    <div className={className}>
+      <div className="grow flex flex-row justify-between items-center">
 
-        // Rendered element
-        return (
-            <div className={className}>
-                <div className="grow flex flex-row justify-between items-center">
+        <img src={imgUrl} alt={title} className="w-[4vh] h-[4vh] rounded-lg" />
 
-                    <img src={imgUrl} alt={title} className="w-[4vh] h-[4vh] rounded-lg" />
+        <p className="text-[2vh] grow text-left ml-4">{title}</p>
 
-                    <p className="text-[2vh] grow text-left ml-4">{title}</p>
+        <button className="w-[4vh] h-[4vh] flex items-center justify-center bg-pink rounded-lg">
+          <GuessIcon fill="white" stroke="white" />
+        </button>
 
-                    <button className="w-[4vh] h-[4vh] flex items-center justify-center bg-pink rounded-lg">
-                        <GuessIcon fill="white" stroke="white" />
-                    </button>
-
-                </div>
-            </div>
-        )
-    }
+      </div>
+    </div>
+  )
 }

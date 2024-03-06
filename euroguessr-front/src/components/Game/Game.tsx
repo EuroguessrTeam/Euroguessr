@@ -39,7 +39,9 @@ export default function Game() {
   // #         #
   // # OnMount #
   // #         #
-  useEffect(() => selectingGameModeRoutine(selectedGameMode, songs, setSongs))
+  useEffect(() => {
+      selectingGameModeRoutine(selectedGameMode, songs, setSongs)
+    }, [])
   
   // #     #
   // # JSX #
