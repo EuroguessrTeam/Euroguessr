@@ -34,6 +34,19 @@ export default {
       },
       borderRadius: {
         '4xl': '2rem',
+      },
+      keyframes: {
+        wiggle: {
+          '0%, 100%': {
+            transform: 'scale(1)'
+          },
+            '50%': {
+            transform: 'scale(1.1)'
+          },
+        }
+      },
+      animation: {
+        wiggle: 'wiggle 1.5s ease-in-out infinite',
       }
     }
   },

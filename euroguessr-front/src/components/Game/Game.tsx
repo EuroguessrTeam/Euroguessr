@@ -3,7 +3,7 @@ import { Background } from "../Background/Background";
 import { DoublePlayIcon } from "../Icons/DoublePlayIcon";
 import { SearchIcon } from "../Icons/SearchIcon";
 import { SongList } from "../SongList/SongList";
-import PlayButton from "./PlayButton";
+import { PlayButton } from "./PlayButton";
 import { SongElement } from "../SongList/Song";
 import { GameMode, GameModeKeys, gameModes } from "./GameModes";
 import { changeGameMode } from "./WorkerGame";

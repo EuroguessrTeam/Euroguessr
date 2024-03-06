@@ -1,5 +1,6 @@
 import React, { ReactNode } from 'react';
 import { API } from '../../services/api';
+import YouTube, { YouTubePlayer, YouTubeProps } from 'react-youtube';
 
 interface PlayButtonProps {
   className?: string;
@@ -7,29 +8,56 @@ interface PlayButtonProps {
 
 interface PlayButtonState {
   isPlaying: boolean;
+  videoId?: string;
+  isLoaded: boolean;
 }
 
-export default class PlayButton extends React.Component<PlayButtonProps, PlayButtonState>  {
+let videoElement: YouTubePlayer = null;
+
+export class PlayButton extends React.Component<PlayButtonProps, PlayButtonState>  {
 
     constructor(props: PlayButtonProps) {
       super(props);
       this.state = {
-        isPlaying: false
+        isPlaying: false,
+        isLoaded: false,
       };
       this.toggleSong = this.toggleSong.bind(this);
+      this.getVideoId();
+    }
+
+    async getVideoId() {
       const api = API.getInstance();
       const response = api.get('song/daily');
-      console.log(response);
-      response.then((data) => {
-        console.log(data);
+      // Delay the response to prevent spamming the API
+      await response.then((data) => {
+        this.setState({ videoId: data.video_id });
+        console.log(data.video_id)
       });
     }
 
     toggleSong() {
-      this.setState(prevState => ({
-        isPlaying: !prevState.isPlaying
-      }));
-      console.log(this.state.isPlaying);
+      if (this.state.videoId) {
+        const isPlaying = !this.state.isPlaying;
+        this.setState({ isPlaying: isPlaying }, () => {
+          if(isPlaying){
+            console.log("Playing");
+            console.log(YouTube.PlayerState.PLAYING);
+            videoElement.playVideo();
+          } else {
+            console.log("Stopped");
+            videoElement.pauseVideo();
+          }
+        });
+      }
+    }
+
+    loadingIcon(): ReactNode {
+      return (
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="white" className="w-[65%] h-[65%] animate-spin">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
+        </svg>
+      )
     }
 
     playIcon(): ReactNode {
@@ -48,14 +76,39 @@ export default class PlayButton extends React.Component<PlayButtonProps, PlayBut
       )
     }
 
-    render() {
-        const {className} = this.props;
+    youtubePlayer() {
+      const onPlayerReady: YouTubeProps['onReady'] = (event) => {
+        // access to player in all event handlers via event.target
+        event.target.seekTo(10);
+        event.target.pauseVideo();
+        event.target.playVideo();
+        event.target.setVolume(30);
+        videoElement = event.target;
+      }
 
-        return (
-            <button onClick={this.toggleSong} className={`${className}`}>
-              {this.state.isPlaying ? this.stopIcon() : this.playIcon()}
-            </button>
-        );
+      const opts: YouTubeProps['opts'] = {
+        height: '0',
+        width: '0',
+      };
+    
+      return (
+        <>
+          <YouTube videoId="3JUuQ7M4JHk" opts={opts} onReady={onPlayerReady} className="absolute" />
+        </>
+      )
+    }
+
+    render() {
+      const { className } = this.props;
+
+      return (
+        <>
+          <button onClick={this.toggleSong} className={`${className} ${this.state.isPlaying ? "animate-wiggle" : ""}`}>
+            {!this.state.isLoaded ? this.loadingIcon() : (this.state.isPlaying ? this.stopIcon() : this.playIcon()) }
+          </button>
+          <this.youtubePlayer />
+        </>
+      );
     }
 
 }
