@@ -12,6 +12,7 @@ builder.Services.AddCors(options =>
         policy =>
         {
             policy.WithOrigins("http://localhost:5173",
+                               "http://localhost:4173",
                                "https://euroguessr.com")
             .AllowAnyMethod()
             .AllowAnyHeader();

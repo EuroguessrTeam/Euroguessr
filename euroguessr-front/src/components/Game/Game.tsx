@@ -89,7 +89,7 @@ export default function Game() {
           }
 
           {/* Play Button */}
-          <PlayButton className="w-[15vh] h-[15vh] flex justify-center items-center bg-pink rounded-full shadow-2xl border-4 hover:scale-110 transition ease-in-out duration-200" />
+          <PlayButton className={"w-[15vh] h-[15vh] flex justify-center items-center bg-pink rounded-full shadow-2xl border-4 hover:scale-110 transition ease-in-out duration-200"}/>
 
           {/* Skip button */}
           {selectedGameMode.skip_button_active &&
