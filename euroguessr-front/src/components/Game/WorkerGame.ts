@@ -1,8 +1,10 @@
+import { SongElement } from "../SongList/Song";
 import { GameMode, GameModeKeys } from "./GameModes"
 
 export const route = [GameModeKeys.DAILY, GameModeKeys.TRAINING];
 
-export function changeGameMode(isLeft: boolean, dictionary: Map<GameModeKeys, GameMode>, selectedGameMode: GameMode | undefined, setSelectedGameMode: any) {
+export function changeGameMode(isLeft: boolean, dictionary: Map<GameModeKeys, GameMode>, selectedGameMode: GameMode | undefined, setSelectedGameMode: any,
+                               songs: SongElement[], setSongs: (songs: SongElement[]) => void){
     if(!selectedGameMode) return;
 
     // Get the current index
@@ -20,6 +22,19 @@ export function changeGameMode(isLeft: boolean, dictionary: Map<GameModeKeys, Ga
       newIndex = 0;
     }
 
-    //Changing the selected game mode 
-    setSelectedGameMode(dictionary.get(route[newIndex]));
+    // Get the new game mode
+    const newGameMode = dictionary.get(route[newIndex]);
+
+    // Changing the selected game mode 
+    setSelectedGameMode(newGameMode);
+
+    // Starting the routine
+    selectingGameModeRoutine(newGameMode, songs, setSongs);
+}
+
+export function selectingGameModeRoutine(selectedGameMode: GameMode | undefined, songs: SongElement[], setSongs: (songs: SongElement[]) => void) {
+  // Reloading songs
+  if(!songs){
+      selectedGameMode?.reloadSongs(setSongs);
+  }
 }
