@@ -1,9 +1,9 @@
 import React from "react";
 
 interface GuessIconProps {
-    className?: string;
-    fill?: string;
-    stroke?: string;
+  className?: string;
+  fill?: string;
+  stroke?: string;
 }
 
 export class GuessIcon extends React.Component<GuessIconProps> {

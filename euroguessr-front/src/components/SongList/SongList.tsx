@@ -2,8 +2,8 @@ import React from "react";
 import { Song, SongElement } from "./Song";
 
 interface SongListProps {
-    className?: string;
-    songs: SongElement[];
+  className?: string;
+  songs: SongElement[];
 }
 
 export class SongList extends React.Component<SongListProps> {
