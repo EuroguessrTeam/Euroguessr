@@ -31,6 +31,19 @@ export default function Game() {
   // #           #
   const [selectedGameMode, setSelectedGameMode] = useState<GameMode | undefined>(gameModes.get(GameModeKeys.DAILY));
 
+  // #             #
+  // # Skip button #
+  // #             #
+  const [skipButtonCounter, setSkipButtonCounter] = useState<number>(0);
+  const [skipButtonDisabled, setSkipButtonDisabled] = useState<boolean>(false);
+  const handleSkipButtonClicked = () => {
+    setSkipButtonCounter(prev => prev + 1);
+    setSkipButtonDisabled(true);
+    setTimeout(() => {
+        setSkipButtonDisabled(false);
+      }, 2500);
+  };
+
   // #           #
   // # Searching #
   // #           #
@@ -40,7 +53,7 @@ export default function Game() {
   // # OnMount #
   // #         #
   useEffect(() => selectingGameModeRoutine(selectedGameMode, songs, setSongs))
-  
+
   // #     #
   // # JSX #
   // #     #
@@ -87,13 +100,15 @@ export default function Game() {
           }
 
           {/* Play Button */}
-          <PlayButton className={"w-[15vh] h-[15vh] flex justify-center items-center bg-pink rounded-full shadow-2xl border-4 hover:scale-110 transition ease-in-out duration-200"}/>
+          <PlayButton selectedGameMode={selectedGameMode} skipButtonCounter={skipButtonCounter} className={"w-[15vh] h-[15vh] flex justify-center items-center bg-pink rounded-full shadow-2xl border-4 hover:scale-110 transition-all"}/>
 
           {/* Skip button */}
           {selectedGameMode.skip_button_active &&
-            <div className="bg-purple-light rounded-full w-[8vh] h-[4vh] flex items-center justify-center">
-               SKIP 
-            </div>
+            <button onClick={handleSkipButtonClicked} disabled={skipButtonDisabled} className="disabled:opacity-50 animation-full">
+              <div className="bg-blue rounded-full w-[8vh] h-[4vh] flex items-center justify-center">
+                <p className="font-bold">SKIP</p> 
+              </div>
+            </button>
           }
 
           {/* Search bar */}

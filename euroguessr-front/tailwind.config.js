@@ -47,6 +47,9 @@ export default {
       },
       animation: {
         wiggle: 'wiggle 1.5s ease-in-out infinite',
+      },
+      rotate: {
+        'minus20': '-20deg',
       }
     }
   },

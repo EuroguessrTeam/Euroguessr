@@ -1,5 +1,5 @@
 import { SongElement } from "../SongList/Song";
-import { reloadDailySongs } from "./WorkerSong";
+import { reloadSongs } from "./WorkerSong";
 
 export const enum GameModeKeys {
     DAILY = 1,
@@ -21,9 +21,9 @@ gameModes.set(
     {
         key: GameModeKeys.DAILY, 
         name: "Daily",
-        player_source_api: "api/daily",
+        player_source_api: "song/daily",
         skip_button_active: false,
-        reloadSongs: reloadDailySongs,
+        reloadSongs: reloadSongs,
     }
 );
 
@@ -32,9 +32,9 @@ gameModes.set(
     {
         key: GameModeKeys.TRAINING, 
         name: "Training",
-        player_source_api: "api/training",
+        player_source_api: "song/training",
         skip_button_active: true,
-        reloadSongs: reloadDailySongs,
+        reloadSongs: reloadSongs,
     }
 );
 

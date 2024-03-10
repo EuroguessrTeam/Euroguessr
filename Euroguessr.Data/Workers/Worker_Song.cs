@@ -97,7 +97,7 @@ namespace Euroguessr.Data
                 new object[] { 523, 2022, "Ukraine",                "Kalush Orchestra",                      "Stefania",                                 "Z8Z51no1TD0", 0 },
                 new object[] { 522, 2022, "Bulgaria",               "Intelligent Music Project",             "Intention",                                "UBIj9VGdT-A", 0 },
                 new object[] { 521, 2022, "Netherlands",            "S10",                                   "De diepte",                                "I7NyzU1ob_M", 0 },
-                new object[] { 520, 2022, "Moldova",                "Zdob si Zdub and Advahov Brothers",     "Trenuletul",                               "3Mc_QsVPf7k", 0 },
+                new object[] { 520, 2022, "Moldova",                "Zdob si Zdub and Advahov Brothers",     "Trenuletul",                               "", 0 },
                 new object[] { 519, 2022, "Portugal",               "Maro",                                  "Saudade, saudade",                         "tIgwFHV78jg", 0 },
                 new object[] { 518, 2022, "Croatia",                "Mia Dimsic",                            "Guilty Pleasure",                          "VdOitl6KekY", 0 },
                 new object[] { 517, 2022, "Denmark",                "Reddi",                                 "The Show",                                 "kjZnFKceS3M", 0 },

@@ -30,7 +30,6 @@ namespace Euroguessr.Data.Tables
 
         [Required]
         [MaxLength(11)]
-        [JsonIgnore]
         public string video_id { get; set; }
 
         [Required]

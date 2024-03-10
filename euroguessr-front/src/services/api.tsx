@@ -34,13 +34,13 @@ export class API {
      * @param body The body of the request
      * @returns The response of the API
      */
-    async post(path: string, body: JSON): Promise<any> {
+    async post(path: string, body: string): Promise<any> {
         const response = await fetch(`${API.BASE_URL}${path}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(body),
+            body: body,
         });
         return await response.json();
     }
@@ -51,13 +51,13 @@ export class API {
      * @param body The body of the request
      * @returns The response of the API
      */
-    async put(path: string, body: JSON): Promise<any> {
+    async put(path: string, body: string): Promise<any> {
         const response = await fetch(`${API.BASE_URL}${path}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(body),
+            body: body,
         });
         return await response.json();
     }

@@ -34,7 +34,7 @@ export function changeGameMode(isLeft: boolean, dictionary: Map<GameModeKeys, Ga
 
 export function selectingGameModeRoutine(selectedGameMode: GameMode | undefined, songs: SongElement[], setSongs: (songs: SongElement[]) => void) {
   // Reloading songs
-  if(!songs){
-      selectedGameMode?.reloadSongs(setSongs);
+  if (songs.length === 0) {
+    selectedGameMode?.reloadSongs(setSongs);
   }
 }
