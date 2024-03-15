@@ -4,9 +4,8 @@ import { DoublePlayIcon } from "../Icons/DoublePlayIcon";
 import { SearchIcon } from "../Icons/SearchIcon";
 import { SongList } from "../SongList/SongList";
 import { PlayButton } from "./PlayButton";
-import { SongElement } from "../SongList/Song";
 import { GameMode, GameModeKeys, gameModes } from "./GameModes";
-import { changeGameMode, selectingGameModeRoutine } from "./WorkerGame";
+import { searchNearGameMode, selectingGameModeRoutine } from "./WorkerGame";
 
 export default function Game() {
   // #     #
@@ -30,6 +29,12 @@ export default function Game() {
   // # Gamemodes #
   // #           #
   const [selectedGameMode, setSelectedGameMode] = useState<GameMode | undefined>(gameModes.get(GameModeKeys.DAILY));
+  function switchGameMode(previous: boolean) {
+    const newGameMode = searchNearGameMode(previous, gameModes, selectedGameMode);
+    if(newGameMode){
+      setSelectedGameMode(newGameMode);
+    }
+  }
 
   // #             #
   // # Skip button #
@@ -47,12 +52,15 @@ export default function Game() {
   // #           #
   // # Searching #
   // #           #
-  const [songs, setSongs] = useState<SongElement[]>([]);
+  const [searchInput, setSearchInput] = useState<string>('');
 
-  // #         #
-  // # OnMount #
-  // #         #
-  useEffect(() => selectingGameModeRoutine(selectedGameMode, songs, setSongs))
+  // #           #
+  // # useEffect #
+  // #           #
+  useEffect(() => {
+    selectingGameModeRoutine(selectedGameMode, setSearchInput)
+    console.log("Selected game mode changed");
+    }, [selectedGameMode]);
 
   // #     #
   // # JSX #
@@ -77,8 +85,8 @@ export default function Game() {
           {/* Gaming mode */}
           <div className="flex items-center justify-between h-[5.125vh] w-full bg-orange border-2 p-1 border-orange rounded-2xl shadow-2xl">
 
-            {/* Change to precedent */}
-            <button onClick={() => changeGameMode(true, gameModes, selectedGameMode, setSelectedGameMode, songs, setSongs)}>
+            {/* Change to previous */}
+            <button onClick={() => switchGameMode(true)}>
               <DoublePlayIcon isLeft={true} />
             </button>
 
@@ -86,7 +94,7 @@ export default function Game() {
             <p className="font-eurotype text-[3vh]">{selectedGameMode.name}</p>
 
             {/* Change to next */}
-            <button onClick={() => changeGameMode(false, gameModes, selectedGameMode, setSelectedGameMode, songs, setSongs)}>
+            <button onClick={() => switchGameMode(false)}>
               <DoublePlayIcon isLeft={false} />
             </button>
 
@@ -115,10 +123,20 @@ export default function Game() {
           <div className="w-full h-[5.125vh] flex flex-row items-center bg-white border-2 border-blue rounded-2xl p-1 shadow-2xl">
 
             {/* Text input */}
-            <input className="w-full outline-none focus:ring-0 bg-white rounded-2xl text-black text-[3vh] font-eurotype"></input>
+            <input id="searchInput"
+                   className="w-full outline-none focus:ring-0 bg-white rounded-2xl text-black text-[3vh] font-eurotype" />
 
             {/* Search button */}
-            <button className="bg-blue rounded-xl hover:scale-105 transition ease-in-out duration-200">
+            <button className="bg-blue rounded-xl hover:scale-105 transition ease-in-out duration-200"
+                    onClick={() => {
+                      // Get the input value
+                      let searchInput = document.getElementById("searchInput") as HTMLInputElement;
+                      
+                      // Set the state
+                      if(searchInput && searchInput.value){
+                        setSearchInput(searchInput.value);
+                      }
+                    }}>
               <div className="w-[4vh] h-[4vh] flex items-center justify-center">
                 <SearchIcon fill="white" stroke="none" />
               </div>
@@ -138,19 +156,22 @@ export default function Game() {
       }
 
       {/* Song list */}
+      {selectedGameMode && 
       <div className="w-full h-[34%] flex justify-center bg-purple">
         <div className="relative z-10 bg-yellow w-[80%] h-full rounded-lg overflow-auto">
           <div className="flex justify-center items-center">
               pagination
           </div>
           <SongList className="relative font-roboto font-thin text-black p-8" 
-                    songs={songs}
+                    searchInput={searchInput}
+                    selectedGameMode={selectedGameMode}
           />
           <div className="flex justify-center items-center">
               pagination
           </div>
         </div>
       </div>
+      }
     </>
   )
 }

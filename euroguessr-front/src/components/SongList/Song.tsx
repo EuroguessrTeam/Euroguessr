@@ -27,12 +27,12 @@ export class Song extends React.Component<SongProps> {
 
           <img src={`https://i.ytimg.com/vi/${song.video_id}/hq720.jpg`} alt={`${song.song_name} image`} className="w-[4vh] h-[4vh] rounded-lg" />
 
-          <div className="flex flex-row flex-start">
+          <div className="grow flex flex-row flex-start justify-between">
             <div className="flex flex-col">
               <p className="text-[1.5vh] grow text-left ml-4">{song.song_name}</p>
               <p className="text-[1.5vh] grow text-left ml-4">{song.artist_name}</p>
             </div>
-            <div className="flex flex-col">
+            <div className="flex flex-col w-[35%]">
               <p className="text-[1.5vh] grow text-left ml-4">{song.year}</p>
               <p className="text-[1.5vh] grow text-left ml-4">{song.country}</p>
             </div>
