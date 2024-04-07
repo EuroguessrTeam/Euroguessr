@@ -10,7 +10,7 @@ namespace Euroguessr.Data
 
         public List<Song> GetSongsModel();
 
-        public List<Song> SearchSongs(string searchTerm, int page, int rowsNumber);
+        public List<Song> SearchSongs(string? searchTerm, int page, int rowsNumber);
 
         public int CountSongs(string searchTerm);
 

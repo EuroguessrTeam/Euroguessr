@@ -113,11 +113,11 @@ namespace Euroguessr.Controllers
 
         [HttpGet("search")]
         [Produces("application/json")]
-        public ActionResult SearchSongs(string searchTerm, int page, int rowsNumber)
+        public ActionResult SearchSongs(string? searchTerm, int page, int? rowsNumber)
         {
             try
             {
-                List<Song> response = _songManagerService.SearchSongs(searchTerm, page, rowsNumber);
+                List<Song> response = _songManagerService.SearchSongs(searchTerm, page, rowsNumber ?? 25);
                 return new OkObjectResult(response);
             }
             catch (Exception e)

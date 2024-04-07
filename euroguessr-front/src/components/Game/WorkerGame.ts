@@ -1,17 +1,15 @@
-import { SongElement } from "../SongList/Song";
 import { GameMode, GameModeKeys } from "./GameModes"
 
 export const route = [GameModeKeys.DAILY, GameModeKeys.TRAINING];
 
-export function changeGameMode(isLeft: boolean, dictionary: Map<GameModeKeys, GameMode>, selectedGameMode: GameMode | undefined, setSelectedGameMode: any,
-                               songs: SongElement[], setSongs: (songs: SongElement[]) => void){
-    if(!selectedGameMode) return;
+export function searchNearGameMode(previous: boolean, dictionary: Map<GameModeKeys, GameMode>, currentGameMode: GameMode | undefined): GameMode | undefined {
+    if(!currentGameMode) return;
 
     // Get the current index
-    const currentIndex = route.indexOf(selectedGameMode.key);
+    const currentIndex = route.indexOf(currentGameMode.key);
 
     // Depending on the direction, get the new index
-    let newIndex = currentIndex + (isLeft ? -1 : 1);
+    let newIndex = currentIndex + (previous ? -1 : 1);
 
     // If the new index is out of bounds, loop to the end
     if (newIndex < 0) {
@@ -25,16 +23,12 @@ export function changeGameMode(isLeft: boolean, dictionary: Map<GameModeKeys, Ga
     // Get the new game mode
     const newGameMode = dictionary.get(route[newIndex]);
 
-    // Changing the selected game mode 
-    setSelectedGameMode(newGameMode);
-
-    // Starting the routine
-    selectingGameModeRoutine(newGameMode, songs, setSongs);
+    // Return the new game mode
+    return newGameMode;
 }
 
-export function selectingGameModeRoutine(selectedGameMode: GameMode | undefined, songs: SongElement[], setSongs: (songs: SongElement[]) => void) {
-  // Reloading songs
-  if (songs.length === 0) {
-    selectedGameMode?.reloadSongs(setSongs);
-  }
+export function selectingGameModeRoutine(selectedGameMode: GameMode | undefined, setSearchInput: (searchInput: string) => void) {
+  // Reloading searchInput => Reloading songs
+  setSearchInput(''); 
+  console.log("Reloading songs for " + selectedGameMode?.name);
 }
