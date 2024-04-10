@@ -159,16 +159,10 @@ export default function Game() {
       {selectedGameMode && 
       <div className="w-full h-[34%] flex justify-center bg-purple">
         <div className="relative z-10 bg-yellow w-[80%] h-full rounded-lg overflow-auto">
-          <div className="flex justify-center items-center">
-              pagination
-          </div>
           <SongList className="relative font-roboto font-thin text-black p-8" 
                     searchInput={searchInput}
                     selectedGameMode={selectedGameMode}
           />
-          <div className="flex justify-center items-center">
-              pagination
-          </div>
         </div>
       </div>
       }
