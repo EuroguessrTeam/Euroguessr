@@ -49,8 +49,12 @@ namespace Euroguessr.Data
             }
         }
 
-        public int CountSongs(string searchTerm)
+        public int CountSongs(string? searchTerm)
         {
+            if (searchTerm == null)
+            {
+                return _context.Song.Count();
+            }
             return _context.Song.Where(s => s.song_name.ToLower().Contains(searchTerm.ToLower()) || s.artist_name.ToLower().Contains(searchTerm.ToLower()) || s.year.ToString().ToLower().Contains(searchTerm.ToLower()) || s.country.ToLower().Contains(searchTerm.ToLower())).Count();
         }
 

@@ -113,7 +113,7 @@ namespace Euroguessr.Controllers
 
         [HttpGet("search")]
         [Produces("application/json")]
-        public ActionResult SearchSongs(string? searchTerm, int page, int? rowsNumber)
+        public ActionResult SearchSongs(int page, int? rowsNumber, string? searchTerm = null)
         {
             try
             {
@@ -129,7 +129,7 @@ namespace Euroguessr.Controllers
 
         [HttpGet("count")]
         [Produces("application/json")]
-        public ActionResult CountSongs(string searchTerm)
+        public ActionResult CountSongs(string? searchTerm)
         {
             try
             {
