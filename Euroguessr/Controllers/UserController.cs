@@ -46,7 +46,23 @@ namespace Euroguessr.Controllers
         {
             try
             {
-                var response = _context.Score.FirstOrDefault();
+                var response = _accountManagerService.GetScores(_accountManagerService.GetOrCreateNewAccount());
+                return new JsonResult(response);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.ToString());
+                return BadRequest("Something went wrong...");
+            }
+        }
+
+        [HttpGet("/user/score/today")]
+        [Produces("application/json")]
+        public ActionResult GetCurrentUserTodayScore()
+        {
+            try
+            {
+                var response = _accountManagerService.GetOrSetTodayScore(_accountManagerService.GetOrCreateNewAccount());
                 return new JsonResult(response);
             }
             catch (Exception e)
