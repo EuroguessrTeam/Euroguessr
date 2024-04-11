@@ -95,13 +95,13 @@ namespace Euroguessr.Controllers
         [HttpPost("restore")]
         [Consumes("application/json")]
         [Produces("application/json")]
-        public ActionResult RestoreAccount(InputRestoreAccountModel user)
+        public ActionResult RestoreAccount(string userId)
         {
             try
             {
                 var response = new OutputSubmitSong();
 
-                if (_accountManagerService.SetAccount(user.user))
+                if (_accountManagerService.SetAccount(userId))
                 {
                     response.result = true;
                 }
