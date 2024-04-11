@@ -7,11 +7,13 @@ namespace Euroguessr.Data
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly EntityContext _context;
+        private readonly ISongManagerService _songManagerService;
 
-        public AccountManagerService(IHttpContextAccessor httpContextAccessor, EntityContext context)
+        public AccountManagerService(IHttpContextAccessor httpContextAccessor, EntityContext context, ISongManagerService songManagerService)
         {
             _httpContextAccessor = httpContextAccessor;
             _context = context;
+            _songManagerService = songManagerService;
         }
 
 
@@ -103,6 +105,31 @@ namespace Euroguessr.Data
             }
 
             return todayScorePlayer;
+        }
+
+
+        public bool SubmitTodayGuess(int songId)
+        {
+            var todayDate = DateOnly.FromDateTime(DateTime.Now.ToUniversalTime());
+            var todayScore = _context.Score.Where(c => c.date.CompareTo(todayDate) == 0 && c.Userunique_token == GetOrCreateNewAccount()).FirstOrDefault();
+
+            if (todayScore == null)
+            {
+                return false;
+            }
+
+            // If the user already guessed the song, we don't increment the attempts
+            if (!todayScore.win) { todayScore.attempts++; };
+            bool win = false;
+
+            if (_songManagerService.GetTodayGuess().id == songId)
+            {
+                todayScore.win = true;
+                win = true;
+            }
+
+            _context.SaveChanges();
+            return win;
         }
     }
 }

@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Euroguessr.Controllers
 {
+    [Route("api/user")]
+    [ApiController]
     public class UserController : Controller
     {
 
@@ -21,7 +23,7 @@ namespace Euroguessr.Controllers
             _logger = logger;
         }
 
-        [HttpGet("/user")]
+        [HttpGet]
         [Produces("application/json")]
         public ActionResult GetCurrentUserId()
         {
@@ -40,7 +42,7 @@ namespace Euroguessr.Controllers
             }
         }
 
-        [HttpGet("/user/scores")]
+        [HttpGet("scores")]
         [Produces("application/json")]
         public ActionResult GetCurrentUserScores()
         {
@@ -56,7 +58,7 @@ namespace Euroguessr.Controllers
             }
         }
 
-        [HttpGet("/user/score/today")]
+        [HttpGet("score/today")]
         [Produces("application/json")]
         public ActionResult GetCurrentUserTodayScore()
         {
@@ -72,16 +74,34 @@ namespace Euroguessr.Controllers
             }
         }
 
-        [HttpPost("/user/restore")]
+        [HttpPost("guess/send")]
         [Consumes("application/json")]
         [Produces("application/json")]
-        public ActionResult RestoreAccount(InputRestoreAccountModel user)
+        public ActionResult SendTodayGuess(int id)
+        {
+            try
+            {
+                bool isGuessCorrect = _accountManagerService.SubmitTodayGuess(id);
+
+                return new JsonResult(new OutputSubmitSong { result = isGuessCorrect });
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.ToString());
+                return BadRequest("Something went wrong...");
+            }
+        }
+
+        [HttpPost("restore")]
+        [Consumes("application/json")]
+        [Produces("application/json")]
+        public ActionResult RestoreAccount(string userId)
         {
             try
             {
                 var response = new OutputSubmitSong();
 
-                if (_accountManagerService.SetAccount(user.user))
+                if (_accountManagerService.SetAccount(userId))
                 {
                     response.result = true;
                 }
