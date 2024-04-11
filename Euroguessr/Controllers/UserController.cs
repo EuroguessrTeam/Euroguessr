@@ -1,8 +1,6 @@
 using Euroguessr.Data;
 using Euroguessr.Models.Api.Song.Output;
-using Euroguessr.Models.Api.User.Input;
 using Euroguessr.Models.Api.User.Output;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Euroguessr.Controllers
@@ -95,13 +93,13 @@ namespace Euroguessr.Controllers
         [HttpPost("restore")]
         [Consumes("application/json")]
         [Produces("application/json")]
-        public ActionResult RestoreAccount(InputRestoreAccountModel user)
+        public ActionResult RestoreAccount(string userId)
         {
             try
             {
                 var response = new OutputSubmitSong();
 
-                if (_accountManagerService.SetAccount(user.user))
+                if (_accountManagerService.SetAccount(userId))
                 {
                     response.result = true;
                 }

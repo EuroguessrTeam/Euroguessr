@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using Euroguessr.Data;
-using Euroguessr.Models.Api.Song.Input;
 using Euroguessr.Models.Api.Song.Output;
 using Euroguessr.Data.Tables;
 using Euroguessr.Interfaces;
@@ -78,13 +77,13 @@ namespace Euroguessr.Controllers
         [HttpPost("training/submit")]
         [Consumes("application/json")]
         [Produces("application/json")]
-        public ActionResult SubmitTrainingSong(InputSubmitSongModel input)
+        public ActionResult SubmitTrainingSong(int songId)
         {
             try
             {
                 int idToGuess = _songToGuessService.GetSongToGuessId();
 
-                return new JsonResult(new OutputSubmitSong { result = input.id == idToGuess });
+                return new JsonResult(new OutputSubmitSong { result = songId == idToGuess });
             } 
             catch (Exception e)
             {
