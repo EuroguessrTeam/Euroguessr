@@ -77,13 +77,13 @@ namespace Euroguessr.Controllers
         [HttpPost("training/submit")]
         [Consumes("application/json")]
         [Produces("application/json")]
-        public ActionResult SubmitTrainingSong(int songId)
+        public ActionResult SubmitTrainingSong(int id)
         {
             try
             {
                 int idToGuess = _songToGuessService.GetSongToGuessId();
 
-                return new JsonResult(new OutputSubmitSong { result = songId == idToGuess });
+                return new JsonResult(new OutputSubmitSong { result = id == idToGuess });
             } 
             catch (Exception e)
             {
