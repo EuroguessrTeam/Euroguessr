@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Euroguessr.Controllers
 {
+    [Route("api/user")]
+    [ApiController]
     public class UserController : Controller
     {
 
@@ -21,7 +23,7 @@ namespace Euroguessr.Controllers
             _logger = logger;
         }
 
-        [HttpGet("/user")]
+        [HttpGet]
         [Produces("application/json")]
         public ActionResult GetCurrentUserId()
         {
@@ -40,7 +42,7 @@ namespace Euroguessr.Controllers
             }
         }
 
-        [HttpGet("/user/scores")]
+        [HttpGet("scores")]
         [Produces("application/json")]
         public ActionResult GetCurrentUserScores()
         {
@@ -56,7 +58,7 @@ namespace Euroguessr.Controllers
             }
         }
 
-        [HttpGet("/user/score/today")]
+        [HttpGet("score/today")]
         [Produces("application/json")]
         public ActionResult GetCurrentUserTodayScore()
         {
@@ -72,7 +74,7 @@ namespace Euroguessr.Controllers
             }
         }
 
-        [HttpPost("/user/guess/send")]
+        [HttpPost("guess/send")]
         [Consumes("application/json")]
         [Produces("application/json")]
         public ActionResult SendTodayGuess(int id)
@@ -90,7 +92,7 @@ namespace Euroguessr.Controllers
             }
         }
 
-        [HttpPost("/user/restore")]
+        [HttpPost("restore")]
         [Consumes("application/json")]
         [Produces("application/json")]
         public ActionResult RestoreAccount(InputRestoreAccountModel user)
