@@ -1,5 +1,5 @@
 import { SongElement } from "../SongList/Song";
-import { initializeSongs, searchInSongs } from "./WorkerSong";
+import { countSongs, initializeSongs, searchInSongs } from "./WorkerSong";
 
 export const enum GameModeKeys {
     DAILY = 1,
@@ -13,6 +13,7 @@ export interface GameMode{
     skip_button_active: boolean;
     initializeSongs: () => Promise<SongElement[]>;
     searchInSongs: (searchTerm: string | null, page_number: number | null, rows_number: number | null) => Promise<SongElement[]>;
+    countSongs: (searchTerm: string | null) => Promise<number>;
 }
 
 export const gameModes: Map<GameModeKeys, GameMode> = new Map<GameModeKeys, GameMode>(); 
@@ -26,6 +27,7 @@ gameModes.set(
         skip_button_active: false,
         initializeSongs: initializeSongs,
         searchInSongs: searchInSongs,
+        countSongs: countSongs,
     }
 );
 
@@ -38,6 +40,7 @@ gameModes.set(
         skip_button_active: true,
         initializeSongs: initializeSongs,
         searchInSongs: searchInSongs,
+        countSongs: countSongs,
     }
 );
 

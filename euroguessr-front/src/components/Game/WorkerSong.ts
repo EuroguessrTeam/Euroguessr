@@ -14,6 +14,13 @@ export async function searchInSongs(searchTerm: string | null, page_number: numb
     return api.get(url);
 }
 
+export async function countSongs(searchTerm: string | null): Promise<number> {
+    let url = `song/count${searchTerm ? `?searchTerm=${searchTerm}&` : ''}`;
+    console.log("Counting songs");
+    console.log(url);
+    return API.getInstance().get(url);
+}
+
 export async function initializeSongs(): Promise<SongElement[]> {
     return await searchInSongs(null, 4, 25);
 }

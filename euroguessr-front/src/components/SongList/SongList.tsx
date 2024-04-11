@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Song, SongElement } from "./Song";
 import { GameMode } from "../Game/GameModes";
-import { PagingMemo } from "./Paging";
+import { Paging } from "./Paging";
 
 interface SongListProps {
   className?: string;
@@ -12,36 +12,59 @@ interface SongListProps {
 export function SongList ({ className, searchInput, selectedGameMode }:SongListProps) {
     const [songs, setSongs] = useState<SongElement[]>([]);
     const [page, setPage] = useState<number>(1);
+    const [numberPages, setNumberPages] = useState<number>(1);
 
     // #                          #
     // # useEffect on searchInput #
     // #                          #
     useEffect(() => {
-        if(songs.length === 0 || !searchInput){
+        if(songs.length === 0 && !searchInput){
           selectedGameMode.initializeSongs().then((songs) => setSongs(songs));
           console.log('initializeSongs dans useEffect searchInput');
         }
         else{
-          selectedGameMode.searchInSongs(searchInput, 1, 25).then((songs) => setSongs(songs));
+          selectedGameMode.searchInSongs(searchInput ?? null, 1, 25).then((songs) => setSongs(songs));
           console.log('searchInSongs dans useEffect searchInput');
         }
+
+        // Paging update
+        selectedGameMode.countSongs(searchInput ?? null).then((count) => {
+              setNumberPages(Math.ceil(count / 25));
+              console.log("count :");
+              console.log(count);
+              console.log("number of pages :");
+              console.log(Math.ceil(count / 25));
+          });
     }, [searchInput]);
 
+    // #                   #
+    // # useEffect on page #
+    // #                   #
     useEffect(() => {
         if(songs.length !== 0){
-          if(!searchInput){
+          if(!searchInput && page === 1){
             selectedGameMode.initializeSongs().then((songs) => setSongs(songs));
+            console.log('initializeSongs dans useEffect page');
           }
           else{
-            selectedGameMode.searchInSongs(searchInput, page, 25).then((songs) => setSongs(songs));
+            selectedGameMode.searchInSongs(searchInput ?? null, page, 25).then((songs) => setSongs(songs));
+            console.log('searchInSongs dans useEffect page');
           }
-          console.log('searchInSongs dans useEffect page');
+
+          // Paging update
+          selectedGameMode.countSongs(searchInput ?? null).then((count) => {
+                setNumberPages(Math.ceil(count / 25));
+                console.log(numberPages);
+            });
         }
     }, [page]);
 
     return (
         <>
-          <PagingMemo className="flex justify-center items-center"/>
+          <Paging className="flex justify-center items-center"
+                  actualPage={page}
+                  setActualPage={setPage}
+                  totalPages={numberPages} />
 
           <div className={className}>
               {songs.map((song) => {
@@ -53,7 +76,6 @@ export function SongList ({ className, searchInput, selectedGameMode }:SongListP
               })}
           </div>
 
-          <PagingMemo className="flex justify-center items-center"/>
         </>
     )
 }
