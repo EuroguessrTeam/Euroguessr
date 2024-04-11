@@ -7,7 +7,7 @@ interface SongListProps {
   totalPages: number;
 }
 
-export function Paging ({ className, actualPage, setActualPage, totalPages }:SongListProps) {
+export function Paging ({ className, actualPage, setActualPage, totalPages } : SongListProps) {
   const swapPage = (page: number) => {
     console.log("swap to Page :");
     console.log(page);
@@ -18,7 +18,9 @@ export function Paging ({ className, actualPage, setActualPage, totalPages }:Son
     <div className={className}>
 
       {/* Previous page button */}
-      <button disabled={actualPage === 1} onClick={() => swapPage(actualPage-1)}>
+      <button disabled={actualPage <= 1}
+              onClick={() => swapPage(actualPage-1)}
+              className="flex justify-center items-center">
         {"<"}
       </button>
 
@@ -28,7 +30,9 @@ export function Paging ({ className, actualPage, setActualPage, totalPages }:Son
       </div>
 
       {/* Next page button */}
-      <button disabled={actualPage === totalPages} onClick={() => swapPage(actualPage+1)}>
+      <button disabled={actualPage >= totalPages}
+              onClick={() => swapPage(actualPage+1)}
+              className="flex justify-center items-center">
         {">"}
       </button>
 

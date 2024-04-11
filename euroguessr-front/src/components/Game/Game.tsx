@@ -53,6 +53,13 @@ export default function Game() {
   // # Searching #
   // #           #
   const [searchInput, setSearchInput] = useState<string>('');
+  const search = () => {
+    // Get the input value
+    let searchInput = document.getElementById("searchInput") as HTMLInputElement;
+
+    // Set the state
+    setSearchInput(searchInput.value);
+  };
 
   // #           #
   // # useEffect #
@@ -124,19 +131,16 @@ export default function Game() {
 
             {/* Text input */}
             <input id="searchInput"
-                   className="w-full outline-none focus:ring-0 bg-white rounded-2xl text-black text-[3vh] font-eurotype" />
+                   className="w-full outline-none focus:ring-0 bg-white rounded-2xl text-black text-[3vh] font-eurotype"
+                   onKeyDown={(e) => {
+                               if(e.key === 'Enter'){
+                                 search();
+                               }
+                             }}/>
 
             {/* Search button */}
             <button className="bg-blue rounded-xl hover:scale-105 transition ease-in-out duration-200"
-                    onClick={() => {
-                      // Get the input value
-                      let searchInput = document.getElementById("searchInput") as HTMLInputElement;
-                      
-                      // Set the state
-                      if(searchInput && searchInput.value){
-                        setSearchInput(searchInput.value);
-                      }
-                    }}>
+                    onClick={() => {search();}}>
               <div className="w-[4vh] h-[4vh] flex items-center justify-center">
                 <SearchIcon fill="white" stroke="none" />
               </div>
