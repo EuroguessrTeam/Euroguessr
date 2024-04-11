@@ -6,5 +6,6 @@
         public bool SetAccount(string accountId);
         public List<Score> GetScores(string userId);
         public Score GetOrSetTodayScore(string userId);
+        public bool SubmitTodayGuess(int songId);
     }
 }

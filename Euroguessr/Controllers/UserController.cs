@@ -72,6 +72,24 @@ namespace Euroguessr.Controllers
             }
         }
 
+        [HttpPost("/user/guess/send")]
+        [Consumes("application/json")]
+        [Produces("application/json")]
+        public ActionResult SendTodayGuess(int id)
+        {
+            try
+            {
+                bool isGuessCorrect = _accountManagerService.SubmitTodayGuess(id);
+
+                return new JsonResult(new OutputSubmitSong { result = isGuessCorrect });
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.ToString());
+                return BadRequest("Something went wrong...");
+            }
+        }
+
         [HttpPost("/user/restore")]
         [Consumes("application/json")]
         [Produces("application/json")]

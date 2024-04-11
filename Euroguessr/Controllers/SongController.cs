@@ -50,24 +50,6 @@ namespace Euroguessr.Controllers
             }
         }
 
-        [HttpPost("daily/submit")]
-        [Consumes("application/json")]
-        [Produces("application/json")]
-        public ActionResult SubmitDailySong(InputSubmitSongModel input)
-        {
-            try
-            {
-                int idToGuess = _songManagerService.GetTodayGuess().id;
-
-                return new JsonResult(new OutputSubmitSong { result = input.id == idToGuess });
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e.ToString());
-                return BadRequest("Something went wrong...");
-            }
-        }
-
         [HttpGet("training")]
         [Produces("application/json")]
         public ActionResult GetTrainingSong()
