@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Song, SongElement } from "./Song";
 import { GameMode } from "../Game/GameModes";
-import { Paging } from "./Paging";
+import { Paging, PagingMemo } from "./Paging";
 
 interface SongListProps {
   className?: string;
@@ -29,11 +29,13 @@ export function SongList ({ className, searchInput, selectedGameMode }:SongListP
 
         // Paging update
         selectedGameMode.countSongs(searchInput ?? null).then((count) => {
-              setNumberPages(Math.ceil(count / 25));
-              console.log("count :");
-              console.log(count);
-              console.log("number of pages :");
-              console.log(Math.ceil(count / 25));
+              setPage(1);
+              let numberPages = Math.ceil(count / 25);
+              if(numberPages < 1){
+                numberPages = 1;
+              }
+              setNumberPages(numberPages);
+              console.log(numberPages);
           });
     }, [searchInput]);
 
@@ -53,18 +55,22 @@ export function SongList ({ className, searchInput, selectedGameMode }:SongListP
 
           // Paging update
           selectedGameMode.countSongs(searchInput ?? null).then((count) => {
-                setNumberPages(Math.ceil(count / 25));
-                console.log(numberPages);
+              let numberPages = Math.ceil(count / 25);
+              if(numberPages < 1){
+                numberPages = 1;
+              }
+              setNumberPages(numberPages);
+              console.log(numberPages);
             });
         }
     }, [page]);
 
     return (
         <>
-          <Paging className="flex justify-center items-center"
-                  actualPage={page}
-                  setActualPage={setPage}
-                  totalPages={numberPages} />
+          <PagingMemo className="flex justify-center items-center"
+                      actualPage={page}
+                      setActualPage={setPage}
+                      totalPages={numberPages} />
 
           <div className={className}>
               {songs.map((song) => {
@@ -75,6 +81,11 @@ export function SongList ({ className, searchInput, selectedGameMode }:SongListP
                   )
               })}
           </div>
+
+          <PagingMemo className="flex justify-center items-center"
+                      actualPage={page}
+                      setActualPage={setPage}
+                      totalPages={numberPages} />
 
         </>
     )
