@@ -7,7 +7,7 @@ namespace Euroguessr.Data
         /// <summary>
         /// Returns the default song table
         /// </summary>
-        public static IEnumerable<Song> GetSongs()
+        public static IEnumerable<SongDto> GetSongs()
         {
             List<object[]> raw_data = new List<object[]>
             {
@@ -617,7 +617,7 @@ namespace Euroguessr.Data
                 new object[] { 1,   2009, "Spain",                  "Soraya Arnelas",                        "La noche es para mi",                                "", 0 }
             };
 
-            var songs = raw_data.Select(raw_song => new Song { id = Int32.Parse(raw_song[0].ToString()),
+            var songs = raw_data.Select(raw_song => new SongDto { id = Int32.Parse(raw_song[0].ToString()),
                                                                year = Int16.Parse(raw_song[1].ToString()),
                                                                country = raw_song[2].ToString(),
                                                                artist_name = raw_song[3].ToString(),

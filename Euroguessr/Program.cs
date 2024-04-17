@@ -1,6 +1,7 @@
+using AspNetCoreRateLimit;
 using Euroguessr.Data;
-using Euroguessr.Interfaces;
-using Euroguessr.Services;
+using Euroguessr.Middleware;
+using Euroguessr.Models.Api.Error;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
@@ -26,20 +27,21 @@ builder.Services.AddDbContext<EntityContext>(opt => opt.UseNpgsql(connectionstri
 
 /*builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();*/
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllers();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(option =>
 {
     option.SwaggerDoc("v1", new OpenApiInfo { Title = "Euroguessr API", Version = "v1" });
-    option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    var euroguessrDocumentation = Path.Combine(System.AppContext.BaseDirectory, "Euroguessr.Documentation.xml");
+    var euroguessrDataDocumentation = Path.Combine(System.AppContext.BaseDirectory, "Euroguessr.Data.Documentation.xml");
+    option.IncludeXmlComments(euroguessrDocumentation);
+    option.IncludeXmlComments(euroguessrDataDocumentation);
+    option.AddSecurityDefinition("Account id", new OpenApiSecurityScheme
     {
         In = ParameterLocation.Header,
-        Description = "Please enter a valid token",
-        Name = "Authorization",
-        Type = SecuritySchemeType.Http,
-        BearerFormat = "JWT",
-        Scheme = "Bearer"
+        Description = "Please enter a valid account id",
+        Name = "accountId",
     });
     option.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
@@ -49,13 +51,51 @@ builder.Services.AddSwaggerGen(option =>
                 Reference = new OpenApiReference
                 {
                     Type=ReferenceType.SecurityScheme,
-                    Id="Bearer"
+                    Id="Account id"
                 }
             },
             new string[]{}
         }
     });
 });
+
+builder.Services.AddMemoryCache();
+builder.Services.Configure<IpRateLimitOptions>(options =>
+{
+    options.EnableEndpointRateLimiting = true;
+    options.StackBlockedRequests = false;
+    options.HttpStatusCode = 429;
+    options.QuotaExceededResponse = new QuotaExceededResponse
+    {
+        Content = "{{ \"code\": 429, \"message\": \"Quota exceeded. Maximum allowed: {0} per {1}. Please try again in {2} second(s).\" }}",
+        ContentType = "application/json",
+    };
+    options.RealIpHeader = "X-Real-IP";
+    options.ClientIdHeader = "X-ClientId";
+    options.GeneralRules = new List<RateLimitRule>
+        {
+            new() {
+                Endpoint = "GET:/api/account/new",
+                Period = "1h",
+                Limit = 10,
+            },
+            new() {
+                Endpoint = "GET:/api/song/search",
+                Period = "15s",
+                Limit = 5,
+            },
+            new() {
+                Endpoint = "*",
+                Period = "1s",
+                Limit = 5,
+            }
+        };
+});
+builder.Services.AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>();
+builder.Services.AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>();
+builder.Services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
+builder.Services.AddSingleton<IProcessingStrategy, AsyncKeyLockProcessingStrategy>();
+builder.Services.AddInMemoryRateLimiting();
 
 // #                      #
 // # Variables de session #
@@ -67,13 +107,16 @@ builder.Services.AddSession(options => options.IdleTimeout = TimeSpan.FromDays(1
 // #                        #
 // # Services personnalisés #
 // #                        #
-builder.Services.AddScoped<IAccountManagerService, AccountManagerService>();
-builder.Services.AddScoped<ISongManagerService, SongManagerService>();
-builder.Services.AddScoped<ISongToGuessService, SongToGuessService>();
+builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddScoped<ISongService, SongService>();
+builder.Services.AddTransient<GlobalExceptionHandlerMiddleware>();
 
 var app = builder.Build();
 
-app.UseSession();
+// #             #
+// # Middlewares #
+// #             #
+app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -84,10 +127,11 @@ if (app.Environment.IsDevelopment())
 }
 else
 {
-    app.UseExceptionHandler("/Home/Error");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
+app.UseIpRateLimiting();
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

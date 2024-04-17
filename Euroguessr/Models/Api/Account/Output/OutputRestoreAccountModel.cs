@@ -1,4 +1,4 @@
-﻿namespace Euroguessr.Models.Api.User.Output
+﻿namespace Euroguessr.Models.Api.Account.Output
 {
     public class OutputRestoreAccountModel
     {

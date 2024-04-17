@@ -11,7 +11,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		utils.txt = utils.txt
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Euroguessr.Data", "..\Euroguessr.Data\Euroguessr.Data.csproj", "{AEB94C51-D477-4769-9311-772C3D9C05C2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Euroguessr.Data", "..\Euroguessr.Data\Euroguessr.Data.csproj", "{AEB94C51-D477-4769-9311-772C3D9C05C2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Euroguessr.Common", "..\Euroguessr.Common\Euroguessr.Common.csproj", "{156A1D93-6587-4131-80A7-8105059B6037}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{AEB94C51-D477-4769-9311-772C3D9C05C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AEB94C51-D477-4769-9311-772C3D9C05C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AEB94C51-D477-4769-9311-772C3D9C05C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{156A1D93-6587-4131-80A7-8105059B6037}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{156A1D93-6587-4131-80A7-8105059B6037}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{156A1D93-6587-4131-80A7-8105059B6037}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{156A1D93-6587-4131-80A7-8105059B6037}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

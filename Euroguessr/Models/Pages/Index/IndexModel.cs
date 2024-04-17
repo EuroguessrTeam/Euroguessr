@@ -5,9 +5,9 @@ namespace Euroguessr.Models.Pages.Index
 {
     public class IndexModel
     {
-        public Song TodaySong { get; set; } = new();
-        public List<Song> SongsList { get; set; } = new();
-        public Score CurrentUserScore { get; set; } = new();
+        public SongDto TodaySong { get; set; } = new();
+        public List<SongDto> SongsList { get; set; } = new();
+        public DailyScoreDto CurrentUserScore { get; set; } = new();
         public int SecondsOfListening => CurrentUserScore.win ? 0 :
                                          CurrentUserScore.attempts == 0 ? 1 :
                                          CurrentUserScore.attempts == 1 ? 2 :
