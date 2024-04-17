@@ -33,20 +33,14 @@ namespace Euroguessr.Data
 
         public List<DailyScoreDto> GetScores(string accountId, DateOnly date)
         {
-            if (!AccountExists(accountId))
-            {
-                throw new AccountNotFoundException(accountId);
-            }
+            checkAccountExists(accountId);
 
             return _context.daily_score.Where(s => s.account_id == accountId && s.date.Month.CompareTo(date.Month) == 0 && s.date.Year.CompareTo(date.Year) == 0).OrderByDescending(s => s.date).ToList();
         }
 
         public DailyScoreDto GetOrSetTodayScore(string accountId)
         {
-            if (!AccountExists(accountId))
-            {
-                throw new AccountNotFoundException(accountId);
-            }
+            checkAccountExists(accountId);
 
             DateOnly todayDate = DateOnly.FromDateTime(DateTime.Now.ToUniversalTime());
             DailyScoreDto todayScore = _context.daily_score.Where(s => s.account_id == accountId && s.date == todayDate).FirstOrDefault();
@@ -69,10 +63,7 @@ namespace Euroguessr.Data
 
         public TrainingScoreDto GetOrSetTrainingScore(string accountId)
         {
-            if (!AccountExists(accountId))
-            {
-                throw new AccountNotFoundException(accountId);
-            }
+            checkAccountExists(accountId);
 
             TrainingScoreDto latestScore = _context.training_score.Where(s => s.account_id == accountId).OrderByDescending(s => s.date).FirstOrDefault();
 
@@ -97,10 +88,7 @@ namespace Euroguessr.Data
 
         public bool SubmitTodayGuess(int songId, string accountId)
         {
-            if (!AccountExists(accountId))
-            {
-                throw new AccountNotFoundException(accountId);
-            }
+            checkAccountExists(accountId);
 
             DailyScoreDto todayScore = GetOrSetTodayScore(accountId);
 
@@ -120,10 +108,7 @@ namespace Euroguessr.Data
 
         public bool SubmitTrainingGuess(int songId, string accountId)
         {
-            if (!AccountExists(accountId))
-            {
-                throw new AccountNotFoundException(accountId);
-            }
+            checkAccountExists(accountId);
 
             var currentGuess = GetOrSetTrainingScore(accountId);
 
@@ -150,10 +135,7 @@ namespace Euroguessr.Data
 
         public SongDto GetTrainingSong(string accountId, bool next)
         {
-            if (!AccountExists(accountId))
-            {
-                throw new AccountNotFoundException(accountId);
-            }
+            checkAccountExists(accountId);
 
             var currentGuess = _context.training_score.Where(s => s.account_id == accountId).OrderByDescending(s => s.date).FirstOrDefault();
 
@@ -181,6 +163,14 @@ namespace Euroguessr.Data
             {
                 var currentGuessId = _context.training_score.Where(s => s.account_id == accountId).OrderByDescending(s => s.date).FirstOrDefault().song_id;
                 return _context.song.Where(s => s.id == currentGuessId).FirstOrDefault();
+            }
+        }
+
+        private void checkAccountExists(string accountId)
+        {
+            if (!AccountExists(accountId))
+            {
+                throw new AccountNotFoundException(accountId ?? "");
             }
         }
     }

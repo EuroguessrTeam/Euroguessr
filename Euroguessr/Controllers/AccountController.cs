@@ -80,7 +80,7 @@ namespace Euroguessr.Controllers
         [ProducesResponseType(typeof(OutputError400), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(OutputError429), StatusCodes.Status429TooManyRequests)]
         [ProducesResponseType(typeof(OutputError500), StatusCodes.Status500InternalServerError)]
-        public ActionResult GetCurrentUserScores([FromHeader(Name = "accountId")] string accountId, DateOnly month)
+        public ActionResult GetCurrentUserScores([FromHeader(Name = "accountId")] string? accountId, DateOnly month)
         {
             List<DailyScoreDto> response = _accountService.GetScores(accountId, month);
 
@@ -100,7 +100,7 @@ namespace Euroguessr.Controllers
         [ProducesResponseType(typeof(OutputError400), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(OutputError429), StatusCodes.Status429TooManyRequests)]
         [ProducesResponseType(typeof(OutputError500), StatusCodes.Status500InternalServerError)]
-        public ActionResult GetCurrentUserTodayScore([FromHeader(Name = "accountId")] string accountId)
+        public ActionResult GetCurrentUserTodayScore([FromHeader(Name = "accountId")] string? accountId)
         {
             DailyScoreDto response = _accountService.GetOrSetTodayScore(accountId);
 
@@ -121,7 +121,7 @@ namespace Euroguessr.Controllers
         [ProducesResponseType(typeof(OutputError400), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(OutputError429), StatusCodes.Status429TooManyRequests)]
         [ProducesResponseType(typeof(OutputError500), StatusCodes.Status500InternalServerError)]
-        public ActionResult SubmitTodayGuess([FromHeader(Name = "accountId")] string accountId, int songId)
+        public ActionResult SubmitTodayGuess([FromHeader(Name = "accountId")] string? accountId, int songId)
         {
             bool isGuessCorrect = _accountService.SubmitTodayGuess(songId, accountId);
 
@@ -144,7 +144,7 @@ namespace Euroguessr.Controllers
         [ProducesResponseType(typeof(OutputError400), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(OutputError429), StatusCodes.Status429TooManyRequests)]
         [ProducesResponseType(typeof(OutputError500), StatusCodes.Status500InternalServerError)]
-        public ActionResult GetCurrentUserTrainingScore([FromHeader(Name = "accountId")] string accountId)
+        public ActionResult GetCurrentUserTrainingScore([FromHeader(Name = "accountId")] string? accountId)
         {
             var response = _accountService.GetOrSetTrainingScore(accountId);
 
@@ -165,7 +165,7 @@ namespace Euroguessr.Controllers
         [ProducesResponseType(typeof(OutputError400), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(OutputError429), StatusCodes.Status429TooManyRequests)]
         [ProducesResponseType(typeof(OutputError500), StatusCodes.Status500InternalServerError)]
-        public ActionResult SubmitTrainingGuess([FromHeader(Name = "accountId")] string accountId, int songId)
+        public ActionResult SubmitTrainingGuess([FromHeader(Name = "accountId")] string? accountId, int songId)
         {
             bool isGuessCorrect = _accountService.SubmitTrainingGuess(songId, accountId);
 
@@ -189,7 +189,7 @@ namespace Euroguessr.Controllers
         [ProducesResponseType(typeof(OutputError400), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(OutputError429), StatusCodes.Status429TooManyRequests)]
         [ProducesResponseType(typeof(OutputError500), StatusCodes.Status500InternalServerError)]
-        public ActionResult GetTrainingGuess([FromHeader(Name = "accountId")] string accountId, [Required] bool next)
+        public ActionResult GetTrainingGuess([FromHeader(Name = "accountId")] string? accountId, [Required] bool next)
         {
             var response = _accountService.GetTrainingSong(accountId, next);
 
