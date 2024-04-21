@@ -19,6 +19,8 @@ export default {
       'pink': '#FF47DD',
       'orange': '#FF7326',
       'blue': '#3A81E9',
+      'red': '#FE5757',
+      'green': '#66B266',
       'gray': '#A6A6A6',
       'black': '#000000',
       'white': '#FFFFFF',

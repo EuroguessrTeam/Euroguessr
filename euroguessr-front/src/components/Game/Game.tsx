@@ -4,8 +4,9 @@ import { DoublePlayIcon } from "../Icons/DoublePlayIcon";
 import { SearchIcon } from "../Icons/SearchIcon";
 import { SongList } from "../SongList/SongList";
 import { PlayButton } from "./PlayButton";
-import { GameMode, GameModeKeys, gameModes } from "./GameModes";
-import { searchNearGameMode, selectingGameModeRoutine } from "./WorkerGame";
+import { GameModeKeys, gameModes } from "./GameModes";
+import { searchNearGameMode } from "./WorkerGame";
+import { setAttempt, setCurrentGamemode, setListeningTime, setSearchInput, setSkipButtonCounter, setWin, useGlobalState } from "../../services/useGlobalState";
 
 export default function Game() {
   // #     #
@@ -25,24 +26,32 @@ export default function Game() {
   updateHeaderWidth();
   window.addEventListener('resize', updateHeaderWidth);
 
-  // #           #
-  // # Gamemodes #
-  // #           #
-  const [selectedGameMode, setSelectedGameMode] = useState<GameMode | undefined>(gameModes.get(GameModeKeys.DAILY));
+  // #                       #
+  // # Global game variables #
+  // #                       #
+  const [timeUntilMidnight, setTimeUntilMidnight] = useState<string>("");
+  const [attemptCounter] = useGlobalState("attempt");
+  const [win] = useGlobalState("win");
+  const [listeningTime] = useGlobalState("listeningTime");
+  const [currentGamemode] = useGlobalState("currentGamemode");
+  const [skipButtonCounter] = useGlobalState("skipButtonCounter");
+
+  // #                 #
+  // # Switch Gamemode #
+  // #                 #
   function switchGameMode(previous: boolean) {
-    const newGameMode = searchNearGameMode(previous, gameModes, selectedGameMode);
+    const newGameMode = searchNearGameMode(previous, gameModes, currentGamemode);
     if(newGameMode){
-      setSelectedGameMode(newGameMode);
+      setCurrentGamemode(newGameMode.key);
     }
   }
 
   // #             #
   // # Skip button #
   // #             #
-  const [skipButtonCounter, setSkipButtonCounter] = useState<number>(0);
   const [skipButtonDisabled, setSkipButtonDisabled] = useState<boolean>(false);
   const handleSkipButtonClicked = () => {
-    setSkipButtonCounter(prev => prev + 1);
+    setSkipButtonCounter(skipButtonCounter + 1);
     setSkipButtonDisabled(true);
     setTimeout(() => {
         setSkipButtonDisabled(false);
@@ -52,10 +61,9 @@ export default function Game() {
   // #           #
   // # Searching #
   // #           #
-  const [searchInput, setSearchInput] = useState<string>('');
   const search = () => {
     // Get the input value
-    let searchInput = document.getElementById("searchInput") as HTMLInputElement;
+    const searchInput = document.getElementById("searchInput") as HTMLInputElement;
 
     // Set the state
     setSearchInput(searchInput.value);
@@ -65,9 +73,63 @@ export default function Game() {
   // # useEffect #
   // #           #
   useEffect(() => {
-    selectingGameModeRoutine(selectedGameMode, setSearchInput)
-    console.log("Selected game mode changed");
-    }, [selectedGameMode]);
+    currentGamemode?.get_score_api().then((response) => {
+      setAttempt(response.attempts);
+      setWin(response.win);
+    });
+  }, [currentGamemode]);
+
+  useEffect(() => {
+    setAttempt(1);
+    setWin(false);
+  }, [skipButtonCounter]);
+
+  useEffect(() => {
+    setListeningTime(getListeningTime(attemptCounter));
+  }, [attemptCounter]);
+
+  function getListeningTime(attempt:number): number {
+    switch(attempt) {
+      case 1:
+        return 1;
+      case 2:
+        return 3;
+      case 3:
+        return 5;
+      case 4:
+        return 10;
+      case 5:
+        return 30;
+      case 6:
+        return 60;
+      case 7:
+        return 90;
+      default:
+        return 360;
+    }
+  }
+
+  // Définition d'une fonction pour calculer le temps restant jusqu'à minuit
+  function getTimeUntilMidnight(): number {
+    const secondsInOneDay = 3600*24; // 24 hours in seconds
+    const currentDate = new Date();
+    const UTCSeconds = currentDate.getUTCHours()*3600 + currentDate.getUTCMinutes()*60 + currentDate.getUTCSeconds(); // UTC hour in seconds
+    return Math.ceil(secondsInOneDay - UTCSeconds); // Conversion en secondes
+  }
+
+  // Fonction pour afficher le temps restant jusqu'à minuit
+  function updateTimeUntilMidnight(): void {
+    const timeUntilMidnight = getTimeUntilMidnight();
+    const hours = Math.floor(timeUntilMidnight / 3600);
+    const minutes = Math.floor((timeUntilMidnight % 3600) / 60);
+    const seconds = timeUntilMidnight % 60;
+    setTimeUntilMidnight(`${hours < 10 ? "0" + hours : hours}:${minutes < 10 ? "0" + minutes : minutes}:${seconds < 10 ? "0" + seconds : seconds}`);
+}
+
+  // Décompte toutes les secondes
+  setInterval(() => {
+    updateTimeUntilMidnight();
+  }, 1000);
 
   // #     #
   // # JSX #
@@ -78,12 +140,12 @@ export default function Game() {
       <Background className="absolute z-0 h-full w-[--header-width] inset-auto -mt-[21vh]"/>
 
       {/* Game UI */}
-      {selectedGameMode && 
+      {currentGamemode && 
       <div className="z-10 relative h-[44.87vh] flex mb-[4vh] mt-[6.5vh] overflow-hidden">
 
         {/* Attempts */}
         <div className="w-[16.6666%] h-full flex items-center pl-[2%]">
-          <p className="text-black font-eurotype text-[2.5vh]">Attempt&nbsp;10</p>
+          <p className="text-black font-eurotype text-[2.5vh]">Attempt&nbsp;{attemptCounter}</p>
         </div>
 
         {/* Game */}
@@ -98,7 +160,7 @@ export default function Game() {
             </button>
 
             {/* Gamemode title */}
-            <p className="font-eurotype text-[3vh]">{selectedGameMode.name}</p>
+            <p className="font-eurotype text-[3vh]">{currentGamemode.name}</p>
 
             {/* Change to next */}
             <button onClick={() => switchGameMode(false)}>
@@ -107,23 +169,28 @@ export default function Game() {
 
           </div>
 
-          {/* Plus button */}
-          {selectedGameMode.skip_button_active &&
-            <div className="bg-purple-light rounded-full w-[4vh] h-[4vh] flex items-center justify-center">
-                +
-            </div>
-          }
+          {/* Plus button (not implemented yet)*/}
+          {<div className="opacity-0 bg-purple-light rounded-full w-[4vh] h-[4vh] flex items-center justify-center">
+              +
+          </div>}
 
           {/* Play Button */}
-          <PlayButton selectedGameMode={selectedGameMode} skipButtonCounter={skipButtonCounter} className={"w-[15vh] h-[15vh] flex justify-center items-center bg-pink rounded-full shadow-2xl border-4 hover:scale-110 transition-all"}/>
+          <PlayButton className={"w-[15vh] h-[15vh] flex justify-center items-center bg-pink rounded-full shadow-2xl border-4 hover:scale-110 transition-all"}/>
 
           {/* Skip button */}
-          {selectedGameMode.skip_button_active &&
+          {currentGamemode.skip_button_active &&
             <button onClick={handleSkipButtonClicked} disabled={skipButtonDisabled} className="disabled:opacity-50 animation-full">
               <div className="bg-blue rounded-full w-[8vh] h-[4vh] flex items-center justify-center">
-                <p className="font-bold">SKIP</p> 
+                <p className="font-bold">{!win ? "SKIP" : "NEXT"}</p> 
               </div>
             </button>
+          }
+
+          {currentGamemode.key === GameModeKeys.DAILY &&
+            <div className={`opacity-0 ${win ? "opacity-100" : ""} h-[4vh] flex items-center justify-center flex-col text-pretty text-sm`}>
+              <p className="text-center  bg-purple rounded-lg p-[1vh]">You got today's song in {attemptCounter} attempts !</p>
+              <p className="text-center bg-purple rounded-b-lg px-[1vh] pb-[1vh]">Next song in {timeUntilMidnight}</p> 
+            </div>
           }
 
           {/* Search bar */}
@@ -152,7 +219,7 @@ export default function Game() {
         {/* Seconds */}
         <div className="w-[16.6666%] h-full flex flex-row-reverse items-center pr-[2%]">
           <div className="flex flex-column">
-            <p className="text-black font-eurotype text-[2.5vh]">Seconds&nbsp;120</p>
+            <p className="text-black font-eurotype text-[2.5vh]">Seconds&nbsp;{listeningTime}</p>
           </div>
         </div>
 
@@ -160,13 +227,10 @@ export default function Game() {
       }
 
       {/* Song list */}
-      {selectedGameMode && 
+      {currentGamemode && 
       <div className="w-full h-[34%] flex justify-center bg-purple">
         <div className="relative z-10 bg-yellow w-[80%] h-full rounded-lg overflow-auto">
-          <SongList className="relative font-roboto font-thin text-black p-8" 
-                    searchInput={searchInput}
-                    selectedGameMode={selectedGameMode}
-          />
+          <SongList className="relative font-roboto font-thin text-black p-8" />
         </div>
       </div>
       }

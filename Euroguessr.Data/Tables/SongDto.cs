@@ -47,7 +47,6 @@ namespace Euroguessr.Data.Tables
         /// </summary>
         /// <example>uTYalXf184A</example>
         [Required]
-        [JsonIgnore]
         [MaxLength(11)]
         public string video_id { get; set; }
 

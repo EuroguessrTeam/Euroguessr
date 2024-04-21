@@ -2,14 +2,14 @@ import { ReactNode, useEffect, useState } from 'react';
 import { API } from '../../services/api';
 import YouTube, { YouTubePlayer, YouTubeProps } from 'react-youtube';
 import { GameMode } from './GameModes';
+import { APIHelper } from '../../services/apiHelper';
+import { useGlobalState } from '../../services/useGlobalState';
 
 interface PlayButtonProps {
   className?: string;
-  skipButtonCounter: number;
-  selectedGameMode: GameMode
 }
 
-export function PlayButton({selectedGameMode, skipButtonCounter, className}: PlayButtonProps) {
+export function PlayButton({className}: PlayButtonProps) {
 
   //Dynamic variables
   const [isLoaded, setIsLoaded] = useState<boolean | undefined>(false);
@@ -17,15 +17,17 @@ export function PlayButton({selectedGameMode, skipButtonCounter, className}: Pla
   const [videoId, setVideoId] = useState<string | undefined>(undefined);
   const [seekTo, setSeekTo] = useState<number | undefined>(undefined);
   const [videoElement, setVideoElement] = useState<YouTubePlayer | null>(null);
-  const [attempt, setAttempt] = useState<number>(1);
   const [timeoutId, setTimeoutId] = useState<number | null>(null);
+  const [listeningTime] = useGlobalState("listeningTime");
+  const [skipButtonCounter] = useGlobalState("skipButtonCounter");
+  const [selectedGameMode] = useGlobalState("currentGamemode");
 
   //Constant variables
   const sleep = ms => new Promise(r => setTimeout(r, ms));
   const youtubePlayerVolume = 10;
   const opts: YouTubeProps['opts'] = {
-    height: '100',
-    width: '100',
+    height: '0',
+    width: '0',
     controls : '0', 
   };
   const onPlayerReady: YouTubeProps['onReady'] = async (event) => {
@@ -63,7 +65,7 @@ export function PlayButton({selectedGameMode, skipButtonCounter, className}: Pla
     const id = setTimeout(() => {
       console.log("Max listening time reached");
       videoElement.target.pauseVideo();
-    }, getListeningTime() * 1000);
+    }, listeningTime * 1000);
     setTimeoutId(id);
   }
 
@@ -83,13 +85,21 @@ export function PlayButton({selectedGameMode, skipButtonCounter, className}: Pla
     getVideoId();
   }, [selectedGameMode, skipButtonCounter]);
 
+  useEffect(() => {
+    if (skipButtonCounter > 0) {
+      console.log("Song skipped !!");
+      APIHelper.skipTrainingGuess().then(() => {
+        getVideoId();
+      });
+    }
+  }, [skipButtonCounter]);
+
   //Api calls
   function getVideoId() {
     setVideoId(undefined);
-    const response = API.getInstance().get(selectedGameMode.player_source_api);
-    response?.then((data) => {
-      setVideoId(data.video_id);
-      setSeekTo(data.seek_to);
+    selectedGameMode?.get_song_api(false).then((response) => {
+      setVideoId(response.video_id);
+      setSeekTo(response.seek_to);
     });
   }
 
@@ -102,27 +112,6 @@ export function PlayButton({selectedGameMode, skipButtonCounter, className}: Pla
       } else {
         videoElement.target.pauseVideo();
       }
-    }
-  }
-
-  function getListeningTime(): number {
-    switch(attempt) {
-      case 0:
-        return 1;
-      case 1:
-        return 3;
-      case 2:
-        return 5;
-      case 3:
-        return 10;
-      case 4:
-        return 30;
-      case 5:
-        return 60;
-      case 6:
-        return 90;
-      default:
-        return 0;
     }
   }
 

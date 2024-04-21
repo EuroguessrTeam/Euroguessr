@@ -23,8 +23,14 @@ export class API {
      * @param path  The path of the API endpoint
      * @returns The response of the API
      */
-    async get(path: string): Promise<any> {
-        const response = await fetch(`${API.BASE_URL}${path}`);
+    async get(path: string, accountId: string | undefined): Promise<any> {
+        const response = await fetch(`${API.BASE_URL}${path}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'accountId': accountId ?? ""
+            }
+        });
         return await response.json();
     }
 
@@ -34,11 +40,12 @@ export class API {
      * @param body The body of the request
      * @returns The response of the API
      */
-    async post(path: string, body: string): Promise<any> {
+    async post(path: string, body: string, accountId: string | undefined): Promise<any> {
         const response = await fetch(`${API.BASE_URL}${path}`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'accountId': accountId ?? ""
             },
             body: body,
         });

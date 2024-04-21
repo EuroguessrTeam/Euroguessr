@@ -51,7 +51,7 @@ namespace Euroguessr.Data
                 {
                     account_id = accountId,
                     date = todayDate,
-                    attempts = 0,
+                    attempts = 1,
                     win = false
                 };
                 _context.daily_score.Add(todayScore);
@@ -75,7 +75,7 @@ namespace Euroguessr.Data
                     account_id = accountId,
                     date = DateTime.UtcNow,
                     song_id = randomSong.id,
-                    attempts = 0,
+                    attempts = 1,
                     win = false
                 };
                 _context.training_score.Add(latestScore);
@@ -92,10 +92,10 @@ namespace Euroguessr.Data
 
             DailyScoreDto todayScore = GetOrSetTodayScore(accountId);
 
-            // If the user already guessed the song, we don't increment the attempts
-            if (!todayScore.win) { todayScore.attempts++; };
-
             bool win = _songService.GetTodayGuess().id == songId;
+
+            // If the user guessed the song, we don't increment the attempts
+            if (!todayScore.win && !win) { todayScore.attempts++; };
 
             // If the user guessed the song for the first time, we set the win to true
             _ = win ? (todayScore.win = true) : (todayScore.win ? todayScore.win = true : todayScore.win = false);
@@ -118,7 +118,7 @@ namespace Euroguessr.Data
                 win = true;
             }
 
-            if (!currentGuess.win) { currentGuess.attempts++; };
+            if (!currentGuess.win && !win) { currentGuess.attempts++; };
 
             _ = win ? (currentGuess.win = true) : (currentGuess.win ? currentGuess.win = true : currentGuess.win = false);
 
@@ -143,9 +143,7 @@ namespace Euroguessr.Data
             // - The user never played
             // OR
             // - The user already played and want a new song
-            // OR
-            // - The user already played and guessed the last song
-            if (currentGuess == null || next || currentGuess.win)
+            if (currentGuess == null || next)
             {
                 var randomSong = _songService.GetRandomSong();
                 _context.training_score.Add(new TrainingScoreDto()
@@ -153,7 +151,7 @@ namespace Euroguessr.Data
                     account_id = accountId,
                     date = DateTime.UtcNow,
                     song_id = randomSong.id,
-                    attempts = 0,
+                    attempts = 1,
                     win = false
                 });
                 _context.SaveChanges();

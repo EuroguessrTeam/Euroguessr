@@ -81,8 +81,8 @@ builder.Services.Configure<IpRateLimitOptions>(options =>
             },
             new() {
                 Endpoint = "GET:/api/song/search",
-                Period = "15s",
-                Limit = 5,
+                Period = "1m",
+                Limit = 100,
             },
             new() {
                 Endpoint = "*",

@@ -1,3 +1,4 @@
+import { APIHelper, Guess, Score } from "../../services/apiHelper";
 import { SongElement } from "../SongList/Song";
 import { countSongs, initializeSongs, searchInSongs } from "./WorkerSong";
 
@@ -9,7 +10,9 @@ export const enum GameModeKeys {
 export interface GameMode{
     key: GameModeKeys;
     name: string;
-    player_source_api: string;
+    get_score_api: () => Promise<Score>;
+    get_song_api: (next:boolean) => Promise<Guess>;
+    send_guess_api: (songId: number) => Promise<boolean>;
     skip_button_active: boolean;
     initializeSongs: () => Promise<SongElement[]>;
     searchInSongs: (searchTerm: string | null, page_number: number | null, rows_number: number | null) => Promise<SongElement[]>;
@@ -22,8 +25,10 @@ gameModes.set(
     GameModeKeys.DAILY, 
     {
         key: GameModeKeys.DAILY, 
-        name: "Daily",
-        player_source_api: "song/daily",
+        name: "Daily Guess",
+        get_score_api: APIHelper.getDailyScore,
+        get_song_api: APIHelper.getDailyGuess,
+        send_guess_api: APIHelper.sendDailyGuess,
         skip_button_active: false,
         initializeSongs: initializeSongs,
         searchInSongs: searchInSongs,
@@ -35,8 +40,10 @@ gameModes.set(
     GameModeKeys.TRAINING, 
     {
         key: GameModeKeys.TRAINING, 
-        name: "Training",
-        player_source_api: "song/training",
+        name: "Training Guess",
+        get_score_api: APIHelper.getTrainingScore,
+        get_song_api: APIHelper.getTrainingGuess,
+        send_guess_api: APIHelper.sendTrainingGuess,
         skip_button_active: true,
         initializeSongs: initializeSongs,
         searchInSongs: searchInSongs,
