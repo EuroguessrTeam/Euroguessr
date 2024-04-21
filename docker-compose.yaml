@@ -14,8 +14,8 @@ services:
       - postgres-data:/var/lib/postgresql/data
 
   euroguessr:
-    container_name: euroguessr
-    image: euroguessr
+    container_name: euroguessr-api
+    image: euroguessr-api
     build: .
     labels:
       - "traefik.enable=true"
@@ -29,7 +29,33 @@ services:
       - "$EUROGUESSR_PORT:$EUROGUESSR_PORT"
     volumes:
       - ./Euroguessr.Data/SongsData.json:/Euroguessr.Data/SongsData.json
-    # environment:
-      # ASPNETCORE_ENVIRONMENT: Development
+    environment:
+      - ConnectionStrings__DatabaseConnection=Server=db;Port=$POSTGRES_PORT;Database=$POSTGRES_DB;Username=$POSTGRES_USER;Password=$POSTGRES_PASSWORD;Integrated Security=true;Pooling=true;
+  
+  traefik:
+    container_name: reverse_proxy
+    image: traefik:latest
+    command: 
+      - "--api=true"
+      - "--api.dashboard=true"
+      - "--providers.docker=true"
+      - "--entrypoints.websecure.address=:443"
+      - "--certificatesresolvers.euroguessr.acme.tlschallenge=true"
+      - "--certificatesresolvers.euroguessr.acme.email=loangayrard@gmail.com"
+      - "--certificatesresolvers.euroguessr.acme.storage=/letsencrypt/acme.json"
+    labels:
+      - "traefik.http.routers.api.rule=Host (`traefik.$DOMAIN_NAME`)"
+      - "traefik.http.routers.api.service=api@internal"
+      - "traefik.http.routers.api.entrypoints=websecure"
+      - "traefik.http.routers.api.middlewares=auth"
+      - "traefik.http.middlewares.auth.basicauth.users=$TRAEFIK_AUTH_USER"
+      - "traefik.http.routers.api.tls.certresolver=euroguessr"
+    ports:
+      - "$TRAEFIK_PORT1:$TRAEFIK_PORT1"
+      - "$TRAEFIK_PORT2:$TRAEFIK_PORT2"
+    volumes:
+      - "./letsencrypt:/letsencrypt"
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+
 volumes:
   postgres-data:

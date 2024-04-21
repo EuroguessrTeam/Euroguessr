@@ -133,7 +133,6 @@ else
 
 app.UseIpRateLimiting();
 
-app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
