@@ -1,7 +1,5 @@
 import { ReactNode, useEffect, useState } from 'react';
-import { API } from '../../services/api';
 import YouTube, { YouTubePlayer, YouTubeProps } from 'react-youtube';
-import { GameMode } from './GameModes';
 import { APIHelper } from '../../services/apiHelper';
 import { useGlobalState } from '../../services/useGlobalState';
 
@@ -23,7 +21,7 @@ export function PlayButton({className}: PlayButtonProps) {
   const [selectedGameMode] = useGlobalState("currentGamemode");
 
   //Constant variables
-  const sleep = ms => new Promise(r => setTimeout(r, ms));
+  const sleep = (ms: number | undefined) => new Promise(r => setTimeout(r, ms));
   const youtubePlayerVolume = 10;
   const opts: YouTubeProps['opts'] = {
     height: '0',

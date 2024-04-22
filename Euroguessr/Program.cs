@@ -138,6 +138,7 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthentication();
+app.UseHttpsRedirection();
 app.UseCors();
 app.UseAuthorization();
 

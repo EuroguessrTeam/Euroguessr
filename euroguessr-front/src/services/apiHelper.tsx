@@ -82,7 +82,7 @@ export class APIHelper {
     }
 
     static async skipTrainingGuess(): Promise<boolean> {
-        return await API.getInstance().get(`account/training/guess/get?next=true`, await APIHelper.getCurrentOrCreateNewAccount()).then((response) => {
+        return await API.getInstance().get(`account/training/guess/get?next=true`, await APIHelper.getCurrentOrCreateNewAccount()).then(() => {
             return true;
         }).catch((error) => {
             APIHelper.treatError(error);

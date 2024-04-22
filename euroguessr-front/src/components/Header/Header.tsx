@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 
 export default function Header() {
 
@@ -49,10 +50,10 @@ export default function Header() {
 
       {/* Hidden/Visible Menu */}
       <div className="overflow-hidden z-40 headerMenu fixed top-[-17.4vh] h-[25vh] w-[--header-width] bg-yellow transition ease-in-out duration-700 flex flex-col items-center justify-around">
-        <p className="text-blue font-eurotype text-2xl underline">Menu 1</p>
-        <p className="text-blue font-eurotype text-2xl underline">Menu 2</p>
-        <p className="text-blue font-eurotype text-2xl underline">Menu 3</p>
-        <p className="text-blue font-eurotype text-2xl underline">Menu 4</p>
+        <p className="text-blue font-eurotype text-2xl underline"><Link to="/play">Play!</Link></p>
+        <p className="text-blue font-eurotype text-2xl underline"><Link to="/play">Account</Link></p>
+        <p className="text-blue font-eurotype text-2xl underline"><Link to="/play">How to play</Link></p>
+        <p className="text-blue font-eurotype text-2xl underline"><Link to="/play">About</Link></p>
       </div>
 
       {/* Yellow triangle */}

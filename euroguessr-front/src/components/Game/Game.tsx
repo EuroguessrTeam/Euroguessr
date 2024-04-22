@@ -152,7 +152,7 @@ export default function Game() {
         <div className="w-[66.68%] h-full flex flex-col justify-between items-center">
           
           {/* Gaming mode */}
-          <div className="flex items-center justify-between h-[5.125vh] w-full bg-orange border-2 p-1 border-orange rounded-2xl shadow-2xl">
+          <div className="flex items-center justify-between h-[5.125vh] w-full bg-orange border-2 p-1 px-4 border-orange rounded-2xl shadow-2xl">
 
             {/* Change to previous */}
             <button onClick={() => switchGameMode(true)}>
@@ -170,26 +170,35 @@ export default function Game() {
           </div>
 
           {/* Plus button (not implemented yet)*/}
-          {<div className="opacity-0 bg-purple-light rounded-full w-[4vh] h-[4vh] flex items-center justify-center">
+          {currentGamemode.key == GameModeKeys.TRAINING && <div className="opacity-0 bg-purple-light rounded-full w-[4vh] h-[4vh] flex items-center justify-center">
               +
           </div>}
+
+          {/* Daily win text */}
+          {currentGamemode.key == GameModeKeys.DAILY &&
+            <div className={`opacity-0 ${win ? "opacity-100" : ""} h-[4vh] flex items-center justify-center flex-col text-pretty text-sm`}>
+              <p className="text-center  bg-purple rounded-lg p-[1vh]">You got today's song in {attemptCounter} attempts !</p>
+              <p className="text-center bg-purple rounded-b-lg px-[1vh] pb-[1vh]">Next song in {timeUntilMidnight}</p> 
+            </div>
+          }
 
           {/* Play Button */}
           <PlayButton className={"w-[15vh] h-[15vh] flex justify-center items-center bg-pink rounded-full shadow-2xl border-4 hover:scale-110 transition-all"}/>
 
           {/* Skip button */}
           {currentGamemode.skip_button_active &&
-            <button onClick={handleSkipButtonClicked} disabled={skipButtonDisabled} className="disabled:opacity-50 animation-full">
+            <button onClick={handleSkipButtonClicked} disabled={skipButtonDisabled} className={`disabled:opacity-50 animation-full ${win ? "animate-wiggle" : ""}`}>
               <div className="bg-blue rounded-full w-[8vh] h-[4vh] flex items-center justify-center">
-                <p className="font-bold">{!win ? "SKIP" : "NEXT"}</p> 
+                <p className="font-bold">{!win ? "SKIP" : "NEXT >"}</p> 
               </div>
             </button>
           }
 
+          {/* Daily win text 2 */}
           {currentGamemode.key === GameModeKeys.DAILY &&
             <div className={`opacity-0 ${win ? "opacity-100" : ""} h-[4vh] flex items-center justify-center flex-col text-pretty text-sm`}>
-              <p className="text-center  bg-purple rounded-lg p-[1vh]">You got today's song in {attemptCounter} attempts !</p>
-              <p className="text-center bg-purple rounded-b-lg px-[1vh] pb-[1vh]">Next song in {timeUntilMidnight}</p> 
+              <p className="text-center  bg-purple rounded-lg p-[1vh]">To see all your scores, <b><u>click here</u></b></p>
+              <p className="text-center bg-purple rounded-b-lg px-[1vh] pb-[1vh]">To continue playing, <b><u><button className="underline" onClick={() => switchGameMode(false)}>click here</button></u></b></p> 
             </div>
           }
 

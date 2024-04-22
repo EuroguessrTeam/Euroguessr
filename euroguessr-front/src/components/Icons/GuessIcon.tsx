@@ -1,5 +1,4 @@
 import React from "react";
-import { useGlobalState } from "../../services/useGlobalState";
 
 interface GuessIconProps {
   className?: string;
