@@ -159,4 +159,5 @@ using (var scope = app.Services.CreateScope())
     context.InitializeDefaultData();
 }
 
+app.Urls.Add("http://[::]:7079");
 app.Run();
