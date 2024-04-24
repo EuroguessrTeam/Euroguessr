@@ -5,7 +5,7 @@ namespace Euroguessr.Models.Pages.Training
 {
     public class TrainingModel
     {
-        public Song SongToGuess { get; set; } = new();
-        public List<Song> SongsList { get; set; } = new();
+        public SongDto SongToGuess { get; set; } = new();
+        public List<SongDto> SongsList { get; set; } = new();
     }
 }

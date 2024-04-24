@@ -1,32 +1,40 @@
 using Microsoft.AspNetCore.Mvc;
 using Euroguessr.Data;
-using Euroguessr.Models.Api.Song.Input;
 using Euroguessr.Models.Api.Song.Output;
 using Euroguessr.Data.Tables;
-using Euroguessr.Interfaces;
+using Euroguessr.Models.Api.Error;
 
 namespace Euroguessr.Controllers
 {
+
+    [Route("api/song")]
+    [ApiController]
     public class SongController : Controller
     {
 
         private readonly EntityContext _context;
-        private readonly ISongManagerService _songManagerService;
-        private readonly ISongToGuessService _songToGuessService;
+        private readonly ISongService _songService;
+        private readonly ILogger<SongController> _logger;
 
-        public SongController(EntityContext context, ISongManagerService songManagerService, ISongToGuessService songToGuessService)
+        public SongController(EntityContext context, ISongService songService, ILogger<SongController> logger)
         {
             _context = context;
-            _songManagerService = songManagerService;
-            _songToGuessService = songToGuessService;
+            _songService = songService;
+            _logger = logger;
         }
 
-
-        [HttpGet("/song/daily")]
+        /// <summary>
+        /// Get today's global song to guess
+        /// </summary>
+        /// <response code="200">The song to guess</response>
+        [HttpGet("daily")]
         [Produces("application/json")]
-        public JsonResult GetDailySong()
+        [ProducesResponseType(typeof(OutputGetSongToGuessModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(OutputError429), StatusCodes.Status429TooManyRequests)]
+        [ProducesResponseType(typeof(OutputError500), StatusCodes.Status500InternalServerError)]
+        public ActionResult GetDailySong()
         {
-            Song song = _songManagerService.GetTodayGuess();
+            SongDto song = _songService.GetTodayGuess();
 
             OutputGetSongToGuessModel response = new()
             {
@@ -37,51 +45,40 @@ namespace Euroguessr.Controllers
             return new JsonResult(response);
         }
 
-        [HttpPost("/song/daily/submit")]
-        [Consumes("application/json")]
+        /// <summary>
+        /// Search for songs
+        /// </summary>
+        /// <param name="rowsNumber">Number of songs per page. 25 if not specified</param>
+        /// <param name="page">The page number > 0</param>
+        /// <param name="searchTerm">The term to search for. Return all songs if not specified</param>
+        /// <response code="200">The songs corresponding to the the search term</response>
+        [HttpGet("search")]
         [Produces("application/json")]
-        public JsonResult SubmitDailySong(InputSubmitSongModel input)
+        [ProducesResponseType(typeof(List<SongDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(OutputError429), StatusCodes.Status429TooManyRequests)]
+        [ProducesResponseType(typeof(OutputError500), StatusCodes.Status500InternalServerError)]
+        public ActionResult SearchSongs(int page, int? rowsNumber, string? searchTerm = null)
         {
-            int idToGuess = _songManagerService.GetTodayGuess().id;
+            List<SongDto> response = _songService.SearchSongs(searchTerm, page, rowsNumber ?? 25);
 
-            return new JsonResult(new OutputSubmitSong { result = input.id == idToGuess });
+            return new OkObjectResult(response);
         }
 
-        [HttpGet("/song/training")]
+        /// <summary>
+        /// Count the number of songs for a specified search term
+        /// </summary>
+        /// <param name="searchTerm">The term to search for. Returns the total number of songs if not specified</param>
+        /// <response code="200">The number of songs corresponding to the the search term</response>
+        [HttpGet("count")]
         [Produces("application/json")]
-        public JsonResult GetTrainingSong()
+        [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(OutputError429), StatusCodes.Status429TooManyRequests)]
+        [ProducesResponseType(typeof(OutputError500), StatusCodes.Status500InternalServerError)]
+        public ActionResult CountSongs(string? searchTerm)
         {
+            int response = _songService.CountSongs(searchTerm);
 
-            Song songToGuess = _songManagerService.GetRandomSong();
-
-            _songToGuessService.SetSongToGuess(songToGuess);
-
-            OutputGetSongToGuessModel response = new()
-            {
-                video_id = songToGuess.video_id,
-                seek_to = songToGuess.seek_to
-            };
-
-            return new JsonResult(response);
-        }
-
-        [HttpPost("/song/training/submit")]
-        [Consumes("application/json")]
-        [Produces("application/json")]
-        public JsonResult SubmitTrainingSong(InputSubmitSongModel input)
-        {
-            int idToGuess = _songToGuessService.GetSongToGuessId();
-
-            return new JsonResult(new OutputSubmitSong { result = input.id == idToGuess });
-        }
-
-        [HttpGet("/songs")]
-        [Produces("application/json")]
-        public JsonResult GetSongs()
-        {
-            var response = _context.Song.OrderByDescending(c => c.id).ToArray();
-
-            return new JsonResult(response);
+            return new OkObjectResult(response);
         }
     }
 }

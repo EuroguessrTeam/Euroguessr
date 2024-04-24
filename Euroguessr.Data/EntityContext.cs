@@ -1,7 +1,6 @@
 ﻿using Euroguessr.Data.Tables;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using static System.Formats.Asn1.AsnWriter;
 
 namespace Euroguessr.Data
 {
@@ -20,45 +19,23 @@ namespace Euroguessr.Data
 
             // Default values for TodayGuessNumberRange table
 
-            if (TodayGuessNumberRange.Any())
-                TodayGuessNumberRange.Remove(TodayGuessNumberRange.First());
+            if (daily_guess_range.Any())
+                daily_guess_range.Remove(daily_guess_range.First());
 
-            TodayGuessNumberRange defaultRange = new() { 
-                min_value = 450, 
-                max_value = 529 
+            DailyGuessRangeDto defaultRange = new() { 
+                min_song_id = 450,
+                max_song_id = 603
             };
-            TodayGuessNumberRange.Add(defaultRange);
+            daily_guess_range.Add(defaultRange);
             SaveChanges();
 
             // Default values for Song table
 
-            Song[] songs = Worker_Song.GetSongs().ToArray();
+            SongDto[] songs = Worker_Song.GetSongs().ToArray();
 
-            if (!Song.Any())
-            {
-                Song.AddRange(songs);
-            }
-            else
-            {
-                foreach (var s in songs)
-                {
-                    var songToUpdate = Song.Find(s.id);
-                    if (songToUpdate != null)
-                    {
-                        songToUpdate.year = s.year;
-                        songToUpdate.country = s.country;
-                        songToUpdate.song_name = s.song_name;
-                        songToUpdate.artist_name = s.artist_name;
-                        songToUpdate.video_id = s.video_id;
-                        songToUpdate.seek_to = s.seek_to;
-                        Song.Update(songToUpdate);
-                    }
-                    else
-                    {
-                        Song.Add(s);
-                    }
-                }
-            }
+            song.RemoveRange(song.ToList());
+            song.AddRange(songs);
+
             SaveChanges();
         }
 
@@ -68,26 +45,49 @@ namespace Euroguessr.Data
             options.UseNpgsql(Configuration.GetConnectionString("DatabaseConnection"));
         }
 
-        public DbSet<User> User { get; set; }
-        public DbSet<Score> Score { get; set; }
-        public DbSet<TodayGuessNumber> TodayGuessNumber { get; set; }
-        public DbSet<TodayGuessNumberRange> TodayGuessNumberRange { get; set; }
-        public DbSet<Song> Song { get; set; }
+        public DbSet<AccountDto> account { get; set; }
+        public DbSet<TrainingScoreDto> training_score { get; set; }
+        public DbSet<DailyScoreDto> daily_score { get; set; }
+        public DbSet<DailyGuessDto> daily_guess { get; set; }
+        public DbSet<DailyGuessRangeDto> daily_guess_range { get; set; }
+        public DbSet<SongDto> song { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
-            //TABLES WITH 2+ PRIMARY KEYS
+            //FOREIGN KEYS
+            modelBuilder.Entity<DailyGuessDto>()
+                .HasOne(d => d.song)
+                .WithMany(s => s.daily_guesses)
+                .HasForeignKey(d => d.song_id);
 
-            modelBuilder.Entity<Score>()
-                .HasKey(e => new { e.Userunique_token, e.date });
+            modelBuilder.Entity<DailyScoreDto>()
+                .HasOne(d => d.account)
+                .WithMany(a => a.daily_scores)
+                .HasForeignKey(d => d.account_id);
 
-            modelBuilder.Entity<TodayGuessNumberRange>()
-                .HasKey(e => new { e.min_value, e.max_value });
+            modelBuilder.Entity<TrainingScoreDto>()
+                .HasOne(t => t.song)
+                .WithMany(s => s.training_scores)
+                .HasForeignKey(t => t.song_id);
 
-            //AUTO INCREMENT ID
+            modelBuilder.Entity<TrainingScoreDto>()
+                .HasOne(t => t.account)
+                .WithMany(a => a.training_scores)
+                .HasForeignKey(t => t.account_id);
 
-            modelBuilder.Entity<Song>()
+            //PRIMARY KEYS
+            modelBuilder.Entity<DailyScoreDto>()
+                .HasKey(d => new { d.account_id, d.date });
+
+            modelBuilder.Entity<TrainingScoreDto>()
+                .HasKey(t => new { t.account_id, t.date });
+
+            modelBuilder.Entity<DailyGuessRangeDto>()
+                .HasKey(e => new { e.min_song_id, e.max_song_id });
+
+            //AUTO-INCREMENT
+            modelBuilder.Entity<SongDto>()
                 .Property(s => s.id)
                 .ValueGeneratedOnAdd();
         }

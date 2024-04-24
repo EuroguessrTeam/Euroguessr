@@ -5,6 +5,6 @@ namespace Euroguessr.Models.Pages.Account
     public class ManageAccountModel
     {
         public string UserUniqueId { get; set; }
-        public List<Score> Scores { get; set; }
+        public List<DailyScoreDto> Scores { get; set; }
     }
 }
