@@ -239,7 +239,7 @@ export default function Game() {
       {currentGamemode && 
       <div className="w-full h-[34%] flex justify-center bg-purple">
         <div className="relative z-10 bg-yellow w-[80%] h-full rounded-lg overflow-auto">
-          <SongList className="relative font-roboto font-thin text-black p-8" />
+          <SongList className="relative font-roboto font-thin text-black px-8 my-2" />
         </div>
       </div>
       }

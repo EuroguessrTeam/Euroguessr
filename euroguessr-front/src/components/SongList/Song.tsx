@@ -44,25 +44,25 @@ export function Song({className, song}: SongProps) {
   // Rendered element
   return (
     <div className={`${isGuessCorrect != undefined ? isGuessCorrect ? "bg-green" : "bg-red" : "bg-white "} ${win && !isGuessCorrect ? "opacity-60" : ""} ${className} transition-all duration-1000`}>
-      <div className="grow flex flex-row justify-between items-center w-[80%]">
+      <div className="grow flex flex-row justify-between items-center overflow-auto">
 
         <img src={`https://i.ytimg.com/vi/${song.video_id}/hq720.jpg`} alt={`${song.song_name} image`} className="w-[4vh] h-[4vh] rounded-lg" />
 
         <div className={`grow flex flex-row flex-start justify-between ${isGuessCorrect == undefined ? "text-black" : "text-white"}`}>
-          <div className="flex flex-col">
-            <p className="text-[1.5vh] grow text-left ml-4">{song.song_name}</p>
-            <p className="text-[1.5vh] italic grow text-left ml-4">{song.artist_name}</p>
+          <div className="flex flex-col w-[30%] truncate">
+            <p className="text-[1.5vh] grow text-left ml-4 truncate">{song.song_name}</p>
+            <p className="text-[1.5vh] italic grow text-left ml-4 truncate">{song.artist_name}</p>
           </div>
-          <div className="flex flex-col w-[35%]">
-            <p className="text-[1.5vh] grow text-left ml-4">{song.year}</p>
-            <p className="text-[1.5vh] grow text-left ml-4">{song.country}</p>
+          <div className="flex flex-col w-[35%] truncate">
+            <p className="text-[1.5vh] grow text-left ml-4 truncate">{song.year}</p>
+            <p className="text-[1.5vh] grow text-left ml-4 truncate">{song.country}</p>
           </div>
+
+          <button disabled={isGuessCorrect != undefined || win} onClick={sendSong} className={`transition-all duration-1000 w-[4vh] h-[4vh] flex items-center justify-center rounded-lg ${isGuessCorrect != undefined || win ? "bg-white disabled" : "bg-pink disabled"}`}>
+            <GuessIcon fill="white" stroke="black" guessCorrect={isGuessCorrect} sendActive={win || isGuessCorrect != undefined} />
+          </button>
+
         </div>
-
-        <button disabled={isGuessCorrect != undefined || win} onClick={sendSong} className={`transition-all duration-1000 min-w-[4vh] min-h-[4vh] flex items-center justify-center rounded-lg ${isGuessCorrect != undefined || win ? "bg-white disabled" : "bg-pink disabled"}`}>
-          <GuessIcon fill="white" stroke="black" guessCorrect={isGuessCorrect} sendActive={win || isGuessCorrect != undefined} />
-        </button>
-
       </div>
     </div>
   )

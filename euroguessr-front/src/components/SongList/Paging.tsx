@@ -20,19 +20,19 @@ export function Paging ({ className, actualPage, setActualPage, totalPages } : S
       {/* Previous page button */}
       <button disabled={actualPage <= 1}
               onClick={() => swapPage(actualPage-1)}
-              className="flex justify-center items-center">
+              className="flex justify-center items-center font-bold disabled:opacity-40">
         {"<"}
       </button>
 
       {/* Pages */}
       <div className="flex justify-center items-center">
-        {actualPage} of {totalPages}
+        {actualPage} / {totalPages}
       </div>
 
       {/* Next page button */}
       <button disabled={actualPage >= totalPages}
               onClick={() => swapPage(actualPage+1)}
-              className="flex justify-center items-center">
+              className="flex justify-center items-center font-bold disabled:opacity-40">
         {">"}
       </button>
 
