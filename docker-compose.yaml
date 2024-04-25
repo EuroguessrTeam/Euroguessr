@@ -46,6 +46,7 @@ services:
     container_name: euroguessr-backend
     environment:
       - ConnectionStrings__DatabaseConnection=Server=db;Port=$POSTGRES_PORT;Database=$POSTGRES_DB;Username=$POSTGRES_USER;Password=$POSTGRES_PASSWORD;Integrated Security=true;Pooling=true;
+      - CorsOrigin=https://$DOMAIN_NAME
     depends_on:
       - db
       - traefik

@@ -1,21 +1,20 @@
 using AspNetCoreRateLimit;
 using Euroguessr.Data;
 using Euroguessr.Middleware;
-using Euroguessr.Models.Api.Error;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
+
+var corsOrigin = builder.Configuration.GetSection("CorsOrigin").Get<string>();
 
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(
         policy =>
         {
-            policy.WithOrigins("http://localhost:5173",
-                               "http://localhost:4173",
-                               "https://euroguessr.com",
-                               "https://dev.euroguessr.com")
+            policy.WithOrigins(corsOrigin ?? "")
             .AllowAnyMethod()
             .AllowAnyHeader();
         });
@@ -88,7 +87,7 @@ builder.Services.Configure<IpRateLimitOptions>(options =>
             new() {
                 Endpoint = "*",
                 Period = "1s",
-                Limit = 5,
+                Limit = 30,
             }
         };
 });
