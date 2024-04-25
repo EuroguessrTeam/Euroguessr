@@ -1,6 +1,7 @@
 version: '3'
 
 services:
+
   db:
     container_name: postgres
     image: postgres
@@ -14,8 +15,8 @@ services:
       - postgres-data:/var/lib/postgresql/data
 
   traefik:
-    container_name: "traefik"
-    image: "traefik:v2.11"
+    container_name: traefik
+    image: traefik:latest
     command:
       - "--api=true"
       - "--api.dashboard=true"
@@ -40,8 +41,9 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
 
   backend:
+    build:
+      context: .
     container_name: euroguessr-backend
-    image: euroguessr-backend
     environment:
       - ConnectionStrings__DatabaseConnection=Server=db;Port=$POSTGRES_PORT;Database=$POSTGRES_DB;Username=$POSTGRES_USER;Password=$POSTGRES_PASSWORD;Integrated Security=true;Pooling=true;
     depends_on:
@@ -49,7 +51,7 @@ services:
       - traefik
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.backend.rule=Host(`$DOMAIN_NAME`) && PathPrefix(`/api`)"
+      - "traefik.http.routers.backend.rule=Host(`api.$DOMAIN_NAME`)"
       - "traefik.http.routers.backend.entrypoints=websecure"
       - "traefik.http.services.backend.loadbalancer.server.port=$BACKEND_PORT"
       - "traefik.http.routers.backend.tls.certresolver=euroguessr"
@@ -71,15 +73,15 @@ services:
       - "traefik.http.routers.portainer.tls.certresolver=euroguessr"
   
   frontend:
+    build:
+      context: ./euroguessr-front
     container_name: euroguessr-frontend
-    image: euroguessr-frontend
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.frontend.rule=Host(`$DOMAIN_NAME`)"
       - "traefik.http.routers.frontend.entrypoints=websecure"
       - "traefik.http.services.frontend.loadbalancer.server.port=$FRONTEND_PORT"
       - "traefik.http.routers.frontend.tls.certresolver=euroguessr"
-    
     depends_on:
       - backend
       - traefik
