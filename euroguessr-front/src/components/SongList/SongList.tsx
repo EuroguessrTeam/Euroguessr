@@ -18,7 +18,7 @@ export function SongList ({ className}: SongListProps) {
     // # useEffect on searchInput #
     // #                          #
     useEffect(() => {
-        if(songs.length === 0 && !searchInput){
+        if(songs.length === 0 && !searchInput){
           currentGamemode?.initializeSongs().then((songs) => setSongs(songs));
           console.log('initializeSongs dans useEffect searchInput');
         }
@@ -76,7 +76,7 @@ export function SongList ({ className}: SongListProps) {
               {songs.map((song) => {
                   return (
                       <Song key={song.id} 
-                            className="w-full h-[5.5vh] flex items-center rounded-xl shadow-sm mb-[2.375vh] p-2" 
+                            className="flex justify-between h-[5.5vh] items-center rounded-xl shadow-sm mb-[2.375vh] p-2" 
                             song={song} />
                   )
               })}

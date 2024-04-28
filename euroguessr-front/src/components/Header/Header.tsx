@@ -1,12 +1,16 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
 export default function Header() {
+
+    const [isMenuBarVisible, setIsMenuBarVisible] = useState<boolean>(false);
 
     const toggleMenuBar = () => {
       const elements = document.querySelectorAll('.headerMenu');
       for (let i = 0; i < elements.length; i++) {
           elements[i].classList.toggle("translate-y-[24.9vh]");
       }
+      isMenuBarVisible ? setIsMenuBarVisible(false) : setIsMenuBarVisible(true);
     }
 
     const updateHeaderWidth = () => {
@@ -33,18 +37,25 @@ export default function Header() {
       <div className="fixed top-0 z-50 h-[7.6vh] w-[--header-width] flex items-center bg-yellow overflow-hidden">
         <div className="w-[16.6666%] flex items-center justify-center text-black">
           <button onClick={toggleMenuBar}>
+            {!isMenuBarVisible ?
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" strokeWidth="2.25" stroke="black" className="w-6 h-6">
               <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 5.5h28" />
               <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 18h28" />
               <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 30.5h28" />
             </svg>
+            :
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+            </svg>
+            }
+
           </button>
         </div>
         <div className="w-[66.6%] flex items-center justify-center">
           <p className="text-[250%] text-bold text-center text-black font-eurotype">Euroguessr&nbsp;*</p>
         </div>
         <div className="w-[16.6666%] h-full flex items-center justify-center">
-          <img className="h-[60%] rounded-full" src="src/assets/profile-pic.png"></img>
+          {/*<img className="h-[60%] rounded-full" src="src/assets/profile-pic.png"></img>*/}
         </div>
       </div>
 
