@@ -40,7 +40,7 @@ gameModes.set(
     GameModeKeys.TRAINING, 
     {
         key: GameModeKeys.TRAINING, 
-        name: "Training Guess",
+        name: "infinite Mode",
         get_score_api: APIHelper.getTrainingScore,
         get_song_api: APIHelper.getTrainingGuess,
         send_guess_api: APIHelper.sendTrainingGuess,
