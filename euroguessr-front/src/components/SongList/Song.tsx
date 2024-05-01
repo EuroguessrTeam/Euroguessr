@@ -33,9 +33,7 @@ export function Song({className, song, fakeSongIsValid}: SongProps) {
 
   // Send song
   function sendSongDefault() {
-    console.log(song);
     currentGamemode?.send_guess_api(parseInt(song.id)).then((response) => {
-      console.log(response);
       guess(response);
       if(!response){
         setAttempt(attempt + 1);

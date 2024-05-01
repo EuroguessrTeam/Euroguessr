@@ -63,7 +63,6 @@ export default function Account() {
 
   useEffect(() => {
     APIHelper.getDailyScores(dateSelected.getUTCMonth() + 1, dateSelected.getUTCFullYear()).then((scores) => {
-      console.log(scores);
       setDailyScores(scores);
     });
   }, [dateSelected, accountRestored]);
