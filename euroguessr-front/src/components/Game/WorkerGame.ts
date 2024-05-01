@@ -26,8 +26,3 @@ export function searchNearGameMode(previous: boolean, dictionary: Map<GameModeKe
     // Return the new game mode
     return newGameMode;
 }
-
-export function selectingGameModeRoutine(selectedGameMode: GameMode | undefined, setSearchInput: (searchInput: string) => void) {
-  // Reloading searchInput => Reloading songs
-  setSearchInput(''); 
-}
