@@ -68,7 +68,7 @@ export default function Account() {
   }, [dateSelected, accountRestored]);
 
   return (
-    <div className="overflow-auto h-[89.4vh] ml-4 mr-2">
+    <div className="overflow-auto h-[89.4vh] p-4 font-roboto">
       <h1>My Account</h1>
 
       {/* Get account ID */}
@@ -100,7 +100,8 @@ export default function Account() {
       {/* Restore account */}
       <div className="flex p-1">
         <input id="restoreAccountInput"
-          className="w-full outline-none focus:ring-0 bg-white rounded-2xl text-black font-roboto px-1"
+          className="w-full outline-none focus:ring-0 bg-white rounded-2xl text-black placeholder-grey font-roboto px-1"
+          placeholder="41858ce8-6ecc-4799-bb43-7594109e8094"
           onKeyDown={(e) => {
             if(e.key === 'Enter'){
             restoreAccount();
@@ -153,7 +154,7 @@ export default function Account() {
         return (
           <div key={score.date.toString()}>
             <div className="flex justify-between">
-              <p className="w-[25%]">{getDayFullName(new Date(score.date.toString()).getDay())} {new Date(score.date.toString()).getDate()}</p>
+              <p className="w-[35%]">{getDayFullName(new Date(score.date.toString()).getDay())} {new Date(score.date.toString()).getDate()}</p>
               <p className="w-[25%]">{score.attempts < 2 ? score.attempts + " attempt" : score.attempts + " attempts"}</p>
               {score.win ? <p className="text-green w-[25%]">Guessed</p> : <p className="text-red w-[25%]">Not Guessed</p>}
             </div>

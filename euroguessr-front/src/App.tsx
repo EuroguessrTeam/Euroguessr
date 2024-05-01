@@ -1,9 +1,8 @@
 import {Routes, Route, Navigate} from "react-router-dom";
 import Game from "./components/Game/Game";
-import HowToPlay from "./components/HowToPlay/HowToPlay";
+import HowToPlay from "./components/Pages/HowToPlay/HowToPlay";
 import About from "./components/Pages/About/About";
 import Account from "./components/Pages/Account/Account";
-import Help from "./components/Pages/Help/Help";
 
 export default function App() {
   return (
@@ -12,7 +11,7 @@ export default function App() {
       <Route path="/play" element={<Game/>} />
       <Route path="/how-to-play" element={<HowToPlay/>} />
       <Route path="/account" element={<Account/>} />
-      <Route path="/help" element={<Help/>} />
+      <Route path="/help" element={<HowToPlay/>} />
       <Route path="/about" element={<About/>} />
     </Routes>
   )

@@ -5,15 +5,17 @@ import { useGlobalState } from '../../services/useGlobalState';
 
 interface PlayButtonProps {
   className?: string;
+  videoIdProp?: string;
+  seekToProp?: number;
 }
 
-export function PlayButton({className}: PlayButtonProps) {
+export function PlayButton({className, videoIdProp, seekToProp}: PlayButtonProps) {
 
   //Dynamic variables
   const [isLoaded, setIsLoaded] = useState<boolean | undefined>(false);
   const [isListening, setIsListening] = useState(false);
-  const [videoId, setVideoId] = useState<string | undefined>(undefined);
-  const [seekTo, setSeekTo] = useState<number | undefined>(undefined);
+  const [videoId, setVideoId] = useState<string | undefined>(videoIdProp);
+  const [seekTo, setSeekTo] = useState<number | undefined>(seekToProp);
   const [videoElement, setVideoElement] = useState<YouTubePlayer | null>(null);
   const [timeoutId, setTimeoutId] = useState<number | null>(null);
   const [listeningTime] = useGlobalState("listeningTime");
@@ -22,13 +24,14 @@ export function PlayButton({className}: PlayButtonProps) {
 
   //Constant variables
   const sleep = (ms: number | undefined) => new Promise(r => setTimeout(r, ms));
-  const youtubePlayerVolume = 10;
+  const youtubePlayerVolume = 66;
   const opts: YouTubeProps['opts'] = {
     height: '0',
     width: '0',
     controls : '0', 
   };
   const onPlayerReady: YouTubeProps['onReady'] = async (event) => {
+    console.log(videoId);
     setVideoElement(event);
     event.target.setVolume(0);
     await sleep(500);
@@ -71,10 +74,12 @@ export function PlayButton({className}: PlayButtonProps) {
 
   //useEffects
   useEffect(() => {
-    clearTimeoutPauseVideo();
-    setIsLoaded(false);
-    setIsListening(false);
-    getVideoId();
+    if (!videoIdProp) {
+      clearTimeoutPauseVideo();
+      setIsLoaded(false);
+      setIsListening(false);
+      getVideoId();
+    }
   }, [selectedGameMode, skipButtonCounter]);
 
   useEffect(() => {

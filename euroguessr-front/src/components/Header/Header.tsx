@@ -76,7 +76,7 @@ export default function Header() {
         </button>
 
         <button onClick={toggleMenuBar} className="hover:scale-110 transition-all">
-          <p className="text-blue font-eurotype text-2xl underline"><Link to="/help">How to play</Link></p>
+          <p className="text-blue font-eurotype text-2xl underline"><Link to="/how-to-play">How to play</Link></p>
         </button>
 
         <button onClick={toggleMenuBar} className="hover:scale-110 transition-all">

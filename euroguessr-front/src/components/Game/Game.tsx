@@ -198,7 +198,7 @@ export default function Game() {
           {/* Daily win text 2 */}
           {currentGamemode.key === GameModeKeys.DAILY &&
             <div className={`opacity-0 ${win ? "opacity-100" : ""} h-[4vh] flex items-center justify-center flex-col text-pretty text-sm`}>
-              <p className="text-center  bg-purple rounded-lg p-[1vh]">To see all your scores <b><u><Link to="/account" className="text-white">click here</Link></u></b></p>
+              <p className="text-center  bg-purple rounded-lg p-[1vh]">To see all your scores <b><u><Link to="/account" className="text-white hover:text-white">click here</Link></u></b></p>
               <p className="text-center bg-purple rounded-b-lg px-[1vh] pb-[1vh]">To continue playing <b><u><button className="underline" onClick={() => switchGameMode(false)}>click here</button></u></b></p> 
             </div>
           }
@@ -208,7 +208,8 @@ export default function Game() {
 
             {/* Text input */}
             <input id="searchInput"
-                   className="w-full outline-none focus:ring-0 bg-white rounded-2xl text-black text-[3vh] font-eurotype"
+                   className="w-full outline-none focus:ring-0 bg-white rounded-xl text-black text-[2.3vh] font-roboto"
+                   placeholder="Country, artist, year or title"
                    onKeyDown={(e) => {
                                if(e.key === 'Enter'){
                                  search();

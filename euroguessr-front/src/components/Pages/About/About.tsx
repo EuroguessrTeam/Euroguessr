@@ -1,7 +1,7 @@
 export default function About() {
 
     return (
-      <div className="overflow-auto h-[89.4vh] ml-4 mr-2">
+      <div className="overflow-auto h-[89.4vh] p-4 font-roboto">
         <h1>Privacy Policy</h1>
 
         <br/>
