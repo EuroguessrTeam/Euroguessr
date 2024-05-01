@@ -1,8 +1,7 @@
 import { useState } from "react";
-import { SongList } from "../SongList/SongList";
 import { Song } from "../SongList/Song";
 
-export function HowToPlay() {
+export default function HowToPlay() {
   const [isHovered, setIsHovered] = useState<boolean>(false);
 
   return (
@@ -33,10 +32,10 @@ export function HowToPlay() {
               <div className="relative font-roboto font-thin text-black px-8 my-2">
                 <Song song={{id: "1", country: "France", artist_name: "Johnny Hallyday", song_name: "Allumer le feu", video_id: "dQw4w9WgXcQ", year: 2012}}
                       className="flex justify-between h-[5.5vh] items-center rounded-xl shadow-sm mb-[2.375vh] p-2"
-                      fakeSongIsValid={true}/>
+                      fakeSongIsValid={false}/>
                 <Song song={{id: "1", country: "France", artist_name: "Johnny Hallyday", song_name: "Allumer le feu", video_id: "dQw4w9WgXcQ", year: 2012}}
                       className="flex justify-between h-[5.5vh] items-center rounded-xl shadow-sm mb-[2.375vh] p-2"
-                      fakeSongIsValid={false}/>
+                      fakeSongIsValid={true}/>
               </div>
             </div>
           </div>
