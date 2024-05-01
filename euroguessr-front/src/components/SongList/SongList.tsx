@@ -82,10 +82,12 @@ export function SongList ({ className}: SongListProps) {
               })}
           </div>
 
-          <PagingMemo className="flex justify-center items-center text-purple space-x-4 mb-1 -mt-3"
-                      actualPage={page}
-                      setActualPage={setPage}
-                      totalPages={numberPages} />
+          {songs && songs.length >= 4 && 
+            <PagingMemo className="flex justify-center items-center text-purple space-x-4 mb-1 -mt-3"
+                        actualPage={page}
+                        setActualPage={setPage}
+                        totalPages={numberPages} />
+          }
 
         </>
     )
