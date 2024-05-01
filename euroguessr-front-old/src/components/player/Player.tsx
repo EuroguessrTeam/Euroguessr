@@ -13,7 +13,6 @@ export const Player = () => {
                 return res.json();
             })
             .then((data) => {
-                console.log(data);
                 setSongs(data);
             });
     }, []);

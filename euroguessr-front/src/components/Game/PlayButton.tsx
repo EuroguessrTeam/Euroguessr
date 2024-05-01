@@ -38,22 +38,18 @@ export function PlayButton({className}: PlayButtonProps) {
     event.target.setVolume(youtubePlayerVolume);
     setIsLoaded(true);
     setIsListening(false);
-    console.log("Player READY!");
   }
   const onPlayerEnd: YouTubeProps['onEnd'] = () => {
-    console.log("Player END!");
     setIsListening(false);
     videoElement.target.pauseVideo();
     videoElement.target.seekTo(seekTo);
   }
   const onPlayerPlay: YouTubeProps['onPlay'] = () => {
     if(videoId == null || seekTo == null) return;
-    console.log("Player PLAY!");
     setIsListening(true);
     setTimeoutPauseVideo()
   }
   const onPlayerPause: YouTubeProps['onPause'] = () => {
-    console.log("Player PAUSE!");
     setIsListening(false);
     videoElement.target.seekTo(seekTo);
     clearTimeoutPauseVideo()
@@ -61,7 +57,6 @@ export function PlayButton({className}: PlayButtonProps) {
 
   function setTimeoutPauseVideo() {
     const id = setTimeout(() => {
-      console.log("Max listening time reached");
       videoElement.target.pauseVideo();
     }, listeningTime * 1000);
     setTimeoutId(id);
@@ -76,7 +71,6 @@ export function PlayButton({className}: PlayButtonProps) {
 
   //useEffects
   useEffect(() => {
-    console.log("Song refreshed");
     clearTimeoutPauseVideo();
     setIsLoaded(false);
     setIsListening(false);
@@ -85,7 +79,6 @@ export function PlayButton({className}: PlayButtonProps) {
 
   useEffect(() => {
     if (skipButtonCounter > 0) {
-      console.log("Song skipped !!");
       APIHelper.skipTrainingGuess().then(() => {
         getVideoId();
       });

@@ -8,6 +8,7 @@ const { setGlobalState, useGlobalState } = createGlobalState({
   listeningTime: 1,
   skipButtonCounter: 0,
   searchInput: "",
+  headerActive: false,
 });
 
 export function setCurrentGamemode(value: GameModeKeys) {
@@ -32,6 +33,10 @@ export function setSkipButtonCounter(value: number) {
 
 export function setSearchInput(value: string) {
   setGlobalState("searchInput", value);
+}
+
+export function setHeaderActive(value: boolean) {
+  setGlobalState("headerActive", value);
 }
 
 export { setGlobalState, useGlobalState };

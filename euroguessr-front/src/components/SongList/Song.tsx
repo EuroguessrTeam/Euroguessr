@@ -14,9 +14,10 @@ export interface SongElement {
 interface SongProps {
     className?: string;
     song: SongElement;
+    fakeSongIsValid?: boolean;
 }
 
-export function Song({className, song}: SongProps) {
+export function Song({className, song, fakeSongIsValid}: SongProps) {
   // Props
   const [isGuessCorrect, setIsGuessCorrect] = useState<boolean | undefined>(undefined);
   const [attempt] = useGlobalState("attempt");
@@ -24,17 +25,24 @@ export function Song({className, song}: SongProps) {
   const [currentGamemode] = useGlobalState("currentGamemode");
   const [skipButtonCounter] = useGlobalState("skipButtonCounter");
 
-  // Send song
-  function sendSong() {
-    console.log(song);
-    currentGamemode?.send_guess_api(parseInt(song.id)).then((response) => {
-      console.log(response);
+  // Guess
+  function guess(response: boolean){
       setIsGuessCorrect(response);
       setWin(response);
+    }
+
+  // Send song
+  function sendSongDefault() {
+    currentGamemode?.send_guess_api(parseInt(song.id)).then((response) => {
+      guess(response);
       if(!response){
         setAttempt(attempt + 1);
       }
     });
+  }
+
+  function sendSong() {
+    fakeSongIsValid ? guess(fakeSongIsValid) : sendSongDefault();
   }
 
   useEffect(() => {

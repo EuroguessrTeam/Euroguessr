@@ -38,33 +38,51 @@ export default function Header() {
         <div className="w-[16.6666%] flex items-center justify-center text-black">
           <button onClick={toggleMenuBar}>
             {!isMenuBarVisible ?
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" strokeWidth="2.25" stroke="black" className="w-6 h-6">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" strokeWidth="2.25" stroke="black" className="w-6 h-6 hover:scale-110 transition-all">
               <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 5.5h28" />
               <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 18h28" />
               <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 30.5h28" />
             </svg>
             :
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6 hover:scale-110 transition-all">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
             </svg>
             }
 
           </button>
         </div>
         <div className="w-[66.6%] flex items-center justify-center">
-          <p className="text-[250%] text-bold text-center text-black font-eurotype">Euroguessr&nbsp;*</p>
+          <p className="text-[250%] text-bold text-center text-black font-eurotype"><Link to="/play" className="text-black hover:text-black">Euroguessr&nbsp;*</Link></p>
         </div>
         <div className="w-[16.6666%] h-full flex items-center justify-center">
           {/*<img className="h-[60%] rounded-full" src="src/assets/profile-pic.png"></img>*/}
         </div>
       </div>
 
+      {/* Exit menu when open */}
+      {isMenuBarVisible &&
+        <button className="absolute top-[32.5vh] w-[100vw] z-50 h-[67.5vh] cursor-default" onClick={toggleMenuBar}></button>
+      }
+
       {/* Hidden/Visible Menu */}
       <div className="overflow-hidden z-40 headerMenu fixed top-[-17.4vh] h-[25vh] w-[--header-width] bg-yellow transition ease-in-out duration-700 flex flex-col items-center justify-around">
-        <p className="text-blue font-eurotype text-2xl underline"><Link to="/play">Play!</Link></p>
-        <p className="text-blue font-eurotype text-2xl underline"><Link to="/play">Account</Link></p>
-        <p className="text-blue font-eurotype text-2xl underline"><Link to="/play">How to play</Link></p>
-        <p className="text-blue font-eurotype text-2xl underline"><Link to="/play">About</Link></p>
+
+        <button onClick={toggleMenuBar} className="hover:scale-110 transition-all">
+          <p className="text-blue font-eurotype text-2xl underline"><Link to="/play">Play!</Link></p>
+        </button>
+
+        <button onClick={toggleMenuBar} className="hover:scale-110 transition-all">
+          <p className="text-blue font-eurotype text-2xl underline"><Link to="/account">Account</Link></p>
+        </button>
+
+        <button onClick={toggleMenuBar} className="hover:scale-110 transition-all">
+          <p className="text-blue font-eurotype text-2xl underline"><Link to="/help">How to play</Link></p>
+        </button>
+
+        <button onClick={toggleMenuBar} className="hover:scale-110 transition-all">
+          <p className="text-blue font-eurotype text-2xl underline"><Link to="/about">About</Link></p>
+        </button>
+        
       </div>
 
       {/* Yellow triangle */}

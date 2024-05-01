@@ -7,6 +7,7 @@ import { PlayButton } from "./PlayButton";
 import { GameModeKeys, gameModes } from "./GameModes";
 import { searchNearGameMode } from "./WorkerGame";
 import { setAttempt, setCurrentGamemode, setListeningTime, setSearchInput, setSkipButtonCounter, setWin, useGlobalState } from "../../services/useGlobalState";
+import { Link } from "react-router-dom";
 
 export default function Game() {
   // #     #
@@ -144,7 +145,7 @@ export default function Game() {
       <div className="z-10 relative h-[44.87vh] flex mb-[4vh] mt-[6.5vh] overflow-hidden">
 
         {/* Attempts */}
-        <div className="w-[16.6666%] h-full flex items-center pl-[2%]">
+        <div className="w-[16.6666%] h-full flex items-center pl-[2%] z-10">
           <p className="text-black font-eurotype text-[2.5vh]">Attempt&nbsp;{attemptCounter}</p>
         </div>
 
@@ -152,18 +153,18 @@ export default function Game() {
         <div className="w-[66.68%] h-full flex flex-col justify-between items-center">
           
           {/* Gaming mode */}
-          <div className="flex items-center justify-between h-[5.125vh] w-full bg-orange border-2 p-1 px-4 border-orange rounded-2xl shadow-2xl">
+          <div className="flex items-center justify-between h-[5.125vh] w-full bg-orange border-2 p-1 px-2 border-orange rounded-2xl shadow-2xl">
 
             {/* Change to previous */}
-            <button onClick={() => switchGameMode(true)}>
+            <button onClick={() => switchGameMode(true)} className="hover:scale-110 transition-all">
               <DoublePlayIcon isLeft={true} />
             </button>
 
             {/* Gamemode title */}
-            <p className="font-eurotype text-[3vh]">{currentGamemode.name}</p>
+            <p className="font-eurotype text-[2.95vh]">{currentGamemode.name}</p>
 
             {/* Change to next */}
-            <button onClick={() => switchGameMode(false)}>
+            <button onClick={() => switchGameMode(false)} className="hover:scale-110 transition-all">
               <DoublePlayIcon isLeft={false} />
             </button>
 
@@ -183,7 +184,7 @@ export default function Game() {
           }
 
           {/* Play Button */}
-          <PlayButton className={"w-[15vh] h-[15vh] flex justify-center items-center bg-pink rounded-full shadow-2xl border-4 hover:scale-110 transition-all"}/>
+          <PlayButton className={"z-20 w-[15vh] h-[15vh] flex justify-center items-center bg-pink rounded-full shadow-2xl border-4 hover:scale-110 transition-all"}/>
 
           {/* Skip button */}
           {currentGamemode.skip_button_active &&
@@ -197,8 +198,8 @@ export default function Game() {
           {/* Daily win text 2 */}
           {currentGamemode.key === GameModeKeys.DAILY &&
             <div className={`opacity-0 ${win ? "opacity-100" : ""} h-[4vh] flex items-center justify-center flex-col text-pretty text-sm`}>
-              <p className="text-center  bg-purple rounded-lg p-[1vh]">To see all your scores, <b><u>click here</u></b></p>
-              <p className="text-center bg-purple rounded-b-lg px-[1vh] pb-[1vh]">To continue playing, <b><u><button className="underline" onClick={() => switchGameMode(false)}>click here</button></u></b></p> 
+              <p className="text-center  bg-purple rounded-lg p-[1vh]">To see all your scores <b><u><Link to="/account" className="text-white">click here</Link></u></b></p>
+              <p className="text-center bg-purple rounded-b-lg px-[1vh] pb-[1vh]">To continue playing <b><u><button className="underline" onClick={() => switchGameMode(false)}>click here</button></u></b></p> 
             </div>
           }
 
@@ -226,7 +227,7 @@ export default function Game() {
         </div>
 
         {/* Seconds */}
-        <div className="w-[16.6666%] h-full flex flex-row-reverse items-center pr-[2%]">
+        <div className="w-[16.6666%] h-full flex flex-row-reverse items-center pr-[2%] z-10">
           <div className="flex flex-column">
             <p className="text-black font-eurotype text-[2.5vh]">Seconds&nbsp;{listeningTime}</p>
           </div>

@@ -1,0 +1,65 @@
+export default function About() {
+
+    return (
+      <div className="overflow-auto h-[89.4vh] ml-4 mr-2">
+        <h1>Privacy Policy</h1>
+
+        <br/>
+
+        <p>At Euroguessr, accessible from https://www.euroguessr.com, one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that is collected and recorded by Euroguessr and how we use it.</p>
+
+        <br/>
+
+        <p>If you have additional questions or require more information about our Privacy Policy, do not hesitate to contact us.</p>
+
+        <p>This Privacy Policy applies only to our online activities and is valid for visitors to our website with regards to the information that they shared and/or collect in Euroguessr. This policy is not applicable to any information collected offline or via channels other than this website.</p>
+
+        <h2>Consent</h2>
+
+        <p>By using our website, you hereby consent to our Privacy Policy and agree to its terms.</p>
+
+        <h2>Information we collect</h2>
+
+        <p>Euroguessr do not collect any personal information about you, but only data related to your progression and scores you make.</p>
+
+        <p>The data we store are 100% anonymous, as we only store a unique account id to save your progressions. From this account id, it is not possible to get personal information about you, like your name, or your location.</p>
+
+        <h2>How we use the data we collect</h2>
+
+        <p>The data we store does not contain any personal information about you.</p>
+
+        <p>The anonymous data about scores and progress that we store is used to :</p>
+
+        <ul>
+          <li>Save your progress to improve your user experience on our website</li>
+          <li>See how many daily user are using our website to improve, personalize, and expand our website</li>
+          <li>Find and delete inactive accounts</li>
+        </ul>
+
+
+        <h2>Cookies and Web Beacons</h2>
+
+        <p>When you go for the first time on "Euroguessr.com", a unique account id is generated, and will be stored in a cookie on your browser.</p>
+
+        <p>This cookie do not collect any personal information about you and only store your unique account id, which is used to save your progress and scores.</p>
+
+        <p>This cookie is essential for the proper operation of the site, and serves as a 100% anonymous unique identifier for logging in to your account.</p>
+
+        <h2>GDPR Data Protection Rights</h2>
+
+        <p>As mentioned above, Euroguessr does not store any personal data about you but only your score data. The GDPR does not apply to our activities.</p>
+        <p>However, if you still wish to delete all your progress data and scores, including your account, you can send an e-mail containing your unique account ID to <a href="mailto:contact@Euroguessr.com">contact@euroguessr.com</a>, and we will delete all the data related to your account (scores, attempts...), including you account.</p>
+
+        <h2>Changes to This Privacy Policy</h2>
+
+        <p>We may update our Privacy Policy from time to time. Thus, we advise you to review this page periodically for any changes. We will notify you of any changes by posting the new Privacy Policy on this page. These changes are effective immediately, after they are posted on this page.</p>
+
+        <h2>Contact Us</h2>
+
+        <p>If you have any questions or suggestions about our website or our Privacy Policy, do not hesitate to contact us at <a href="mailto:contact@Euroguessr.com">contact@euroguessr.com</a></p>
+
+        <br/>
+
+    </div>
+  )
+}

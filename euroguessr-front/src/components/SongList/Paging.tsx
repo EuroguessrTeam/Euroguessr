@@ -9,8 +9,6 @@ interface SongListProps {
 
 export function Paging ({ className, actualPage, setActualPage, totalPages } : SongListProps) {
   const swapPage = (page: number) => {
-    console.log("swap to Page :");
-    console.log(page);
     setActualPage(page);
   }
 
