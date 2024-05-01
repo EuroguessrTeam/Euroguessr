@@ -7,6 +7,7 @@ import { PlayButton } from "./PlayButton";
 import { GameModeKeys, gameModes } from "./GameModes";
 import { searchNearGameMode } from "./WorkerGame";
 import { setAttempt, setCurrentGamemode, setListeningTime, setSearchInput, setSkipButtonCounter, setWin, useGlobalState } from "../../services/useGlobalState";
+import { Link } from "react-router-dom";
 
 export default function Game() {
   // #     #
@@ -197,8 +198,8 @@ export default function Game() {
           {/* Daily win text 2 */}
           {currentGamemode.key === GameModeKeys.DAILY &&
             <div className={`opacity-0 ${win ? "opacity-100" : ""} h-[4vh] flex items-center justify-center flex-col text-pretty text-sm`}>
-              <p className="text-center  bg-purple rounded-lg p-[1vh]">To see all your scores, <b><u>click here</u></b></p>
-              <p className="text-center bg-purple rounded-b-lg px-[1vh] pb-[1vh]">To continue playing, <b><u><button className="underline" onClick={() => switchGameMode(false)}>click here</button></u></b></p> 
+              <p className="text-center  bg-purple rounded-lg p-[1vh]">To see all your scores <b><u><Link to="/account" className="text-white">click here</Link></u></b></p>
+              <p className="text-center bg-purple rounded-b-lg px-[1vh] pb-[1vh]">To continue playing <b><u><button className="underline" onClick={() => switchGameMode(false)}>click here</button></u></b></p> 
             </div>
           }
 

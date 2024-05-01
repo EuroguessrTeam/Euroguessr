@@ -61,7 +61,7 @@ export default function Header() {
 
       {/* Exit menu when open */}
       {isMenuBarVisible &&
-        <button className="absolute top-[32.5vh] w-[100vw] z-50 h-[67.5vh]" onClick={toggleMenuBar}></button>
+        <button className="absolute top-[32.5vh] w-[100vw] z-50 h-[67.5vh] cursor-default" onClick={toggleMenuBar}></button>
       }
 
       {/* Hidden/Visible Menu */}

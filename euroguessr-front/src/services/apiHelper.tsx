@@ -126,6 +126,17 @@ export class APIHelper {
         });
     }
 
+    static async getDailyScores(month:number, year:number): Promise<Score[]> {
+        return await API.getInstance().get(`account/daily/score/all?month=${month}%2F01%2F${year}`, await APIHelper.getCurrentOrCreateNewAccount()).then((response) => {
+            console.log(response);
+            console.log(`account/daily/score/all?month=${month}%2F01%2F${year}`);
+            return response;
+        }).catch((error) => {
+            APIHelper.treatError(error);
+            return undefined;
+        });
+    }
+
     static treatError(error: ErrorResponse): void {
         if (error.code === 400) {
             console.warn("Account not found");
