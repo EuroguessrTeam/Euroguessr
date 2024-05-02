@@ -68,7 +68,7 @@ export default function Account() {
   }, [dateSelected, accountRestored]);
 
   return (
-    <div className="overflow-auto h-[89.4vh] p-4 font-roboto">
+    <div className="overflow-auto h-[89.4vh] p-4 bg-purple font-roboto">
       <h1>My Account</h1>
 
       {/* Get account ID */}
