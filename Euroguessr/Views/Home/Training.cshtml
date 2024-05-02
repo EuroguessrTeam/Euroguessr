@@ -1,0 +1,113 @@
+﻿@model Euroguessr.Models.Pages.Training.TrainingModel
+<script>
+    const seek_to = @Model.SongToGuess.seek_to; // Integer indicating the timecode at which to start the youtube video (for example "seek_to = 5" starts the youtube video at 00:05)
+    const url_submit_song = "@Url.Action("SubmitSong", "ActionButtonsManager")";
+    console.log("Song to find : " + @Model.SongToGuess.id);
+</script>
+
+<link href="~/css/pages/training/training.css" rel="stylesheet" type="text/css" />
+
+<link
+    href='https://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900italic,900'
+    rel='stylesheet' type='text/css'>
+
+@{
+    ViewData["Title"] = "Training";
+}
+
+<fieldset>
+    <legend>@ViewData["Title"]</legend>
+
+    <div class="gallery-container">
+
+        <h1 class="text-center roboto-font guess-the-song-text flex mainTitle">
+            Guess the song
+        </h1>
+        <h3 class="text-center roboto-font attempts-counter flex attemptText">
+            Attempt
+        </h3>
+
+        <div data-video="@Model.SongToGuess.video_id" data-autoplay="0" data-loop="0" id="youtube-audio"></div>
+
+        <div class="flex">
+            <h3 id="remaining-time">Song is loading...</h3>
+        </div>
+
+        <div class="div-play-button flex">
+            <div class="player" id="player">
+                <div class="progress-bar-button" id="progress-bar-button">
+                    <div class="play-button" id="playerButton">
+                        <div class="icon">
+                            <div class="part left"></div>
+                            <div class="part right"></div>
+                        </div>
+                    </div>
+                </div>
+                <canvas id="canvas"></canvas>
+            </div>
+        </div>
+
+        <div class="action-buttons flex">
+
+            <div class="left-buttons flex">
+
+                <div class="div-skip-button flex">
+                    <button class="button skip-button" disabled onclick="addOneAttemptAction();">Skip</button>
+                    <p class="skip-button-text"></p>
+                </div>
+
+            </div>
+
+            <div class="right-buttons flex">
+                <button class="button next-button" onclick="location.href='@Url.Action("Training", "Home")'">Next
+                    song</button>
+            </div>
+
+        </div>
+
+        <div class="form">
+            <div class="searchBoxContainer">
+                <div class="searchBox">
+                    <label for="search">Search your guess</label>
+                    <div class="search">
+                        <input type="text" id="searchBar" placeholder="Type a song, artist, country or name ...">
+                        <span>🔍</span>
+                    </div>
+                </div>
+            </div>
+            <div class="songs">
+                @foreach (var music in Model.SongsList)
+                {
+                    <div class="song" id="song">
+                        <label for="@music.id">
+                            <input type="radio" id="@music.id" name="songId" value="@music.id">
+                            <div class="songContainer">
+                                <div class="thumbnail">
+                                    <img data-src="https://i.ytimg.com/vi/@music.video_id/hq720.jpg" alt="@music.song_name">
+                                </div>
+                                <div class="songInfo">
+                                    <h3 id="title">@music.song_name</h3>
+                                    <p id="artist">@music.artist_name</p>
+                                </div>
+                                <div class="songDetails">
+                                    <p id="country">Country: @music.country</p>
+                                    <p id="year">Year: @music.year</p>
+                                </div>
+                            </div>
+                            <div class="send">
+                                <button value="@music.id">Send</button>
+                            </div>
+                        </label>
+                    </div>
+                }
+            </div>
+        </div>
+
+    </div>
+
+</fieldset>
+
+<script src="~/js/pages/training/training.js"></script>
+<script src="https://www.youtube.com/iframe_api"></script>
+<script src="~/js/pages/training/buttonsActions.js"></script>
+<script src="~/js/lazyLoadImages.js"></script>

@@ -1,0 +1,49 @@
+main {
+    position: relative;
+    min-height: calc(100vh - var(--header-size));
+}
+
+section.mainContent {
+    padding-bottom: var(--footer-size)
+}
+
+footer {
+    position: absolute;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: var(--center-padding);
+    padding-left: var(--center-padding);
+    bottom: 0px;
+    width: 100%;
+    height: var(--footer-size);
+    box-sizing: border-box;
+}
+
+footer div {
+    position: relative;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+footer div i {
+    font-size: 1.5rem;
+}
+
+@media screen and (max-width: 1000px) {
+    footer {
+        padding-right: 5vw;
+        padding-left: 5vw;
+    }
+
+    footer div {
+        flex-flow: column nowrap;
+        justify-content: center;
+        align-items: center;
+        gap: 0px;
+    }
+}

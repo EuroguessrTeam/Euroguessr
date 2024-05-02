@@ -1,0 +1,96 @@
+@use "../variables.scss" as *;
+
+fieldset.daily {
+    position: relative;
+    display: block;
+    padding: 0px $center-padding;
+    border: none;
+    border-top: 2px solid $black;
+
+    legend {
+        position: relative;
+        display: block;
+        padding: 0px 1.5vw;
+        margin-left: -1.5vw;
+        font-size: $font-size * 2.5;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+}
+
+
+@media screen and (max-width: $mobile) {
+    fieldset.daily {
+        padding: 0px $mobile-center-padding;
+
+        legend {
+            font-size: $font-size * 2;
+        }
+    }
+}
+
+@keyframes slideRight {
+    from {
+        opacity: 0;
+        transform: translateX(7px);
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+main fieldset {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 50px;
+    width: 100%;
+    padding-right: var(--center-padding);
+    padding-left: var(--center-padding);
+    box-sizing: border-box;
+    border: none;
+    border-top: 2px solid var(--black);
+}
+
+main fieldset legend {
+    position: relative;
+    display: block;
+    padding-left: 1vw;
+    padding-right: 1vw;
+    margin-left: -1vw;
+    margin-bottom: 2vh;
+    font-size: calc(var(--font-size) * 3);
+}
+
+div.player {
+    position: relative;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    height: 20vh;
+    width: 50%;
+    min-height: 100px;
+}
+
+canvas {
+    position: absolute;
+    display: block;
+    height: 100%;
+    width: 100%;
+    background-color: transparent;
+    z-index: 0;
+}

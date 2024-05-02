@@ -1,0 +1,176 @@
+header {
+    position: sticky;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+    top: 0px;
+    height: 60px;
+    width: 100%;
+    z-index: 999;
+    background-color: var(--white);
+    padding-right: var(--center-padding);
+    padding-left: var(--center-padding);
+    box-sizing: border-box;
+    transition-duration: 0.3s;
+}
+
+header.scrolled {
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+}
+
+header a {
+    transition-duration: 0.3s;
+}
+
+header a.title {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 100%;
+    gap: 0.5vw;
+}
+
+header a.title img {
+    height: 75%;
+    aspect-ratio: 1/1;
+    object-fit: contain;
+}
+
+header a.title h1 {
+    font-size: calc(var(--font-size) * 1.5);
+}
+
+header nav div.links {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+    gap: 2.5vw;
+    /* display: none; */
+}
+
+header nav div.toggle {
+    display: block;
+    position: relative;
+    height: 35px;
+    cursor: pointer;
+    aspect-ratio: 1/1;
+    padding: 5px;
+    box-sizing: border-box;
+    display: none;
+    z-index: 1000;
+}
+
+header nav div.toggle span:nth-child(1) {
+    display: block;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+
+header nav div.toggle span:nth-child(2) {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 0px;
+    transform: translateY(-50%);
+}
+
+header nav div.toggle span:nth-child(3) {
+    display: block;
+    position: absolute;
+    top: calc(100% - 2px);
+    left: 0px;
+}
+
+header nav div.toggle span {
+    height: 2px;
+    width: 100%;
+    background-color: var(--black);
+    transition-duration: 0.3s;
+}
+
+
+header a:hover {
+    color: var(--primary);
+}
+
+header a.active {
+    color: var(--primary);
+}
+
+@media screen and (max-width: 1000px) {
+    header {
+        justify-content: space-between;
+        padding-right: 5vw;
+        padding-left: 5vw;
+        box-sizing: border-box;
+    }
+
+    header a.title {
+        gap: 15px;
+    }
+
+    header nav div.links {
+        display: none;
+    }
+
+    header nav div.toggle {
+        display: block;
+    }
+
+    header nav.active div.toggle span:nth-child(1) {
+        top: 50%;
+        transform: translateY(-50%) rotate(45deg);
+    }
+
+    header nav.active div.toggle span:nth-child(2) {
+        opacity: 0;
+    }
+
+    header nav.active div.toggle span:nth-child(3) {
+        top: 50%;
+        transform: translateY(-50%) rotate(-45deg);
+    }
+
+    header nav.active div.links {
+        display: flex;
+        flex-flow: column nowrap;
+        justify-content: flex-start;
+        align-items: flex-start;
+        position: fixed;
+        top: 0px;
+        width: 250px;
+        right: 0px;
+        height: 100vh;
+        background-color: var(--white);
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+        padding: 20px;
+        padding-top: 60px;
+        box-sizing: border-box;
+        gap: 25px;
+        animation: navApear 0.3s ease-in-out;
+    }
+
+    @keyframes navApear {
+        0% {
+            opacity: 0;
+            transform: translateX(100%);
+        }
+
+        100% {
+            opacity: 1;
+            transform: translateX(0%);
+        }
+    }
+
+    header nav div.links a {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        box-sizing: border-box;
+    }
+}
