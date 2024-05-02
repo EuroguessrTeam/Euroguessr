@@ -11,7 +11,7 @@ export interface GameMode{
     key: GameModeKeys;
     name: string;
     get_score_api: () => Promise<Score>;
-    get_song_api: (next:boolean) => Promise<Guess>;
+    get_song_api: () => Promise<Guess>;
     send_guess_api: (songId: number) => Promise<boolean>;
     skip_button_active: boolean;
     initializeSongs: () => Promise<SongElement[]>;

@@ -1,7 +1,7 @@
 import { ReactNode, useEffect, useState } from 'react';
 import YouTube, { YouTubePlayer, YouTubeProps } from 'react-youtube';
 import { APIHelper } from '../../services/apiHelper';
-import { useGlobalState } from '../../services/useGlobalState';
+import { setAttempt, setSkipButtonCounter, setWin, useGlobalState } from '../../services/useGlobalState';
 
 interface PlayButtonProps {
   className?: string;
@@ -20,7 +20,7 @@ export function PlayButton({className, videoIdProp, seekToProp}: PlayButtonProps
   const [timeoutId, setTimeoutId] = useState<number | null>(null);
   const [listeningTime] = useGlobalState("listeningTime");
   const [skipButtonCounter] = useGlobalState("skipButtonCounter");
-  const [selectedGameMode] = useGlobalState("currentGamemode");
+  const [currentGamemode] = useGlobalState("currentGamemode");
 
   //Constant variables
   const sleep = (ms: number | undefined) => new Promise(r => setTimeout(r, ms));
@@ -28,10 +28,9 @@ export function PlayButton({className, videoIdProp, seekToProp}: PlayButtonProps
   const opts: YouTubeProps['opts'] = {
     height: '0',
     width: '0',
-    controls : '0', 
+    controls : '0',
   };
   const onPlayerReady: YouTubeProps['onReady'] = async (event) => {
-    console.log(videoId);
     setVideoElement(event);
     event.target.setVolume(0);
     await sleep(500);
@@ -74,17 +73,26 @@ export function PlayButton({className, videoIdProp, seekToProp}: PlayButtonProps
 
   //useEffects
   useEffect(() => {
+    //Reload the song everytime we change the game mode (and the videoIdProp is not set)
     if (!videoIdProp) {
       clearTimeoutPauseVideo();
       setIsLoaded(false);
       setIsListening(false);
       getVideoId();
     }
-  }, [selectedGameMode, skipButtonCounter]);
+  }, [currentGamemode]);
 
   useEffect(() => {
+    //0 by default, 1 if skip button is clicked
     if (skipButtonCounter > 0) {
+      console.log("SONG SKIPPED !");
+      setSkipButtonCounter(0);
+      setAttempt(1);
+      setWin(false);
       APIHelper.skipTrainingGuess().then(() => {
+        clearTimeoutPauseVideo();
+        setIsLoaded(false);
+        setIsListening(false);
         getVideoId();
       });
     }
@@ -92,10 +100,16 @@ export function PlayButton({className, videoIdProp, seekToProp}: PlayButtonProps
 
   //Api calls
   function getVideoId() {
+    console.log("GET SONG !");
+    console.log("SKIP BUTTON : " + skipButtonCounter);
     setVideoId(undefined);
-    selectedGameMode?.get_song_api(false).then((response) => {
+    currentGamemode?.get_song_api().then((response) => {
       setVideoId(response.video_id);
       setSeekTo(response.seek_to);
+      currentGamemode?.get_score_api().then((response) => {
+        setAttempt(response.attempts);
+        setWin(response.win);
+    });
     });
   }
 

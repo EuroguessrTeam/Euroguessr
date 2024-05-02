@@ -72,8 +72,8 @@ export class APIHelper {
         });
     }
 
-    static async getTrainingGuess(next:boolean): Promise<Guess> {
-        return await API.getInstance().get(`account/training/guess/get?next=${next.toString()}`, await APIHelper.getCurrentOrCreateNewAccount()).then((response) => {
+    static async getTrainingGuess(): Promise<Guess> {
+        return await API.getInstance().get(`account/training/guess/get?next=false`, await APIHelper.getCurrentOrCreateNewAccount()).then((response) => {
             return response;
         }).catch((error) => {
             APIHelper.treatError(error);

@@ -1,13 +1,12 @@
 import { useState } from "react";
 import { Song } from "../../SongList/Song";
 import { PlayButton } from "../../Game/PlayButton";
-import { setListeningTime, setSkipButtonCounter, setWin } from "../../../services/useGlobalState";
+import { setListeningTime, setWin } from "../../../services/useGlobalState";
 
 
 export default function HowToPlay() {
   const [isHovered, setIsHovered] = useState<boolean>(false);
   setWin(false);
-  setSkipButtonCounter(0);
   setListeningTime(360);
 
   return (
