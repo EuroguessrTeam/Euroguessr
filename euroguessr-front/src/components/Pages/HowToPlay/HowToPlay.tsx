@@ -1,16 +1,17 @@
 import { useState } from "react";
 import { Song } from "../../SongList/Song";
 import { PlayButton } from "../../Game/PlayButton";
-import { setListeningTime, setWin } from "../../../services/useGlobalState";
+import { setListeningTime, setSkipButtonCounter, setWin } from "../../../services/useGlobalState";
 
 
 export default function HowToPlay() {
   const [isHovered, setIsHovered] = useState<boolean>(false);
   setWin(false);
+  setSkipButtonCounter(0);
   setListeningTime(360);
 
   return (
-    <div className="overflow-auto h-[89.4vh] p-4">
+    <div className="overflow-auto h-[89.4vh] p-4 bg-purple">
       <h1>How to play</h1>
 
       <h2 className="underline">1 - Listening to the song</h2>
