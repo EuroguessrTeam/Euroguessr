@@ -68,19 +68,19 @@ export default function Header() {
       <div className="overflow-hidden z-40 headerMenu fixed top-[-17.4vh] h-[25vh] w-[--header-width] bg-yellow transition ease-in-out duration-700 flex flex-col items-center justify-around">
 
         <button onClick={toggleMenuBar} className="hover:scale-110 transition-all">
-          <p className="text-blue font-eurotype text-2xl underline"><Link to="/play">Play!</Link></p>
+          <p className="text-blue font-eurotype text-2xl"><Link to="/play">Play!</Link></p>
         </button>
 
         <button onClick={toggleMenuBar} className="hover:scale-110 transition-all">
-          <p className="text-blue font-eurotype text-2xl underline"><Link to="/account">Account</Link></p>
+          <p className="text-blue font-eurotype text-2xl"><Link to="/account">Account</Link></p>
         </button>
 
         <button onClick={toggleMenuBar} className="hover:scale-110 transition-all">
-          <p className="text-blue font-eurotype text-2xl underline"><Link to="/how-to-play">How to play</Link></p>
+          <p className="text-blue font-eurotype text-2xl"><Link to="/how-to-play">How to play</Link></p>
         </button>
 
         <button onClick={toggleMenuBar} className="hover:scale-110 transition-all">
-          <p className="text-blue font-eurotype text-2xl underline"><Link to="/about">About</Link></p>
+          <p className="text-blue font-eurotype text-2xl"><Link to="/about">About</Link></p>
         </button>
         
       </div>
