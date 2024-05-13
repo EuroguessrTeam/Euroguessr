@@ -7,10 +7,13 @@ export default function Header() {
 
     const toggleMenuBar = () => {
       const elements = document.querySelectorAll('.headerMenu');
-      for (let i = 0; i < elements.length; i++) {
-          elements[i].classList.toggle("translate-y-[24.9vh]");
-      }
-      isMenuBarVisible ? setIsMenuBarVisible(false) : setIsMenuBarVisible(true);
+      // Toggle the class on each element at the exact same time
+      requestAnimationFrame(() => {
+        for (let i = 0; i < elements.length; i++) {
+            elements[i].classList.toggle("translate-y-[24.9vh]");
+        }
+        isMenuBarVisible ? setIsMenuBarVisible(false) : setIsMenuBarVisible(true);
+      });
     }
 
     const updateHeaderWidth = () => {
@@ -54,9 +57,10 @@ export default function Header() {
         <div className="w-[66.6%] flex items-center justify-center">
           <p className="text-[250%] text-bold text-center text-black font-eurotype"><Link to="/play" className="text-black hover:text-black">Euroguessr&nbsp;*</Link></p>
         </div>
-        <div className="w-[16.6666%] h-full flex items-center justify-center">
-          {/*<img className="h-[60%] rounded-full" src="src/assets/profile-pic.png"></img>*/}
-        </div>
+        <a href="https://twitter.com/euroguessr" className="w-[16.6666%] h-full flex items-center justify-center flex-col">
+          <img className="h-[50%] rounded-full" src="/assets/twitter-icon.png"></img>
+          <p className="text-xs text-black">Follow&nbsp;us!</p>
+        </a>
       </div>
 
       {/* Exit menu when open */}

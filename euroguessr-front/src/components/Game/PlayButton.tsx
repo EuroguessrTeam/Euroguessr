@@ -85,7 +85,6 @@ export function PlayButton({className, videoIdProp, seekToProp}: PlayButtonProps
   useEffect(() => {
     //0 by default, 1 if skip button is clicked
     if (skipButtonCounter > 0) {
-      console.log("SONG SKIPPED !");
       setSkipButtonCounter(0);
       setAttempt(1);
       setWin(false);
@@ -100,8 +99,6 @@ export function PlayButton({className, videoIdProp, seekToProp}: PlayButtonProps
 
   //Api calls
   function getVideoId() {
-    console.log("GET SONG !");
-    console.log("SKIP BUTTON : " + skipButtonCounter);
     setVideoId(undefined);
     currentGamemode?.get_song_api().then((response) => {
       setVideoId(response.video_id);
