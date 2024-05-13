@@ -6,7 +6,7 @@ export default function About() {
 
         <br/>
 
-        <p>At Euroguessr, accessible from https://www.euroguessr.com, one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that is collected and recorded by Euroguessr and how we use it.</p>
+        <p>At Euroguessr, accessible from https://euroguessr.com, one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that is collected and recorded by Euroguessr and how we use it.</p>
 
         <br/>
 
@@ -56,7 +56,7 @@ export default function About() {
 
         <h2>Contact Us</h2>
 
-        <p>If you have any questions or suggestions about our website or our Privacy Policy, do not hesitate to contact us at <a href="mailto:contact@Euroguessr.com">contact@euroguessr.com</a></p>
+        <p>If you have any questions or suggestions about our website or our Privacy Policy, do not hesitate to contact us at <a href="mailto:contact@Euroguessr.com">contact@euroguessr.com</a>, or on our <a href="https://twitter.com/euroguessr">X account !</a></p>
 
         <br/>
 
