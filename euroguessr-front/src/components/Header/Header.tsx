@@ -58,7 +58,7 @@ export default function Header() {
           <p className="text-[250%] text-bold text-center text-black font-eurotype"><Link to="/play" className="text-black hover:text-black">Euroguessr&nbsp;*</Link></p>
         </div>
         <a href="https://twitter.com/euroguessr" className="w-[16.6666%] h-full flex items-center justify-center flex-col">
-          <img className="h-[50%] rounded-full" src="src/assets/twitter-icon.png"></img>
+          <img className="h-[50%] rounded-full" src="/assets/twitter-icon.png"></img>
           <p className="text-xs text-black">Follow&nbsp;us!</p>
         </a>
       </div>
