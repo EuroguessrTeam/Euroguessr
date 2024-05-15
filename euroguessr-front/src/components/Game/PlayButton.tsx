@@ -113,18 +113,13 @@ export function PlayButton({className, videoIdProp, seekToProp}: PlayButtonProps
   //Functions
   function toggleSong() {
     if(isLoaded) {
-      if(!isVideoPlaying()) {
+      if(!isListening) {
         videoElement.target.seekTo(seekTo);
         videoElement.target.playVideo();
       } else {
         videoElement.target.pauseVideo();
       }
     }
-  }
-
-  function isVideoPlaying():boolean {
-    if(videoElement==null || videoElement.target == null) return false;
-    return videoElement.target.playerInfo.playerState === YouTube.PlayerState.PLAYING;
   }
 
   //Icons
