@@ -1,5 +1,5 @@
-import { API } from "./api";
 import Cookies from 'js-cookie';
+import { API } from "./api";
 
 export interface Guess {
     video_id: string;
