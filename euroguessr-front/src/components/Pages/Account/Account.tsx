@@ -15,7 +15,7 @@ export default function Account() {
   const [dailyScores, setDailyScores] = useState<Score[]>([]);
   const [dateSelected, setDateSelected] = useState<Date>(new Date());
 
-  const [updateLeaderboards, setUpdateLeaderboards] = useState<number>(0);
+  const [updateLeaderboards, ] = useState<number>(0);
   const [dailyLeaderboard, setDailyLeaderboard] = useState<Leaderboard | undefined>(undefined);
   const [trainingLeaderboard, setTrainingLeaderboard] = useState<Leaderboard | undefined>(undefined);
 
@@ -170,6 +170,7 @@ export default function Account() {
 
       <br/>
       <h2 className="underline">Daily songs history</h2>
+
       
       <p className={dailyScores.find(s => s.win == true) ? "text-green" : "text-red"}>{dailyScores.filter(s => s.win == true).length} / {dailyScores.length} song(s) guessed this month!</p>
       <p></p>
