@@ -1,4 +1,5 @@
 ﻿using Euroguessr.Data.Tables;
+using Euroguessr.Data.Views;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
@@ -52,6 +53,9 @@ namespace Euroguessr.Data
         public DbSet<DailyGuessRangeDto> daily_guess_range { get; set; }
         public DbSet<SongDto> song { get; set; }
 
+        //Views
+        public DbSet<UsersLeaderboardDaily> users_leaderboard_daily { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
@@ -90,6 +94,10 @@ namespace Euroguessr.Data
             modelBuilder.Entity<SongDto>()
                 .Property(s => s.id)
                 .ValueGeneratedOnAdd();
+
+            modelBuilder.Entity<UsersLeaderboardDaily>(ld =>
+                ld.HasNoKey().ToView("users_leaderboard_daily")
+            );
         }
     }
 }

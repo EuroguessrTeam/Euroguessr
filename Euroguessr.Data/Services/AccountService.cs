@@ -1,6 +1,5 @@
 ﻿using Common.CustomException;
 using Euroguessr.Data.Tables;
-using Microsoft.AspNetCore.Http;
 
 namespace Euroguessr.Data
 {
@@ -43,7 +42,7 @@ namespace Euroguessr.Data
             checkAccountExists(accountId);
 
             DateOnly todayDate = DateOnly.FromDateTime(DateTime.Now.ToUniversalTime());
-            DailyScoreDto todayScore = _context.daily_score.Where(s => s.account_id == accountId && s.date == todayDate).FirstOrDefault();
+            DailyScoreDto? todayScore = _context.daily_score.Where(s => s.account_id == accountId && s.date == todayDate).FirstOrDefault();
 
             if (todayScore == null)
             {
@@ -65,7 +64,7 @@ namespace Euroguessr.Data
         {
             checkAccountExists(accountId);
 
-            TrainingScoreDto latestScore = _context.training_score.Where(s => s.account_id == accountId).OrderByDescending(s => s.date).FirstOrDefault();
+            TrainingScoreDto? latestScore = _context.training_score.Where(s => s.account_id == accountId).OrderByDescending(s => s.date).FirstOrDefault();
 
             if (latestScore == null)
             {
@@ -162,6 +161,18 @@ namespace Euroguessr.Data
                 var currentGuessId = _context.training_score.Where(s => s.account_id == accountId).OrderByDescending(s => s.date).FirstOrDefault().song_id;
                 return _context.song.Where(s => s.id == currentGuessId).FirstOrDefault();
             }
+        }
+
+        public int GetPlayerDailyRank(string accountId)
+        {
+            checkAccountExists(accountId);
+
+            return _context.users_leaderboard_daily.Where(u => u.id == accountId).FirstOrDefault().rank;
+        }
+
+        public int GetTotalNumberOfPlayers()
+        {
+            return _context.users_leaderboard_daily.Count();
         }
 
         private void checkAccountExists(string accountId)

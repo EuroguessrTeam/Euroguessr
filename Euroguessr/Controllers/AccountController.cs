@@ -199,5 +199,30 @@ namespace Euroguessr.Controllers
                 seek_to = response.seek_to
             });
         }
+
+        /// <summary>
+        /// Get the current player position in the leaderboard of daily guesses
+        /// </summary>
+        /// <param name="accountId">The id of the account</param>
+        /// <response code="200">The position in the leaderboard of the player, and the total number of player</response>
+        /// <response code="400">Account not found</response>
+        [HttpGet("daily/leaderboard/me")]
+        [Consumes("application/json")]
+        [Produces("application/json")]
+        [ProducesResponseType(typeof(OutputGetCurrentPlayerDailyLeaderboard), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(OutputError400), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(OutputError429), StatusCodes.Status429TooManyRequests)]
+        [ProducesResponseType(typeof(OutputError500), StatusCodes.Status500InternalServerError)]
+        public ActionResult GetCurrentPlayerDailyLeaderboard([FromHeader(Name = "accountId")] string? accountId)
+        {
+            var rank = _accountService.GetPlayerDailyRank(accountId);
+            var totalNumberOfPlayers = _accountService.GetTotalNumberOfPlayers();
+
+            return new JsonResult(new OutputGetCurrentPlayerDailyLeaderboard()
+            {
+                rank = rank,
+                totalNumberOfPlayers = totalNumberOfPlayers
+            });
+        }
     }
 }
