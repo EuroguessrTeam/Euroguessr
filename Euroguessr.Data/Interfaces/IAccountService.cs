@@ -13,6 +13,9 @@ namespace Euroguessr.Data
         public SongDto GetTrainingSong(string? accountId, bool next);
         public bool SubmitTrainingGuess(int songId, string? accountId);
         public int GetPlayerDailyRank(string? accountId);
+        public int GetPlayerDailyWins(string? accountId);
+        public int GetPlayerTrainingRank(string? accountId);
+        public int GetPlayerTrainingWins(string? accountId);
         public int GetTotalNumberOfPlayers();
     }
 }

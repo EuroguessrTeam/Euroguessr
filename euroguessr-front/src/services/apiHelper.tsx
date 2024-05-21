@@ -12,6 +12,12 @@ export interface Score {
     win: boolean;
 }
 
+export interface Leaderboard {
+    rank: number;
+    totalNumberOfPlayers: number;
+    totalNumberOfWins: number;
+}
+
 export interface ErrorResponse {
     code: number;
     message: string;
@@ -128,6 +134,24 @@ export class APIHelper {
 
     static async getDailyScores(month:number, year:number): Promise<Score[]> {
         return await API.getInstance().get(`account/daily/score/all?month=${month}%2F01%2F${year}`, await APIHelper.getCurrentOrCreateNewAccount()).then((response) => {
+            return response;
+        }).catch((error) => {
+            APIHelper.treatError(error);
+            return undefined;
+        });
+    }
+
+    static async getDailyLeaderboard(): Promise<Leaderboard> {
+        return await API.getInstance().get("account/daily/leaderboard/me", await APIHelper.getCurrentOrCreateNewAccount()).then((response) => {
+            return response;
+        }).catch((error) => {
+            APIHelper.treatError(error);
+            return undefined;
+        });
+    }
+
+    static async getTrainingLeaderboard(): Promise<Leaderboard> {
+        return await API.getInstance().get("account/training/leaderboard/me", await APIHelper.getCurrentOrCreateNewAccount()).then((response) => {
             return response;
         }).catch((error) => {
             APIHelper.treatError(error);

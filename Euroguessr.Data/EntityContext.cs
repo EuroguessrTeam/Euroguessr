@@ -55,6 +55,7 @@ namespace Euroguessr.Data
 
         //Views
         public DbSet<UsersLeaderboardDaily> users_leaderboard_daily { get; set; }
+        public DbSet<UsersLeaderboardTraining> users_leaderboard_training { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -95,8 +96,13 @@ namespace Euroguessr.Data
                 .Property(s => s.id)
                 .ValueGeneratedOnAdd();
 
+            //VIEWS
             modelBuilder.Entity<UsersLeaderboardDaily>(ld =>
                 ld.HasNoKey().ToView("users_leaderboard_daily")
+            );
+
+            modelBuilder.Entity<UsersLeaderboardTraining>(ld =>
+                ld.HasNoKey().ToView("users_leaderboard_training")
             );
         }
     }
