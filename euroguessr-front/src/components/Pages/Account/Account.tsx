@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { APIHelper, Score } from '../../../services/apiHelper';
+import { APIHelper, Leaderboard, Score } from '../../../services/apiHelper';
 import { useCopyToClipboard } from "usehooks-ts";
 
 
@@ -14,6 +14,10 @@ export default function Account() {
 
   const [dailyScores, setDailyScores] = useState<Score[]>([]);
   const [dateSelected, setDateSelected] = useState<Date>(new Date());
+
+  const [updateLeaderboards, ] = useState<number>(0);
+  const [dailyLeaderboard, setDailyLeaderboard] = useState<Leaderboard | undefined>(undefined);
+  const [trainingLeaderboard, setTrainingLeaderboard] = useState<Leaderboard | undefined>(undefined);
 
   function toggleAccountIdRevealed() {
     setCopyClicked(false);
@@ -66,6 +70,15 @@ export default function Account() {
       setDailyScores(scores);
     });
   }, [dateSelected, accountRestored]);
+-
+  useEffect(() => {
+    APIHelper.getDailyLeaderboard().then((leaderboard) => {
+      setDailyLeaderboard(leaderboard);
+    });
+    APIHelper.getTrainingLeaderboard().then((leaderboard) => {
+      setTrainingLeaderboard(leaderboard);
+    });
+  }, [updateLeaderboards]);
 
   return (
     <div className="overflow-auto h-[89.4vh] p-4 bg-purple font-roboto">
@@ -126,27 +139,61 @@ export default function Account() {
 
       <h1>My Scores</h1>
 
-      {/*<h2 className="underline">Daily</h2>*/}
+      <h2 className="underline">Leaderboard</h2>
+      <br/>
+
+      {dailyLeaderboard &&
+        <>
+          <table className="table-auto border-white border-2 w-full">
+            <thead>
+              <tr>
+                <th/>
+                <th className="py-2 text-center border-white border-2 text-xl">Rank</th>
+                <th className="py-2 text-center border-white border-2 text-xl">Songs guessed</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td className="py-2 text-center border-white border-2 text-xl">Daily Mode</td>
+                <td className="py-2 text-center border-white border-2">{dailyLeaderboard?.rank} / {dailyLeaderboard.totalNumberOfPlayers}</td>
+                <td className="py-2 text-center border-white border-2">{dailyLeaderboard?.totalNumberOfWins}</td>
+              </tr>
+              <tr>
+                <td className="py-2 text-center border-white border-2 text-xl">Infinite Mode</td>
+                <td className="py-2 text-center border-white border-2">{trainingLeaderboard?.rank} / {trainingLeaderboard?.totalNumberOfPlayers}</td>
+                <td className="py-2 text-center border-white border-2">{trainingLeaderboard?.totalNumberOfWins}</td>
+              </tr>
+            </tbody>
+          </table>
+        </>
+      }
 
       <br/>
+      <h2 className="underline">Daily songs history</h2>
+
+      
+      <p className={dailyScores.find(s => s.win == true) ? "text-green" : "text-red"}>{dailyScores.filter(s => s.win == true).length} / {dailyScores.length} song(s) guessed this month!</p>
+      <p></p>
+
+      <br/>
+
 
       <div className="flex justify-center">
         <button 
           onClick={() => setPreviousMonth()}
-          className="font-bold text-xl disabled:opacity-40 mx-4 align-middle">
+          className="font-bold text-3xl disabled:opacity-40 mx-4 align-middle hover:scale-110 transition-all">
           {"<"}
         </button>
-        <p className="flex justify-center align-middle">{dateSelected.getMonth() < 9 ? "0" + (dateSelected.getMonth() + 1) : dateSelected.getMonth() + 1} / {dateSelected.getUTCFullYear()}</p>
-        <button 
+        <div className="flex items-center">
+          <p className="flex justify-center align-middle">{dateSelected.getUTCMonth() < 9 ? "0" + (dateSelected.getUTCMonth() + 1) : dateSelected.getUTCMonth() + 1} / {dateSelected.getUTCFullYear()}</p>
+        </div>
+        <button
+          disabled={dateSelected.getUTCMonth() >= new Date().getUTCMonth() && dateSelected.getUTCFullYear() >= new Date().getUTCFullYear()}
           onClick={() => setNextMonth()}
-          className="font-bold text-xl disabled:opacity-40 mx-4">
+          className="font-bold text-3xl disabled:opacity-40 mx-4 hover:scale-110 transition-all">
           {">"}
         </button>
       </div>
-
-      <br/>
-      
-      <p className={dailyScores.find(s => s.win == true) ? "text-green" : "text-red"}>Total guessed this month : {dailyScores.filter(s => s.win == true).length}</p>
 
       <br/>
 
@@ -154,7 +201,7 @@ export default function Account() {
         return (
           <div key={score.date.toString()}>
             <div className="flex justify-between">
-              <p className="w-[35%]">{getDayFullName(new Date(score.date.toString()).getDay())} {new Date(score.date.toString()).getDate()}</p>
+              <p className="w-[35%]">{getDayFullName(new Date(score.date.toString()).getUTCDay())} {new Date(score.date.toString()).getUTCDate()}</p>
               <p className="w-[25%]">{score.attempts < 2 ? score.attempts + " attempt" : score.attempts + " attempts"}</p>
               {score.win ? <p className="text-green w-[25%]">Guessed</p> : <p className="text-red w-[25%]">Not Guessed</p>}
             </div>

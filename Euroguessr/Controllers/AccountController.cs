@@ -199,5 +199,59 @@ namespace Euroguessr.Controllers
                 seek_to = response.seek_to
             });
         }
+
+        /// <summary>
+        /// Get the current player position in the leaderboard of daily guesses
+        /// </summary>
+        /// <param name="accountId">The id of the account</param>
+        /// <response code="200">The position in the leaderboard, the total number of player and total daily songs guessed</response>
+        /// <response code="400">Account not found</response>
+        [HttpGet("daily/leaderboard/me")]
+        [Consumes("application/json")]
+        [Produces("application/json")]
+        [ProducesResponseType(typeof(OutputGetCurrentPlayerLeaderboard), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(OutputError400), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(OutputError429), StatusCodes.Status429TooManyRequests)]
+        [ProducesResponseType(typeof(OutputError500), StatusCodes.Status500InternalServerError)]
+        public ActionResult GetCurrentPlayerDailyLeaderboard([FromHeader(Name = "accountId")] string? accountId)
+        {
+            var rank = _accountService.GetPlayerDailyRank(accountId);
+            var totalNumberOfPlayers = _accountService.GetTotalNumberOfPlayers();
+            var totalNumberOfWins = _accountService.GetPlayerDailyWins(accountId);
+
+            return new JsonResult(new OutputGetCurrentPlayerLeaderboard()
+            {
+                rank = rank,
+                totalNumberOfPlayers = totalNumberOfPlayers,
+                totalNumberOfWins = totalNumberOfWins
+            });
+        }
+
+        /// <summary>
+        /// Get the current player position in the leaderboard of training guesses
+        /// </summary>
+        /// <param name="accountId">The id of the account</param>
+        /// <response code="200">The position in the leaderboard, the total number of player and total training songs guessed</response>
+        /// <response code="400">Account not found</response>
+        [HttpGet("training/leaderboard/me")]
+        [Consumes("application/json")]
+        [Produces("application/json")]
+        [ProducesResponseType(typeof(OutputGetCurrentPlayerLeaderboard), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(OutputError400), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(OutputError429), StatusCodes.Status429TooManyRequests)]
+        [ProducesResponseType(typeof(OutputError500), StatusCodes.Status500InternalServerError)]
+        public ActionResult GetCurrentPlayerTrainingLeaderboard([FromHeader(Name = "accountId")] string? accountId)
+        {
+            var rank = _accountService.GetPlayerTrainingRank(accountId);
+            var totalNumberOfPlayers = _accountService.GetTotalNumberOfPlayers();
+            var totalNumberOfWins = _accountService.GetPlayerTrainingWins(accountId);
+
+            return new JsonResult(new OutputGetCurrentPlayerLeaderboard()
+            {
+                rank = rank,
+                totalNumberOfPlayers = totalNumberOfPlayers,
+                totalNumberOfWins = totalNumberOfWins
+            });
+        }
     }
 }
