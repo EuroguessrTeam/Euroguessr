@@ -1,6 +1,5 @@
 ﻿using Common.CustomException;
 using Euroguessr.Data.Tables;
-using Microsoft.AspNetCore.Http;
 
 namespace Euroguessr.Data
 {
@@ -31,19 +30,19 @@ namespace Euroguessr.Data
             return currentUser;
         }
 
-        public List<DailyScoreDto> GetScores(string accountId, DateOnly date)
+        public List<DailyScoreDto> GetScores(string? accountId, DateOnly date)
         {
             checkAccountExists(accountId);
 
             return _context.daily_score.Where(s => s.account_id == accountId && s.date.Month.CompareTo(date.Month) == 0 && s.date.Year.CompareTo(date.Year) == 0).OrderByDescending(s => s.date).ToList();
         }
 
-        public DailyScoreDto GetOrSetTodayScore(string accountId)
+        public DailyScoreDto GetOrSetTodayScore(string? accountId)
         {
             checkAccountExists(accountId);
 
             DateOnly todayDate = DateOnly.FromDateTime(DateTime.Now.ToUniversalTime());
-            DailyScoreDto todayScore = _context.daily_score.Where(s => s.account_id == accountId && s.date == todayDate).FirstOrDefault();
+            DailyScoreDto? todayScore = _context.daily_score.Where(s => s.account_id == accountId && s.date == todayDate).FirstOrDefault();
 
             if (todayScore == null)
             {
@@ -61,11 +60,11 @@ namespace Euroguessr.Data
             return todayScore;
         }
 
-        public TrainingScoreDto GetOrSetTrainingScore(string accountId)
+        public TrainingScoreDto GetOrSetTrainingScore(string? accountId)
         {
             checkAccountExists(accountId);
 
-            TrainingScoreDto latestScore = _context.training_score.Where(s => s.account_id == accountId).OrderByDescending(s => s.date).FirstOrDefault();
+            TrainingScoreDto? latestScore = _context.training_score.Where(s => s.account_id == accountId).OrderByDescending(s => s.date).FirstOrDefault();
 
             if (latestScore == null)
             {
@@ -86,7 +85,7 @@ namespace Euroguessr.Data
         }
 
 
-        public bool SubmitTodayGuess(int songId, string accountId)
+        public bool SubmitTodayGuess(int songId, string? accountId)
         {
             checkAccountExists(accountId);
 
@@ -106,7 +105,7 @@ namespace Euroguessr.Data
             return win;
         }
 
-        public bool SubmitTrainingGuess(int songId, string accountId)
+        public bool SubmitTrainingGuess(int songId, string? accountId)
         {
             checkAccountExists(accountId);
 
@@ -128,12 +127,7 @@ namespace Euroguessr.Data
             return win;
         }
 
-        public bool AccountExists(string? accountId)
-        {
-            return accountId != null && _context.account.Where(u => u.id == accountId).Any();
-        }
-
-        public SongDto GetTrainingSong(string accountId, bool next)
+        public SongDto GetTrainingSong(string? accountId, bool next)
         {
             checkAccountExists(accountId);
 
@@ -164,7 +158,42 @@ namespace Euroguessr.Data
             }
         }
 
-        private void checkAccountExists(string accountId)
+        public int GetPlayerDailyRank(string? accountId)
+        {
+            checkAccountExists(accountId);
+
+            return _context.users_leaderboard_daily.Where(u => u.id == accountId).FirstOrDefault().rank;
+        }
+
+        public int GetPlayerDailyWins(string? accountId)
+        {
+            checkAccountExists(accountId);
+
+            return _context.users_leaderboard_daily.Where(u => u.id == accountId).FirstOrDefault().total_daily_guessed;
+        }
+
+        public int GetPlayerTrainingRank(string? accountId)
+        {
+            checkAccountExists(accountId);
+
+            return _context.users_leaderboard_training.Where(u => u.id == accountId).FirstOrDefault().rank;
+        }
+
+        public int GetPlayerTrainingWins(string? accountId)
+        {
+            return _context.users_leaderboard_training.Where(u => u.id == accountId).FirstOrDefault().total_training_guessed;
+        }
+
+        public int GetTotalNumberOfPlayers()
+        {
+            return _context.account.Count();
+        }
+        public bool AccountExists(string? accountId)
+        {
+            return accountId != null && _context.account.Where(u => u.id == accountId).Any();
+        }
+
+        private void checkAccountExists(string? accountId)
         {
             if (!AccountExists(accountId))
             {
