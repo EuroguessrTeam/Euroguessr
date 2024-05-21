@@ -23,7 +23,7 @@ namespace Euroguessr.Data
                 daily_guess_range.Remove(daily_guess_range.First());
 
             DailyGuessRangeDto defaultRange = new() { 
-                min_song_id = 450,
+                min_song_id = 324,
                 max_song_id = 603
             };
             daily_guess_range.Add(defaultRange);
