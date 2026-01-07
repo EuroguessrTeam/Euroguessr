@@ -137,6 +137,21 @@ export default function Account() {
     }
   }
 
+  function getPodiumStyle(rank: number) {
+  switch (rank) {
+    case 1: // Gold
+      return "bg-[#D4AF37]/35 border border-[#D4AF37]/70 text-[#FFF4C2]";
+    case 2: // Silver
+      return "bg-[#C0C0C0]/25 border border-[#C0C0C0]/55 text-[#F2F2F2]";
+    case 3: // Bronze
+      return "bg-[#CD7F32]/30 border border-[#CD7F32]/65 text-[#FFE2C2]";
+    default:
+      return "bg-[#FFFFFF]/5";
+  }
+}
+
+
+
   useEffect(() => {
     APIHelper.getDailyScores(dateSelected.getUTCMonth() + 1, dateSelected.getUTCFullYear()).then((scores) => {
       setDailyScores(scores);
@@ -194,9 +209,6 @@ export default function Account() {
       cancelled = true;
     };
   }, [lbType, lbPage, accountRestored]);
-
-
-  
 
   return (
     <div className="overflow-auto h-[89.4vh] p-4 bg-purple font-roboto">
@@ -289,9 +301,8 @@ export default function Account() {
       <hr/>
       <br/>
 
-      <h1>My Scores</h1>
+      <h1>Leaderboard</h1>
 
-      <h2 className="underline">Leaderboard</h2>
       <br/>
 
       {/* Leaderboards */}
@@ -324,10 +335,10 @@ export default function Account() {
         <div className="mt-3">
           <div className="text-sm opacity-80">My position</div>
           {myEntry ? (
-            <div className="mt-1 flex items-center justify-between bg-purple/30 rounded-xl px-3 py-2">
+            <div className={`mt-1 flex items-center justify-between bg-purple/30 rounded-xl px-3 py-2 ${getPodiumStyle(myEntry.rank)}`}>
               <div className="flex items-center gap-2">
                 <span className="font-bold">#{myEntry.rank}</span>
-                <span className="opacity-90">{myEntry.username}</span>
+                <span className="opacity-90">{myEntry.username ? myEntry.username : "Unnamed player"}</span>
               </div>
               <div className="font-bold">{myEntry.score}</div>
             </div>
@@ -376,7 +387,7 @@ export default function Account() {
               return (
                 <div
                   key={`${lbType}-${lbPage}-${e.rank}`}
-                  className={`flex justify-between items-center rounded-xl px-2 py-2 mb-2`}
+                  className={`flex justify-between items-center rounded-xl px-2 py-2 mb-2 shadow-sm transition hover:scale-[1.02] ${getPodiumStyle(e.rank)}`}
                 >
                   <span className="w-[20%] font-bold">#{e.rank}</span>
                   <span className="w-[60%] truncate">
@@ -393,8 +404,8 @@ export default function Account() {
 
 
       <br/>
-      <h2 className="underline">Daily songs history</h2>
-
+      <h1>Daily songs history</h1>
+      <br/>
       
       <p className={dailyScores.find(s => s.win == true) ? "text-green" : "text-red"}>{dailyScores.filter(s => s.win == true).length} / {dailyScores.length} song(s) guessed this month!</p>
       <p></p>
