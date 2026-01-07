@@ -158,32 +158,6 @@ namespace Euroguessr.Data
             }
         }
 
-        public int GetPlayerDailyRank(string? accountId)
-        {
-            checkAccountExists(accountId);
-
-            return _context.users_leaderboard_daily.Where(u => u.id == accountId).FirstOrDefault().rank;
-        }
-
-        public int GetPlayerDailyWins(string? accountId)
-        {
-            checkAccountExists(accountId);
-
-            return _context.users_leaderboard_daily.Where(u => u.id == accountId).FirstOrDefault().total_daily_guessed;
-        }
-
-        public int GetPlayerTrainingRank(string? accountId)
-        {
-            checkAccountExists(accountId);
-
-            return _context.users_leaderboard_training.Where(u => u.id == accountId).FirstOrDefault().rank;
-        }
-
-        public int GetPlayerTrainingWins(string? accountId)
-        {
-            return _context.users_leaderboard_training.Where(u => u.id == accountId).FirstOrDefault().total_training_guessed;
-        }
-
         public int GetTotalNumberOfPlayers()
         {
             return _context.account.Count();

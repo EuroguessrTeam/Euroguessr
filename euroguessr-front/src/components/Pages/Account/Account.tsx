@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { AccountDTO, APIHelper, Leaderboard, Score } from '../../../services/apiHelper';
+import { AccountDTO, APIHelper, Score, UsersLeaderboardEntry, LeaderboardType } from '../../../services/apiHelper';
 import { useCopyToClipboard } from "usehooks-ts";
 
 
@@ -18,16 +18,19 @@ export default function Account() {
   const [usernameStatus, setUsernameStatus] = useState<"idle" | "ok" | "error">("idle");
   const [usernameError, setUsernameError] = useState<string>("");
 
-
-
   const [accountRestored, setAccountRestored] = useState<boolean | undefined>(undefined);
 
   const [dailyScores, setDailyScores] = useState<Score[]>([]);
   const [dateSelected, setDateSelected] = useState<Date>(new Date());
 
-  const [updateLeaderboards, ] = useState<number>(0);
-  const [dailyLeaderboard, setDailyLeaderboard] = useState<Leaderboard | undefined>(undefined);
-  const [trainingLeaderboard, setTrainingLeaderboard] = useState<Leaderboard | undefined>(undefined);
+  // Leaderboards
+  const [lbType, setLbType] = useState<LeaderboardType>("DAILY");
+  const [lbPage, setLbPage] = useState<number>(1);
+  const [lbPages, setLbPages] = useState<number>(0);
+  const [lbEntries, setLbEntries] = useState<UsersLeaderboardEntry[]>([]);
+  const [myEntry, setMyEntry] = useState<UsersLeaderboardEntry | undefined>(undefined);
+  const [lbLoading, setLbLoading] = useState<boolean>(false);
+
 
   function toggleAccountIdRevealed() {
     setCopyClicked(false);
@@ -139,15 +142,6 @@ export default function Account() {
       setDailyScores(scores);
     });
   }, [dateSelected, accountRestored]);
--
-  useEffect(() => {
-    APIHelper.getDailyLeaderboard().then((leaderboard) => {
-      setDailyLeaderboard(leaderboard);
-    });
-    APIHelper.getTrainingLeaderboard().then((leaderboard) => {
-      setTrainingLeaderboard(leaderboard);
-    });
-  }, [updateLeaderboards]);
 
   {/* Get the current username */}
   useEffect(() => {
@@ -168,6 +162,39 @@ export default function Account() {
       cancelled = true;
     };
   }, [accountRestored]);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    (async () => {
+      setLbLoading(true);
+      try {
+        const pages = await APIHelper.getLeaderboardPages(lbType);
+        if (cancelled) return;
+
+        setLbPages(pages);
+        // clamp page si le nombre de pages a changé
+        const safePage = Math.min(Math.max(lbPage, 1), Math.max(pages, 1));
+        if (safePage !== lbPage) setLbPage(safePage);
+
+        const [entries, me] = await Promise.all([
+          APIHelper.getLeaderboard(lbType, safePage),
+          APIHelper.getMyLeaderboardEntry(lbType),
+        ]);
+
+        if (cancelled) return;
+        setLbEntries(entries ?? []);
+        setMyEntry(me);
+      } finally {
+        if (!cancelled) setLbLoading(false);
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [lbType, lbPage, accountRestored]);
+
 
   
 
@@ -267,31 +294,103 @@ export default function Account() {
       <h2 className="underline">Leaderboard</h2>
       <br/>
 
-      {dailyLeaderboard &&
-        <>
-          <table className="table-auto border-white border-2 w-full">
-            <thead>
-              <tr>
-                <th/>
-                <th className="py-2 text-center border-white border-2 text-xl">Rank</th>
-                <th className="py-2 text-center border-white border-2 text-xl">Songs guessed</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td className="py-2 text-center border-white border-2 text-xl">Daily Mode</td>
-                <td className="py-2 text-center border-white border-2">{dailyLeaderboard?.rank} / {dailyLeaderboard.totalNumberOfPlayers}</td>
-                <td className="py-2 text-center border-white border-2">{dailyLeaderboard?.totalNumberOfWins}</td>
-              </tr>
-              <tr>
-                <td className="py-2 text-center border-white border-2 text-xl">Infinite Mode</td>
-                <td className="py-2 text-center border-white border-2">{trainingLeaderboard?.rank} / {trainingLeaderboard?.totalNumberOfPlayers}</td>
-                <td className="py-2 text-center border-white border-2">{trainingLeaderboard?.totalNumberOfWins}</td>
-              </tr>
-            </tbody>
-          </table>
-        </>
-      }
+      {/* Leaderboards */}
+      <div className="bg-[#1b0f2b] rounded-2xl p-3">
+        <div className="flex gap-2 items-center justify-between">
+          <div className="flex gap-2">
+            <button
+              onClick={() => { setLbType("DAILY"); setLbPage(1); }}
+              className={`rounded-xl px-3 py-1 transition hover:scale-105 ${
+                lbType === "DAILY" ? "bg-blue" : "bg-purple/40"
+              }`}
+            >
+              Daily
+            </button>
+            <button
+              onClick={() => { setLbType("TRAINING"); setLbPage(1); }}
+              className={`rounded-xl px-3 py-1 transition hover:scale-105 ${
+                lbType === "TRAINING" ? "bg-blue" : "bg-purple/40"
+              }`}
+            >
+              Training
+            </button>
+          </div>
+
+          <div className="text-sm opacity-80">
+            {lbPages > 0 ? `Page ${lbPage} / ${lbPages}` : "No data"}
+          </div>
+        </div>
+
+        <div className="mt-3">
+          <div className="text-sm opacity-80">My position</div>
+          {myEntry ? (
+            <div className="mt-1 flex items-center justify-between bg-purple/30 rounded-xl px-3 py-2">
+              <div className="flex items-center gap-2">
+                <span className="font-bold">#{myEntry.rank}</span>
+                <span className="opacity-90">{myEntry.username}</span>
+              </div>
+              <div className="font-bold">{myEntry.score}</div>
+            </div>
+          ) : (
+            <div className="mt-1 text-sm opacity-70">
+              {lbLoading ? "Loading..." : "Not ranked (or no score yet)."}
+            </div>
+          )}
+        </div>
+
+        <div className="mt-4 flex items-center justify-between">
+          <button
+            disabled={lbLoading || lbPage <= 1}
+            onClick={() => setLbPage((p) => Math.max(1, p - 1))}
+            className="bg-blue rounded-xl px-3 py-1 disabled:opacity-40 hover:scale-105 transition"
+          >
+            Prev
+          </button>
+
+          <button
+            disabled={lbLoading || lbPages === 0 || lbPage >= lbPages}
+            onClick={() => setLbPage((p) => p + 1)}
+            className="bg-blue rounded-xl px-3 py-1 disabled:opacity-40 hover:scale-105 transition"
+          >
+            Next
+          </button>
+        </div>
+
+        <div className="mt-3">
+          <div className="flex justify-between text-xs opacity-70 px-2">
+            <span className="w-[20%]">Rank</span>
+            <span className="w-[60%]">User</span>
+            <span className="w-[20%] text-right">Score</span>
+          </div>
+
+          <div className="mt-2">
+            {lbLoading && lbEntries.length === 0 && (
+              <div className="text-sm opacity-70">Loading leaderboard...</div>
+            )}
+
+            {!lbLoading && lbEntries.length === 0 && (
+              <div className="text-sm opacity-70">No entries.</div>
+            )}
+
+            {lbEntries.map((e) => {
+              return (
+                <div
+                  key={`${lbType}-${lbPage}-${e.rank}`}
+                  className={`flex justify-between items-center rounded-xl px-2 py-2 mb-2`}
+                >
+                  <span className="w-[20%] font-bold">#{e.rank}</span>
+                  <span className="w-[60%] truncate">
+                    {e.username ? e.username : "Unnamed player"}
+                  </span>
+                  <span className="w-[20%] text-right font-bold">{e.score}</span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+
+
 
       <br/>
       <h2 className="underline">Daily songs history</h2>
