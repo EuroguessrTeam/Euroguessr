@@ -23,6 +23,11 @@ export interface ErrorResponse {
     message: string;
 }
 
+export interface AccountDTO {
+    id : string;
+    username: string;
+}
+
 export class APIHelper {
 
     static getAccountId(): string | undefined {
@@ -38,6 +43,29 @@ export class APIHelper {
         date.setTime(date.getTime() + (expDays * 24 * 60 * 60 * 1000));
         const expires = "expires=" + date.toUTCString();
         document.cookie = cName + "=" + cValue + "; " + expires + "; path=/";
+    }
+
+    static async getAccount(accountId: string): Promise<AccountDTO> {
+        return API.getInstance().get("account", accountId).then((response) => {
+            return response;
+        }).catch((error) => {
+            APIHelper.treatError(error);
+            return undefined;
+        });
+    }
+
+    static async changeUsername(newUsername: string): Promise<boolean> {
+        return API.getInstance()
+            .post(
+            "account/username?newUsername=" + newUsername,
+            "",
+            await APIHelper.getCurrentOrCreateNewAccount()
+            )
+            .then((response) => response.usernameChanged)
+            .catch((error) => {
+            APIHelper.treatError(error);
+            return false;
+        });
     }
 
     static async getCurrentOrCreateNewAccount(): Promise<string> {

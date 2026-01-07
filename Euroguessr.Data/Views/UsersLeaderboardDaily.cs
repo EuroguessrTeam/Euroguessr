@@ -4,6 +4,7 @@
     {
         public int rank { get; set; }
         public string id { get; set; }
+        public string username { get; set; }
         public int total_daily_guessed { get; set; }
     }
 }

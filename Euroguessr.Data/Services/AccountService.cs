@@ -7,7 +7,7 @@ namespace Euroguessr.Data
     {
         private readonly EntityContext _context = context;
         private readonly ISongService _songService = songService;
-
+        private readonly String[] authorizedCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".ToCharArray().Select(c => c.ToString()).ToArray();
 
         /// <summary>
         /// Creates a new account and returns the unique id of the new account
@@ -199,6 +199,32 @@ namespace Euroguessr.Data
             {
                 throw new AccountNotFoundException(accountId ?? "");
             }
+        }
+
+        public AccountDto? GetAccountById(string? accountId)
+        {
+            checkAccountExists(accountId);
+            return _context.account.Where(u => u.id == accountId).FirstOrDefault();
+        }
+
+        public bool ChangeUsername(string? accountId, string newUsername)
+        {
+            checkAccountExists(accountId);
+
+            // Check if the username contains only authorized characters
+            foreach (char c in newUsername)
+            {
+                if (!authorizedCharacters.Contains(c.ToString()))
+                {
+                    throw new FormatException("Username contains unauthorized characters.");
+                }
+            }
+
+            _context.account.Where(u => u.id == accountId).FirstOrDefault().username = newUsername;
+
+            _context.SaveChanges();
+
+            return true;
         }
     }
 }

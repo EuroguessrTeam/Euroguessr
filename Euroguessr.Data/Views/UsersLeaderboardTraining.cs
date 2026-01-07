@@ -10,6 +10,7 @@ namespace Euroguessr.Data.Views
     {
         public int rank { get; set; }
         public string id { get; set; }
+        public string username { get; set; }
         public int total_training_guessed { get; set; }
     }
 }

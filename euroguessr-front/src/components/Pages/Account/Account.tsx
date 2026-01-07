@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { APIHelper, Leaderboard, Score } from '../../../services/apiHelper';
+import { AccountDTO, APIHelper, Leaderboard, Score } from '../../../services/apiHelper';
 import { useCopyToClipboard } from "usehooks-ts";
 
 
@@ -9,6 +9,16 @@ export default function Account() {
   const [copyClicked, setCopyClicked] = useState<boolean>(false);
 
   const [accountIdRevealed, setAccountIdRevealed] = useState<boolean>(false);
+
+  const [account, setAccount] = useState<AccountDTO | undefined>(undefined);
+
+  const [username, setUsername] = useState<string>("");
+  const [savingUsername, setSavingUsername] = useState(false);
+
+  const [usernameStatus, setUsernameStatus] = useState<"idle" | "ok" | "error">("idle");
+  const [usernameError, setUsernameError] = useState<string>("");
+
+
 
   const [accountRestored, setAccountRestored] = useState<boolean | undefined>(undefined);
 
@@ -43,6 +53,65 @@ export default function Account() {
       }
     });
   }
+
+  async function onSaveUsername() {
+    const clean = username.trim();
+
+    setUsernameStatus("idle");
+    setUsernameError("");
+
+    // validations simples
+    if (clean.length < 3) {
+      setUsernameStatus("error");
+      setUsernameError("Username must be at least 3 characters.");
+      return;
+    }
+    if (clean.length > 50) {
+      setUsernameStatus("error");
+      setUsernameError("Username must be at most 50 characters.");
+      return;
+    }
+    if (!/^[a-zA-Z0-9]+$/.test(clean)) {
+      setUsernameStatus("error");
+      setUsernameError("Only letters and numbers are allowed.");
+      return;
+    }
+
+    // si inchangé, rien à faire
+    if (account && clean === account.username) {
+      setUsernameStatus("idle");
+      return;
+    }
+
+    setSavingUsername(true);
+    try {
+      // IMPORTANT : ton endpoint est en query param => il faut encoder
+      const ok = await APIHelper.changeUsername(encodeURIComponent(clean));
+
+      if (!ok) {
+        setUsernameStatus("error");
+        setUsernameError("Failed to update username.");
+        return;
+      }
+
+      // re-fetch pour afficher la valeur réelle serveur
+      const id = await APIHelper.getCurrentOrCreateNewAccount();
+      const acc = await APIHelper.getAccount(id);
+
+      if (acc) {
+        setAccount(acc);
+        setUsername(acc.username ?? clean);
+      } else {
+        // fallback
+        setAccount((prev) => (prev ? { ...prev, username: clean } : prev));
+      }
+
+      setUsernameStatus("ok");
+    } finally {
+      setSavingUsername(false);
+    }
+  }
+
 
   function getDayFullName(day: number) {
     switch (day) {
@@ -80,6 +149,28 @@ export default function Account() {
     });
   }, [updateLeaderboards]);
 
+  {/* Get the current username */}
+  useEffect(() => {
+    let cancelled = false;
+
+    (async () => {
+      const id = await APIHelper.getCurrentOrCreateNewAccount();
+      if (!id || cancelled) return;
+
+      const acc = await APIHelper.getAccount(id);
+      if (!acc || cancelled) return;
+
+      setAccount(acc);
+      setUsername(acc.username ?? "");
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [accountRestored]);
+
+  
+
   return (
     <div className="overflow-auto h-[89.4vh] p-4 bg-purple font-roboto">
       <h1>My Account</h1>
@@ -108,9 +199,43 @@ export default function Account() {
       </div>
       <button onClick={toggleAccountIdRevealed} className="bg-blue rounded-xl p-1 hover:scale-105 transition ease-in-out duration-200"> {accountIdRevealed ? "Hide" : "Show"} </button>
 
-      <h2 className="underline">Import account</h2>
+       {/* Change username form */}
+      <h2 className="underline">Username</h2>
+
+      <div className="flex p-1 gap-2 items-center">
+        <input
+          value={username}
+          onChange={(e) => {
+            setUsername(e.target.value);
+            setUsernameStatus("idle");
+            setUsernameError("");
+          }}
+          className="w-full outline-none focus:ring-0 bg-white rounded-2xl text-black placeholder-grey font-roboto px-2 py-1"
+          placeholder="MyUsername"
+          onKeyDown={(e) => {
+            if (e.key === "Enter") onSaveUsername();
+          }}
+        />
+
+        <button
+          disabled={
+            savingUsername ||
+            username.trim().length === 0 ||
+            (account ? username.trim() === account.username : false)
+          }
+          className="bg-blue rounded-xl px-3 py-1 disabled:opacity-40 hover:scale-110 transition ease-in-out duration-200"
+          onClick={onSaveUsername}
+        >
+          {savingUsername ? "Saving..." : "Save"}
+        </button>
+      </div>
+
+      {usernameStatus === "ok" && <p className="text-green">Username updated!</p>}
+      {usernameStatus === "error" && <p className="text-red">{usernameError}</p>}
       
       {/* Restore account */}
+      <h2 className="underline">Import account</h2>
+      
       <div className="flex p-1">
         <input id="restoreAccountInput"
           className="w-full outline-none focus:ring-0 bg-white rounded-2xl text-black placeholder-grey font-roboto px-1"

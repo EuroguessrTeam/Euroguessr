@@ -6,6 +6,8 @@ namespace Euroguessr.Data
     {
         public string CreateNewAccount();
         public bool AccountExists(string? accountId);
+        public AccountDto? GetAccountById(string? accountId);
+        public bool ChangeUsername(string? accountId, string newUsername);
         public List<DailyScoreDto> GetScores(string? accountId, DateOnly month);
         public DailyScoreDto GetOrSetTodayScore(string? accountId);
         public TrainingScoreDto GetOrSetTrainingScore(string? accountId);
