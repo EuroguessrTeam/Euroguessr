@@ -109,6 +109,7 @@ builder.Services.AddSession(options => options.IdleTimeout = TimeSpan.FromDays(1
 // #                        #
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<ISongService, SongService>();
+builder.Services.AddScoped<ILeaderboardService, LeaderboardService>();
 builder.Services.AddTransient<GlobalExceptionHandlerMiddleware>();
 
 var app = builder.Build();

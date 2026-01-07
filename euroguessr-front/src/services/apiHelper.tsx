@@ -12,15 +12,22 @@ export interface Score {
     win: boolean;
 }
 
-export interface Leaderboard {
+export type LeaderboardType = "DAILY" | "TRAINING";
+
+export interface UsersLeaderboardEntry {
     rank: number;
-    totalNumberOfPlayers: number;
-    totalNumberOfWins: number;
+    username: string;
+    score: number;
 }
 
 export interface ErrorResponse {
     code: number;
     message: string;
+}
+
+export interface AccountDTO {
+    id : string;
+    username: string;
 }
 
 export class APIHelper {
@@ -38,6 +45,29 @@ export class APIHelper {
         date.setTime(date.getTime() + (expDays * 24 * 60 * 60 * 1000));
         const expires = "expires=" + date.toUTCString();
         document.cookie = cName + "=" + cValue + "; " + expires + "; path=/";
+    }
+
+    static async getAccount(accountId: string): Promise<AccountDTO> {
+        return API.getInstance().get("account", accountId).then((response) => {
+            return response;
+        }).catch((error) => {
+            APIHelper.treatError(error);
+            return undefined;
+        });
+    }
+
+    static async changeUsername(newUsername: string): Promise<boolean> {
+        return API.getInstance()
+            .post(
+            "account/username?newUsername=" + newUsername,
+            "",
+            await APIHelper.getCurrentOrCreateNewAccount()
+            )
+            .then((response) => response.usernameChanged)
+            .catch((error) => {
+            APIHelper.treatError(error);
+            return false;
+        });
     }
 
     static async getCurrentOrCreateNewAccount(): Promise<string> {
@@ -141,22 +171,41 @@ export class APIHelper {
         });
     }
 
-    static async getDailyLeaderboard(): Promise<Leaderboard> {
-        return await API.getInstance().get("account/daily/leaderboard/me", await APIHelper.getCurrentOrCreateNewAccount()).then((response) => {
+    // Leaderboards
+    static async getLeaderboardPages(type: LeaderboardType): Promise<number> {
+    return await API.getInstance()
+        .get(`leaderboard/pages?type=${type}`, undefined)
+        .then((response) => {
+            // response est un int côté backend -> parfois ton wrapper renvoie direct le nombre,
+            // parfois { value: number }. On gère les 2.
+            if (typeof response === "number") return response;
+            if (response?.pages !== undefined) return response.pages;
             return response;
-        }).catch((error) => {
+        })
+        .catch((error) => {
             APIHelper.treatError(error);
-            return undefined;
+            return 0;
         });
     }
 
-    static async getTrainingLeaderboard(): Promise<Leaderboard> {
-        return await API.getInstance().get("account/training/leaderboard/me", await APIHelper.getCurrentOrCreateNewAccount()).then((response) => {
-            return response;
-        }).catch((error) => {
-            APIHelper.treatError(error);
-            return undefined;
-        });
+    static async getLeaderboard(type: LeaderboardType, page: number = 1): Promise<UsersLeaderboardEntry[]> {
+        return await API.getInstance()
+            .get(`leaderboard?type=${type}&page=${page}`, undefined)
+            .then((response) => response as UsersLeaderboardEntry[])
+            .catch((error) => {
+                APIHelper.treatError(error);
+                return [];
+            });
+    }
+
+    static async getMyLeaderboardEntry(type: LeaderboardType): Promise<UsersLeaderboardEntry | undefined> {
+        return await API.getInstance()
+            .get(`leaderboard/me?type=${type}`, await APIHelper.getCurrentOrCreateNewAccount())
+            .then((response) => response as UsersLeaderboardEntry)
+            .catch((error) => {
+                APIHelper.treatError(error);
+                return undefined;
+            });
     }
 
     static treatError(error: ErrorResponse): void {

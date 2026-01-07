@@ -9,6 +9,9 @@ namespace Euroguessr.Data.Tables
         [MaxLength(36)]
         public string id { get; set; }
 
+        [MaxLength(50)]
+        public string? username { get; set; }
+
         [JsonIgnore]
         public List<DailyScoreDto> daily_scores { get; set; }
 

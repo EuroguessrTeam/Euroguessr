@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Euroguessr.Models.Api.Error;
 using Common.CustomException;
 using System.ComponentModel.DataAnnotations;
+using Euroguessr.Data.Tables;
 
 namespace Euroguessr.Controllers
 {
@@ -22,6 +23,25 @@ namespace Euroguessr.Controllers
             _context = context;
             _accountService = accountService;
             _logger = logger;
+        }
+
+        /// <summary>
+        /// Get the current user
+        /// </summary>
+        /// <response code="200">The current user</response>
+        /// <response code="400">Account not found</response>
+        [HttpGet]
+        [Consumes("application/json")]
+        [Produces("application/json")]
+        [ProducesResponseType(typeof(OutputGetAccountModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(OutputError400), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(OutputError429), StatusCodes.Status429TooManyRequests)]
+        [ProducesResponseType(typeof(OutputError500), StatusCodes.Status500InternalServerError)]
+        public ActionResult GetAccount([FromHeader(Name = "accountId")] string? accountId)
+        {
+            AccountDto? account = _accountService.GetAccountById(accountId);
+
+            return new JsonResult(account);
         }
 
         /// <summary>
@@ -61,6 +81,28 @@ namespace Euroguessr.Controllers
             var response = new OutputAccountExists()
             {
                 accountExists = _accountService.AccountExists(accountId)
+            };
+
+            return new JsonResult(response);
+        }
+
+        /// <summary>
+        /// Change the username of the current user
+        /// </summary>
+        /// <param name="accountId">The id of the current user</param>
+        /// <param name="newUsername"></param>
+        /// <response code="200">True if the username was changed</response>
+        [HttpPost("username")]
+        [Consumes("application/json")]
+        [Produces("application/json")]
+        [ProducesResponseType(typeof(OutputChangeUsername), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(OutputError429), StatusCodes.Status429TooManyRequests)]
+        [ProducesResponseType(typeof(OutputError500), StatusCodes.Status500InternalServerError)]
+        public ActionResult ChangeUsername([FromHeader(Name = "accountId")] string? accountId, string newUsername)
+        {
+            var response = new OutputChangeUsername()
+            {
+                usernameChanged = _accountService.ChangeUsername(accountId, newUsername)
             };
 
             return new JsonResult(response);
@@ -197,60 +239,6 @@ namespace Euroguessr.Controllers
             {
                 video_id = response.video_id,
                 seek_to = response.seek_to
-            });
-        }
-
-        /// <summary>
-        /// Get the current player position in the leaderboard of daily guesses
-        /// </summary>
-        /// <param name="accountId">The id of the account</param>
-        /// <response code="200">The position in the leaderboard, the total number of player and total daily songs guessed</response>
-        /// <response code="400">Account not found</response>
-        [HttpGet("daily/leaderboard/me")]
-        [Consumes("application/json")]
-        [Produces("application/json")]
-        [ProducesResponseType(typeof(OutputGetCurrentPlayerLeaderboard), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(OutputError400), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(OutputError429), StatusCodes.Status429TooManyRequests)]
-        [ProducesResponseType(typeof(OutputError500), StatusCodes.Status500InternalServerError)]
-        public ActionResult GetCurrentPlayerDailyLeaderboard([FromHeader(Name = "accountId")] string? accountId)
-        {
-            var rank = _accountService.GetPlayerDailyRank(accountId);
-            var totalNumberOfPlayers = _accountService.GetTotalNumberOfPlayers();
-            var totalNumberOfWins = _accountService.GetPlayerDailyWins(accountId);
-
-            return new JsonResult(new OutputGetCurrentPlayerLeaderboard()
-            {
-                rank = rank,
-                totalNumberOfPlayers = totalNumberOfPlayers,
-                totalNumberOfWins = totalNumberOfWins
-            });
-        }
-
-        /// <summary>
-        /// Get the current player position in the leaderboard of training guesses
-        /// </summary>
-        /// <param name="accountId">The id of the account</param>
-        /// <response code="200">The position in the leaderboard, the total number of player and total training songs guessed</response>
-        /// <response code="400">Account not found</response>
-        [HttpGet("training/leaderboard/me")]
-        [Consumes("application/json")]
-        [Produces("application/json")]
-        [ProducesResponseType(typeof(OutputGetCurrentPlayerLeaderboard), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(OutputError400), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(OutputError429), StatusCodes.Status429TooManyRequests)]
-        [ProducesResponseType(typeof(OutputError500), StatusCodes.Status500InternalServerError)]
-        public ActionResult GetCurrentPlayerTrainingLeaderboard([FromHeader(Name = "accountId")] string? accountId)
-        {
-            var rank = _accountService.GetPlayerTrainingRank(accountId);
-            var totalNumberOfPlayers = _accountService.GetTotalNumberOfPlayers();
-            var totalNumberOfWins = _accountService.GetPlayerTrainingWins(accountId);
-
-            return new JsonResult(new OutputGetCurrentPlayerLeaderboard()
-            {
-                rank = rank,
-                totalNumberOfPlayers = totalNumberOfPlayers,
-                totalNumberOfWins = totalNumberOfWins
             });
         }
     }

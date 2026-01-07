@@ -71,8 +71,14 @@ export default function Game() {
   };
 
   useEffect(() => {
-    setListeningTime(getListeningTime(attemptCounter));
-  }, [attemptCounter]);
+    console.log("OKKK")
+    if (win) {
+      setListeningTime(360);
+    }
+    else {
+      setListeningTime(getListeningTime(attemptCounter));
+    }
+  }, [win, currentGamemode, attemptCounter]);
 
   function getListeningTime(attempt:number): number {
     switch(attempt) {
