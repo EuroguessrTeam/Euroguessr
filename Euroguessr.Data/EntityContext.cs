@@ -20,15 +20,18 @@ namespace Euroguessr.Data
 
             // Default values for TodayGuessNumberRange table
 
-            if (daily_guess_range.Any())
-                daily_guess_range.Remove(daily_guess_range.First());
-
-            DailyGuessRangeDto defaultRange = new() { 
-                min_song_id = 324,
-                max_song_id = 603
-            };
-            daily_guess_range.Add(defaultRange);
-            SaveChanges();
+            if (!daily_guess_range.Any())
+            {
+                // Min value included, max value excluded
+                DailyGuessRangeDto defaultRange = new()
+                {
+                    min_song_id = 324,
+                    max_song_id = 641
+                };
+                daily_guess_range.Add(defaultRange);
+                SaveChanges();
+            }
+            
 
             // Default values for Song table
 
